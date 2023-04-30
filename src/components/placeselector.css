@@ -1,0 +1,11 @@
+
+.place-selector-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+}
+
+.place-selector-input {
+  margin-bottom: 10px;
+}
+

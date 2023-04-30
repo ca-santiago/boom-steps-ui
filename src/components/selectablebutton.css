@@ -1,0 +1,59 @@
+
+.selectable-step-container {
+  background-color: rgb(235, 235, 235);
+  border: 1px solid rgb(208, 208, 216);
+  color: rgb(62, 62, 62);
+  
+  width: 320px;
+  min-height: 40px;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 8px;
+  
+  position: relative;
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+.selectable-step-container p {
+  font-size: 17px;
+  text-align: left;
+  margin-left: 10px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.selectable-step-container .icon-container {
+  box-sizing: content-box;
+  width: 40px;
+  justify-content: center;
+}
+
+.step-disable {
+  background-color: rgb(53, 53, 53);
+}
+
+.step-disable {
+  color: white;
+} 
+
+.step-title {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  vertical-align: center;
+}
+
+.step-active {
+  background-color: rgb(63, 117, 192);
+  border: 0.5px solid rgb(183, 183, 183);
+  color: white;
+}
+
+.step-active p.step-title {
+  color: white;
+}
+
+
