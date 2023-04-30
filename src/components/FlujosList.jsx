@@ -1,31 +1,13 @@
 import React from 'react';
-import { FlujoServices } from '../services/flujo';
 import MakeStepIndicatorIcon, { MakeStatusIcon } from './makeStepIndicator';
 
-export default function FlujosList() {
-  const [flujos, setFlujos] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+export default function FlujosList({ data }) {
 
-  React.useEffect(() => {
-    FlujoServices.GetFlujosPaginated()
-      .then(({ results }) => {
-        console.log({ results })
-        setFlujos(results);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <p>Cargando flujos...</p>
-
-  if (flujos.length < 1) return <p>No hay flujos disponibles</p>
+  if (data.length < 1) return <p>No hay flujos disponibles</p>
 
   return (
     <>
-      {flujos.map((item, index, arr) => renderFlujo(item, index, arr.length))}
+      {data.map((item, index, arr) => renderFlujo(item, index, arr.length))}
     </>
   );
 }
