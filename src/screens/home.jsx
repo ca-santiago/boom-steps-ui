@@ -21,7 +21,7 @@ export default function CreateFlujoScreen() {
       .catch(err => {
         console.error(err);
         setLoading(false);
-        setError('Something went wrong, try refreshing the');
+        setError('Something went wrong, try refreshing the page');
       });
   }, []);
 
