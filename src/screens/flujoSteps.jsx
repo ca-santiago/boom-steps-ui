@@ -1,11 +1,11 @@
-import Reac from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 /***
  * Hooks
  */
 import useQuery from '../hooks/useQuery';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 /**
  * Components
@@ -16,13 +16,13 @@ import StepResolverView from './StepResolver';
 export default function CompleteFlujoScreen() {
   const { id } = useParams();
   const query = useQuery();
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const [flujo, setFlujo] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [flujo, setFlujo] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
   
-  useEffect(() => {
-    if(!query.get('token')) history.push('/');
+  React.useEffect(() => {
+    if(!query.get('token')) navigate('/');
     
     FlujoServices.getFlujoById(id)
     .then((data) => data.json())
