@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = `http://ec2-54-234-160-120.compute-1.amazonaws.com/flujos`;
+const baseURL = `${import.meta.env.VITE_API_URI}/flujos`;
 
 function CreateFaceId({ flujoId, token, file, filename }) {
   return new Promise((resolve, reject) => {
