@@ -1,4 +1,4 @@
-const baseURL = `http://localhost:3300/flujos`;
+const baseURL = `http://ec2-54-234-160-120.compute-1.amazonaws.com/flujos`;
 
 function verifyFlujoToken(token) {
   return new Promise((resolve, reject) => {

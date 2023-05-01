@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFlujoCreator from '../../hooks/useFlujoCreator';
+import { FlujoServices } from '../../services/flujo';
 
 /***
  * Styles
