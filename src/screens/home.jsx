@@ -14,12 +14,10 @@ export default function CreateFlujoScreen() {
   React.useEffect(() => {
     FlujoServices.GetFlujosPaginated()
       .then(({ results }) => {
-        console.log({ results })
         setFlujos(results);
         setLoading(false);
       })
       .catch(err => {
-        console.error(err);
         setLoading(false);
         setError('Something went wrong, try refreshing the page');
       });
