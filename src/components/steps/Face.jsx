@@ -23,7 +23,7 @@ function FaceStep({ onCompleted }) {
 
   const { id } = useParams();
   const query = useQuery();
-  
+
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
@@ -35,8 +35,8 @@ function FaceStep({ onCompleted }) {
     mediaRecorderRef.current.stop();
     setCapturing(false);
   });
-  
-  
+
+
   /**
    * Action functions
    */
@@ -45,33 +45,33 @@ function FaceStep({ onCompleted }) {
     setRecordedChunks([]);
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: "video/webm", 
+      mimeType: "video/webm",
     });
     mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
     mediaRecorderRef.current.start();
     timer.start();
   }, [webcamRef, setCapturing, mediaRecorderRef]);
-  
+
   const handleDataAvailable = React.useCallback(({ data }) => {
     if (data.size > 0) setRecordedChunks((prev) => prev.concat(data));
-  },[setRecordedChunks]);
-  
+  }, [setRecordedChunks]);
+
   const getFile = React.useCallback(() => {
     const blob = new Blob(recordedChunks, {
       type: "video/webm"
     });
     return blob;
   }, [recordedChunks]);
-  
+
   function reset() {
     setRecordedChunks([]);
   }
-  
+
   const submit = useCallback(function () {
     setProcessing(true);
     const file = getFile();
     const token = query.get('token');
-    console.log({file})
+    console.log({ file })
     StepServices.CreateFaceId({
       file,
       filename: 'video.webm',
@@ -79,7 +79,7 @@ function FaceStep({ onCompleted }) {
       token,
     })
       .then(payload => {
-        console.log({payload});
+        console.log({ payload });
         reset();
         onCompleted?.();
       })
@@ -102,35 +102,32 @@ function FaceStep({ onCompleted }) {
     return haveChunks && !processing;
   }, [recordedChunks.length, processing]);
 
-  const RecordOrProcessingBtn = useMemo(()=> () => {
-    if(processing) return <FaArrowCircleDown />
+  const RecordOrProcessingBtn = useMemo(() => () => {
+    if (processing) return <FaArrowCircleDown />
 
-    const showTimer = (
-      <div>
-        { timer.time }
-      </div>
-    );
+    const timeIndicator = <div>{timer.time}</div>;
 
-    const showPlay = (
+    const playBtn = (
       <div
         className="paused"
-        onClick={handleStartCaptureClick}>
+        onClick={handleStartCaptureClick}
+      >
         <FaPlay />
       </div>
     );
 
-    return capturing ? showTimer : showPlay;
+    return capturing ? timeIndicator : playBtn;
   }, [processing, capturing, timer.time]);
-  
+
   return (
     <>
       <h3 className="step-component-title">Validación con cámara</h3>
       <div className="camera-container">
-          <Webcam className="camera" audio={false} ref={webcamRef} />
-          <div className="play-pause-btn">
-           <RecordOrProcessingBtn />
-          </div>
-          { canComplete && <button onClick={reset}>Reset</button> }
+        <Webcam className="camera" audio={false} ref={webcamRef} />
+        <div className="play-pause-btn">
+          <RecordOrProcessingBtn />
+        </div>
+        {canComplete && <button onClick={reset}>Reset</button>}
       </div>
       <div className="create-btn-container">
         <button
