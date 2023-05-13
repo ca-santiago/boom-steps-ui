@@ -1,15 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import useFlujoCreator from '../../hooks/useFlujoCreator';
 import { FlujoServices } from '../../services/flujo';
-
-/***
- * Icons
- */
+/** Icons */
 import { FaSignature } from 'react-icons/fa';
 import { AiFillCamera } from 'react-icons/ai';
 import { BsPersonFillAdd } from 'react-icons/bs';
-
+/** Components */
+import SelectableStepButton from './SelectableStep';
 
 const InputLabel = ({ text, description }) => (
     <div className='px-1'>
@@ -18,11 +17,6 @@ const InputLabel = ({ text, description }) => (
     </div>
 );
 
-
-/**
- * Components
- */
-import SelectableStepButton from '../SelectableStep';
 
 const FlujoCreator = ({ onCreate, onCreateError }) => {
     const navigate = useNavigate();

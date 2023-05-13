@@ -64,3 +64,8 @@ textarea:focus {
     border-color: #AFD3E2;
 }
 
+bg-disabled {
+    color:rgb(67, 67, 67);
+    background-color: #ededed;
+    border-color: #7b7b7b;
+}
