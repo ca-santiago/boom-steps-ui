@@ -3,7 +3,11 @@ import MakeStepIndicatorIcon, { MakeStatusIcon } from './makeStepIndicator';
 
 export default function FlujosList({ data }) {
 
-  if (data.length < 1) return <p>No hay flujos disponibles</p>
+  if (data.length < 1) return (
+    <div className="rounded-md border shadow p-3 text-center">
+      <p className='text-montserrat font-semibold text-lg text-gray-500'>Let's start by creating a flujo</p>
+    </div>
+  );
 
   return (
     <>

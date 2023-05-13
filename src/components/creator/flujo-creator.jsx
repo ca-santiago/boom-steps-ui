@@ -60,7 +60,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
 
     return (
         <div className="shadow rounded-md p-3">
-            <h2 className="text-center text-montserrat font-medium text-2xl text-gray-800">Create a new flujo</h2> 
+            <h2 className="text-center text-montserrat font-semibold text-2xl text-gray-700">Create a new flujo</h2> 
             <div className='grid gap-3 mt-6'>
                 <div>
                     <InputLabel text="Give it a title *" />
@@ -83,17 +83,17 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                     <InputLabel text="Select steps *" />
                     <div className='grid gap-2 mt-2 text-gray-600'>
                         <SelectableStepButton
-                            title="Validación con cámara"
+                            title="Camera validaiton"
                             onSelectChange={toggleSelectStep('FACE')}
                             icon={<AiFillCamera />}
                         />
                         <SelectableStepButton
-                            title="Formulario"
+                            title="Contact information"
                             onSelectChange={toggleSelectStep('PERSONAL_DATA')}
                             icon={<BsPersonFillAdd />}
                         />
                         <SelectableStepButton
-                            title="Firma autógrafa"
+                            title="Digital signature"
                             onSelectChange={toggleSelectStep('SIGNATURE')}
                             icon={<FaSignature />}
                         />
