@@ -13,14 +13,13 @@ export default function CreateFlujoScreen() {
 
   React.useEffect(() => {
     FlujoServices.GetFlujosPaginated()
-      .then(({ results }) => {
-        setFlujos(results);
+      .then(({ results }) => setFlujos(results))
+      .catch(() => {
+        setError('Something went wrong, try refreshing the page');
+      })
+      .finally(() => {
         setLoading(false);
       })
-      .catch(err => {
-        setLoading(false);
-        setError('Something went wrong, try refreshing the page');
-      });
   }, []);
 
   if (loading) return <p>Cargando flujos...</p>;
