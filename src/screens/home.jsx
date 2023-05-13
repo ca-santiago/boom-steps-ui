@@ -26,11 +26,14 @@ export default function CreateFlujoScreen() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="home-main-container">
-      <FlujoCreator />
-      <div className="flujos-list-container container-card-style1">
-        <h3 key='flujo-list-title'>Flujos creados</h3>
-        <FlujosList data={flujos} />
+    <div className="lg:m-9 sm:m-1">
+      <div className='flex flex-col md:flex-row flex-wrap'>
+        <div className='flex-1 lg:max-w-lx xl:max-w-xl md:max-w-full m-3'>
+          <FlujoCreator />
+        </div>
+        <div className='flex-1 m-3'>
+          <FlujosList data={flujos} />
+        </div>
       </div>
     </div>
   );

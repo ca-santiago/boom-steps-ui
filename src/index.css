@@ -1,3 +1,66 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-montserrat {
+    font-family: 'Montserrat';
+}
+
+.text-roboto {
+    font-family: 'Roboto';
+}
+
+.text-wix {
+    font-family: 'Wix Madefor Text';
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+    outline: 1px solid rgba(34, 34, 34, 0.447);
+}
+
+.selectable .selected {
+
+}
+
+/* 10% */
+.color-accent {
+    color: #146C94;
+}
+
+.bg-accent {
+    background-color: #146C94;
+    border-color: #146C94;
+    color:  #F6F1F1;
+}
+
+.border-accent {
+    border-color: #146C94;
+}
+
+/* 60 */
+.color-dominant {
+    color: #F6F1F1;
+}
+
+.bg-dominant {
+    background-color: #F6F1F1;
+}
+
+/* 30% */
+.color-secondary {
+    color: #AFD3E2
+}
+
+.bg-secondary {
+    background-color: #AFD3E2;
+    border-color: #AFD3E2;
+    color: #2f2f2f;
+}
+
+.border-secondary {
+    border-color: #AFD3E2;
+}
+
