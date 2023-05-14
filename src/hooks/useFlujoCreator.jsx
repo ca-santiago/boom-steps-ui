@@ -18,9 +18,7 @@ export default function useFlujoCreator() {
 
   function getState() {
     const selected = [...selectedSteps];
-    return {
-      selected
-    };
+    return selected;
   }
 
   return {

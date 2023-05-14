@@ -1,6 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import useFlujoCreator from '../../hooks/useFlujoCreator';
 import { FlujoServices } from '../../services/flujo';
 /** Icons */
@@ -9,19 +7,21 @@ import { AiFillCamera } from 'react-icons/ai';
 import { BsPersonFillAdd } from 'react-icons/bs';
 /** Components */
 import SelectableStepButton from './SelectableStep';
+import { useForm } from 'react-hook-form';
 
 const InputLabel = ({ text, description }) => (
     <div className='px-1'>
         <p className='text-wix font-semibold text-base text-gray-700'>{text}</p>
-        {description && (<p className='text-wix text-xs text-gray-500 py-1'>{description}</p>)}
+        {/* {description && (<p className='text-wix text-xs text-gray-500 py-1'>{description}</p>)} */}
     </div>
 );
 
-const inputClassNames = 'p-2 border border-gray-300 rounded-md w-full mt-1 text-gray-500 text-xs text-montserrat select-none bg-gray-200';
-
+const inputClassNames = 'p-2 mt-1 border border-gray-300 rounded-md w-full text-gray-500 text-xs text-montserrat select-none bg-gray-200 max-h-48';
 
 const FlujoCreator = ({ onCreate, onCreateError }) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
+
+    const {register, formState, trigger, handleSubmit, reset} = useForm();
     const [disable, setDisable] = React.useState(false);
     const flujoCreator = useFlujoCreator();
 
@@ -35,20 +35,31 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
         }
     }
 
-    function triggerCreate() {
+    const resetForm = () => {
+        reset();
+    }
+
+    function triggerCreate(formData) {
         if (disable) return;
-        setDisable(true);
-
+        
         // Get State
-        const { selected } = flujoCreator.getState();
-
+        const steps = flujoCreator.getState();
+        const { title, description, time2complete } = formData;
+        
+        // Validate
+        if(steps.length < 1 || !formState.isValid) {
+            return;
+        }
+        
+        setDisable(true);
+        const args = { steps, title, description, completionTime: time2complete};
         // Perform creation
-        FlujoServices.createNewFlujo(selected)
+        FlujoServices.createNewFlujo(args)
             .then((data) => data.json())
             .then((payload) => {
-                onCreate({ data: payload });
-                // navigate(`/flujo/${id}?token=${token}`);
+                if(onCreate) onCreate({ data: payload });
                 setDisable(false);
+                resetForm();
             })
             .catch((err) => {
                 if(onCreateError) {
@@ -58,7 +69,11 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
             });
     }
 
-    const submitStyle = !flujoCreator.canCreate ? "btn-disabled" : "bg-accent";
+    const disableCreate = React.useMemo(() => {
+        return formState.errors.length > 0 || !flujoCreator.canCreate;
+    }, [formState.errors, flujoCreator.canCreate]);
+
+    const submitStyle = disableCreate ? "btn-disabled" : "bg-accent";
 
     return (
         <div className="shadow rounded-md p-3">
@@ -71,7 +86,14 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                         className={inputClassNames}
                         placeholder='Title'
                         type='text'
+                        {...register("title", {
+                            required: true,
+                            min: 3,
+                            max: 120,
+                            onBlur: () => trigger('title')
+                        })}
                     />
+                    {formState.errors.title && (<p className='text-xs text-red-400 p-1'>Please provide a title</p>)}
                 </div>
                 <div>
                     <InputLabel text="Give it a description" description="Max 200 chars" />
@@ -79,6 +101,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                         name='description'
                         className={inputClassNames}
                         placeholder='Description'
+                        {...register('description')}
                     />
                 </div>
                 <div>
@@ -101,14 +124,25 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                         />
                     </div>
                 </div>
+                <div>
+                    <InputLabel text="Time to complete" />
+                    <input
+                        placeholder='10m'
+                        className={inputClassNames}
+                        {...register('time2complete', {
+                            required: true,
+                            pattern: /^\d+[hm]$/
+                        })}
+                    />
+                    {formState.errors.time2complete && (<p className='text-xs text-red-400 p-1'>Only values in the next format (3h | 24m | 1h)</p>)}
+                </div>
             </div>
             <div className="w-full flex justify-end items-center mt-5">
-                {/* {flujoCreator.canCreate === false && <p>Seleciona almenos uno</p>} */}
                 <button
-                    disabled={!flujoCreator.canCreate}
-                    aria-disabled={!flujoCreator.canCreate}
+                    disabled={disableCreate}
+                    aria-disabled={disableCreate}
                     className={`px-4 py-2 rounded-lg border ${submitStyle}`}
-                    onClick={triggerCreate}
+                    onClick={handleSubmit(triggerCreate)}
                 >Create</button>
             </div>
         </div>

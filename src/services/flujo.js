@@ -58,8 +58,7 @@ function getFlujoById(id) {
   });
 }
 
-
-function createNewFlujo(types) {
+function createNewFlujo({ steps, title, description, completionTime}) {
   return new Promise((resolve, reject) => {
     fetch(`${baseURL}`, {
       method: 'POST',
@@ -67,7 +66,10 @@ function createNewFlujo(types) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        types,
+        types: steps,
+        title,
+        completionTime,
+        description: description || undefined
       })
     })
       .then(result => {
