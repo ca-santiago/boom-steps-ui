@@ -17,6 +17,8 @@ const InputLabel = ({ text, description }) => (
     </div>
 );
 
+const inputClassNames = 'p-2 border border-gray-300 rounded-md w-full mt-1 text-gray-500 text-xs text-montserrat select-none bg-gray-200';
+
 
 const FlujoCreator = ({ onCreate, onCreateError }) => {
     const navigate = useNavigate();
@@ -66,7 +68,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                     <InputLabel text="Give it a title *" />
                     <input
                         name='title'
-                        className='p-1 px-3 border rounded-md w-full mt-1 text-gray-600 text-sm text-montserrat select-none'
+                        className={inputClassNames}
                         placeholder='Title'
                         type='text'
                     />
@@ -75,7 +77,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                     <InputLabel text="Give it a description" description="Max 200 chars" />
                     <textarea
                         name='description'
-                        className='p-1 px-3 border rounded-md w-full mt-1 text-gray-600 text-sm text-montserrat select-none'
+                        className={inputClassNames}
                         placeholder='Description'
                     />
                 </div>
