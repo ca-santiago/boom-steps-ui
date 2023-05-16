@@ -1,13 +1,9 @@
 import React from 'react';
-import useFlujoCreator from '../../hooks/useFlujoCreator';
 import { FlujoServices } from '../../services/flujo';
-/** Icons */
-import { FaSignature } from 'react-icons/fa';
-import { AiFillCamera } from 'react-icons/ai';
-import { BsPersonFillAdd } from 'react-icons/bs';
 /** Components */
 import SelectableStepButton from './SelectableStep';
 import { useForm } from 'react-hook-form';
+import { CameraValidationIcon, ContactInfoIcon, DigSignatureIcon } from '../makeStepIndicator';
 
 const InputLabel = ({ text, description }) => (
     <div className='px-1'>
@@ -19,78 +15,78 @@ const InputLabel = ({ text, description }) => (
 const inputClassNames = 'p-2 mt-1 border border-gray-300 rounded-md w-full text-gray-500 text-xs text-montserrat select-none bg-gray-200 max-h-48';
 
 const FlujoCreator = ({ onCreate, onCreateError }) => {
-    // const navigate = useNavigate();
-
-    const {register, formState, trigger, handleSubmit, reset} = useForm();
+    const { register, formState, handleSubmit, reset } = useForm({ mode: 'all' });
     const [disable, setDisable] = React.useState(false);
-    const flujoCreator = useFlujoCreator();
+    const [selectedSteps, setSelectedSteps] = React.useState([]);
 
     function toggleSelectStep(name) {
         return function (active) {
-            if (active) {
-                flujoCreator.addStep(name);
-            } else {
-                flujoCreator.removeStep(name)
-            }
+            setSelectedSteps(prev => {
+                return active ? [...prev, name] : [...prev].filter(val => val !== name);
+            });
         }
     }
 
-    const resetForm = () => {
-        reset();
-    }
+    const resetForm = React.useCallback(() => {
+        setSelectedSteps([]);
+        reset({
+            title: '',
+            description: '',
+            time2complete: ''
+        });
+    }, [reset]);
 
     function triggerCreate(formData) {
         if (disable) return;
-        
+
         // Get State
-        const steps = flujoCreator.getState();
         const { title, description, time2complete } = formData;
-        
+        console.log({ selectedSteps, isValid: formState.isValid })
+
         // Validate
-        if(steps.length < 1 || !formState.isValid) {
+        if (selectedSteps.length < 1 || !formState.isValid) {
             return;
         }
-        
+
         setDisable(true);
-        const args = { steps, title, description, completionTime: time2complete};
+        const args = { steps: selectedSteps, title, description, completionTime: time2complete };
         // Perform creation
         FlujoServices.createNewFlujo(args)
             .then((data) => data.json())
             .then((payload) => {
-                if(onCreate) onCreate({ data: payload });
-                setDisable(false);
+                if (onCreate) onCreate(payload.data);
                 resetForm();
             })
             .catch((err) => {
-                if(onCreateError) {
-                    onCreateError(err);
-                }
+                if (onCreateError) onCreateError(err);
                 console.log('Got an error while creating flujo');
-            });
+            })
+            .finally(() => {
+                setDisable(false);
+            })
     }
 
     const disableCreate = React.useMemo(() => {
-        return formState.errors.length > 0 || !flujoCreator.canCreate;
-    }, [formState.errors, flujoCreator.canCreate]);
+        return formState.errors.length > 0 || !selectedSteps.length > 0;
+    }, [formState.errors, selectedSteps.length]);
 
     const submitStyle = disableCreate ? "btn-disabled" : "bg-accent";
 
     return (
         <div className="shadow rounded-md p-3">
-            <h2 className="text-center text-montserrat font-semibold text-2xl text-gray-700">Create a new flujo</h2> 
+            <h2 className="text-center text-montserrat font-semibold text-2xl text-gray-700">Create a new flujo</h2>
             <div className='grid gap-3 mt-6'>
                 <div>
                     <InputLabel text="Give it a title *" />
                     <input
-                        name='title'
                         className={inputClassNames}
                         placeholder='Title'
                         type='text'
                         {...register("title", {
                             required: true,
-                            min: 3,
-                            max: 120,
-                            onBlur: () => trigger('title')
+                            minLength: 1,
+                            maxLength: 120,
+                            pattern: /^[\s\S]*$/
                         })}
                     />
                     {formState.errors.title && (<p className='text-xs text-red-400 p-1'>Please provide a title</p>)}
@@ -98,29 +94,36 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                 <div>
                     <InputLabel text="Give it a description" description="Max 200 chars" />
                     <textarea
-                        name='description'
                         className={inputClassNames}
                         placeholder='Description'
-                        {...register('description')}
+                        autoComplete='off'
+                        {...register('description', {
+                            required: false,
+                            maxLength: 120
+                        })}
                     />
+                    {formState.errors.description && <p>Error on description</p>}
                 </div>
                 <div>
                     <InputLabel text="Select steps *" />
                     <div className='grid gap-2 mt-2 text-gray-600'>
                         <SelectableStepButton
+                            selected={selectedSteps.includes("FACE")}
                             title="Camera validaiton"
                             onSelectChange={toggleSelectStep('FACE')}
-                            icon={<AiFillCamera />}
+                            icon={<CameraValidationIcon />}
                         />
                         <SelectableStepButton
+                            selected={selectedSteps.includes("PERSONAL_DATA")}
                             title="Contact information"
                             onSelectChange={toggleSelectStep('PERSONAL_DATA')}
-                            icon={<BsPersonFillAdd />}
+                            icon={<ContactInfoIcon />}
                         />
                         <SelectableStepButton
+                            selected={selectedSteps.includes("SIGNATURE")}
                             title="Digital signature"
                             onSelectChange={toggleSelectStep('SIGNATURE')}
-                            icon={<FaSignature />}
+                            icon={<DigSignatureIcon />}
                         />
                     </div>
                 </div>

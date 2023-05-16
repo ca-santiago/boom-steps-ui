@@ -22,7 +22,8 @@ export default function CompleteFlujoScreen() {
   const [loading, setLoading] = React.useState(true);
   
   React.useEffect(() => {
-    if(!query.get('token')) navigate('/');
+    // HERE: Temporary disable redirection
+    //if(!query.get('token')) navigate('/');
     
     FlujoServices.getFlujoById(id)
     .then((data) => data.json())
