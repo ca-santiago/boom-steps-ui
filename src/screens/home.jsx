@@ -45,7 +45,7 @@ export default function CreateFlujoScreen() {
 
   return (
     <div className="lg:m-9 sm:m-1 relative">
-      <div><Toaster reverseOrder position='top-left'/></div>
+      <div><Toaster reverseOrder position='bottom-center' /></div>
       <div className='flex flex-col md:flex-row flex-wrap'>
         <div className='flex-1 lg:max-w-lx xl:max-w-xl md:max-w-full m-3'>
           <FlujoCreator onCreate={handleOnCreateFlujo} />

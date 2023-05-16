@@ -1,5 +1,7 @@
 import React from 'react';
 import { FlujoServices } from '../../services/flujo';
+import { toast } from 'react-hot-toast';
+
 /** Components */
 import SelectableStepButton from './SelectableStep';
 import { useForm } from 'react-hook-form';
@@ -56,6 +58,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
             .then((payload) => {
                 if (onCreate) onCreate(payload.data);
                 resetForm();
+                toast.success('Flujo created');
             })
             .catch((err) => {
                 if (onCreateError) onCreateError(err);
