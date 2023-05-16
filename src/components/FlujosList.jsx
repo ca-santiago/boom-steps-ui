@@ -11,7 +11,7 @@ export default function FlujosList({ data }) {
   );
 
   return (
-    <div className="p-3 grid gap-2">
+    <div className="p-3 grid gap-2 md:max-h-screen overflow-scroll whitespace-nowrap no-scrollbar">
       {data.map((item, index, arr) => renderFlujo(item, index, arr.length))}
     </div>
   );
