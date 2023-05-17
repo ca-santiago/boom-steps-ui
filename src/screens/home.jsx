@@ -5,22 +5,9 @@ import FlujoCreator from '../components/creator/flujo-creator';
 import LastCreatedLink from '../components/lastCreatedLink';
 import { Toaster } from 'react-hot-toast';
 
-const mock = {
-  "id": "d648ff0a-8030-4694-9a81-c4c9d0838c45",
-  "types": [
-    "FACE",
-    "PERSONAL_DATA"
-  ],
-  "createdAt": "2023-05-15T15:56:34-06:00",
-  "status": "CREATED",
-  "completionTime": "14m",
-  "title": "123213",
-  "description": "fffff"
-}
-
 export default function CreateFlujoScreen() {
   const [flujos, setFlujos] = React.useState([]);
-  const [lastCreated, setLastCreated] = React.useState(mock);
+  const [lastCreated, setLastCreated] = React.useState(null);
 
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
