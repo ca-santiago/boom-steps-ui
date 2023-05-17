@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlujoServices } from '../services/flujo';
-import FlujosList from '../components/FlujosList';
+import FlujosList from '../components/flujoList';
 import FlujoCreator from '../components/creator/flujo-creator';
 import LastCreatedLink from '../components/lastCreatedLink';
 import { Toaster } from 'react-hot-toast';
