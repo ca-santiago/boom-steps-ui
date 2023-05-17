@@ -46,7 +46,7 @@ function getFlujoById(id) {
           })
         }
         if (result.status === 200) {
-          resolve(result);
+          resolve(result.json());
         } else {
           reject();
         }
