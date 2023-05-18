@@ -40,7 +40,7 @@ const FlujoDetailsView = ({ onCloseClick, flujoId, data }) => {
     return (
         <div className="shadow-sm rounded-md border bg-white p-3">
             <div onClick={onCloseClick} className="">
-                <IoArrowBackOutline />
+                <IoArrowBackOutline size={20} className="cursor-pointer" />
             </div>
             <div className="mt-2 grid gap-2">
                 <div>

@@ -41,9 +41,8 @@ export default function CompleteFlujoScreen() {
   if(loading)
     return <p>Loading...</p>;
 
-  
-  if(!loading && flujo === null) 
-    return <Link to="/"><p>Regresar</p></Link>;
+  if(flujo === null) 
+    return <Link to="/"><p>Go back</p></Link>;
 
   return (
     <>

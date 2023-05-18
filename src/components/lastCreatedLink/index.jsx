@@ -17,8 +17,8 @@ const LastCreatedLink = ({ flujo }) => {
 
     return (
         <div className="mt-4">
-            <p className="font-medium text-normal text-gray-700 mb-2">Last created</p>
-            <div className="grid grid-flow-col w-full shadow-md rounded-md justify-between  p-3 items-center">
+            <p className="ml-1 font-medium text-normal text-gray-700 mb-2">Last created</p>
+            <div className="grid grid-flow-col w-full shadow-sm rounded bg-white justify-between p-3 items-center">
                 <div className="text-wix text-sm font-bold text-gray-700">
                     <span>{flujo.title}</span>
                 </div>

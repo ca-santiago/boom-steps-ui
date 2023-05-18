@@ -11,12 +11,12 @@ function FlujoStepIcon(item) {
 
 const FlujoCard = ({ createdAt, status, types, completionTime, title, description, onClickOpenDetails }) => {
     return (
-        <div onClick={onClickOpenDetails} className='flex border shadow-sm h-full bg-white rounded-md p-2 justify-between'>
+        <div className='flex border shadow-sm h-full bg-white rounded-md p-2 justify-between'>
 
             <div className="">
                 <div className="m-w-2">
-                    <p className="text-wix text-base font-semibold text-gray-900">{title}</p>
-                    {description && <p className="text-wix text-xs font-normal text-gray-500">{description}</p>}
+                    <p onClick={onClickOpenDetails} className="text-wix text-base font-bold text-gray-600 hover:underline hover:cursor-pointer">{title}</p>
+                    {description && <p className="mt-1 text-wix text-xs font-semibold text-gray-500">{description}</p>}
                 </div>
                 <div className="grid grid-flow-col mt-2 gap-2">
                     {types.map(FlujoStepIcon)}
