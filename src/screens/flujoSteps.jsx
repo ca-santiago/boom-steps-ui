@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 /***
  * Hooks
  */
-import useQuery from '../hooks/useQuery';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 /**
  * Components
@@ -15,8 +14,6 @@ import StepResolverView from './StepResolver';
 
 export default function CompleteFlujoScreen() {
   const { id } = useParams();
-  const query = useQuery();
-  const navigate = useNavigate();
 
   const [flujo, setFlujo] = React.useState(null);
   const [loading, setLoading] = React.useState(true);

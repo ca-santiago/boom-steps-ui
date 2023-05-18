@@ -6,7 +6,7 @@ const LastCreatedLink = ({ flujo }) => {
 
     const handleCopy = () => {
         const l = createShareLink(flujo.id);
-        navigator.clipboard.writeText(l)
+        navigator.clipboard.write(l)
         toast('📋 Link copied to clipboard', { duration: 900 });
     }
 
