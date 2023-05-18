@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlujoServices } from '../services/flujo';
 import FlujosList from '../components/flujoList';
-import FlujoCreator from '../components/creator/flujo-creator';
+import FlujoCreator from '../components/creator';
 import LastCreatedLink from '../components/lastCreatedLink';
 import { Toaster } from 'react-hot-toast';
 
@@ -31,15 +31,19 @@ export default function CreateFlujoScreen() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="lg:m-9 sm:m-1 relative">
-      <div><Toaster reverseOrder position='bottom-center' /></div>
-      <div className='flex flex-col md:flex-row flex-wrap'>
-        <div className='flex-1 lg:max-w-lx xl:max-w-xl md:max-w-full m-3'>
-          <FlujoCreator onCreate={handleOnCreateFlujo} />
-          {lastCreated && <LastCreatedLink flujo={lastCreated} />}
-        </div>
-        <div className='flex-1 m-3'>
-          <FlujosList data={flujos} />
+    <div className="min-h-screen max-h-screen relative bg-main overflow-hidden">
+      <div className="lg:p-9 sm:p-4">
+        <div><Toaster reverseOrder position='bottom-center' /></div>
+        <div className='grid md:grid-cols-2 gap-3 grid-flow-row sm:grid-col-1'>
+          <div classNames2='lg:max-w-lx xl:min-w-xl md:max-w-full'>
+            <div className="sm:w-full md:w-full lg:w-11/12 xl:w-10/12 mx-auto">
+              <FlujoCreator onCreate={handleOnCreateFlujo} />
+              {lastCreated && <LastCreatedLink flujo={lastCreated} />}
+            </div>
+          </div>
+          <div className="">
+            <FlujosList data={flujos} />
+          </div>
         </div>
       </div>
     </div>

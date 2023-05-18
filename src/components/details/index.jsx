@@ -38,7 +38,7 @@ const FlujoDetailsView = ({ onCloseClick, flujoId, data }) => {
     }
 
     return (
-        <div className="p-3 shadow-md rounded-md">
+        <div className="shadow-sm rounded-md border bg-white p-3">
             <div onClick={onCloseClick} className="">
                 <IoArrowBackOutline />
             </div>

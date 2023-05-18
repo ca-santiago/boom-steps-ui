@@ -11,7 +11,7 @@ function FlujoStepIcon(item) {
 
 const FlujoCard = ({ createdAt, status, types, completionTime, title, description, onClickOpenDetails }) => {
     return (
-        <div onClick={onClickOpenDetails} className='flex shadow rounded-md p-2 justify-between'>
+        <div onClick={onClickOpenDetails} className='flex border shadow-sm h-full bg-white rounded-md p-2 justify-between'>
 
             <div className="">
                 <div className="m-w-2">

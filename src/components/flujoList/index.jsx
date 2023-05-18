@@ -25,12 +25,14 @@ export default function FlujosList({ data }) {
     }
 
     return (
-        <div className="p-3 grid gap-2 md:max-h-screen overflow-scroll whitespace-nowrap no-scrollbar">
-            {data.map((f) => (
-                <div key={f.id} className="">
-                    <FlujoCard onClickOpenDetails={() => handleOpenDetailsFor(f.id)} {...f} />
-                </div>
-            ))}
+        <div className="grid gap-3 md:max-h-screen overflow-scroll whitespace-nowrap no-scrollbar">
+            <div className="grid grid-flow-row md:grid-cols-1 lg:grid-cols-2 gap-3">
+                {data.map((f) => (
+                    <div key={f.id}>
+                        <FlujoCard onClickOpenDetails={() => handleOpenDetailsFor(f.id)} {...f} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

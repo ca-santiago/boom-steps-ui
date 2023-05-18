@@ -76,7 +76,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
     const submitStyle = disableCreate ? "btn-disabled" : "bg-accent";
 
     return (
-        <div className="shadow rounded-md p-3">
+        <div className="shadow-sm border rounded-md p-3 lg:mx-auto bg-white w-full">
             <h2 className="text-center text-montserrat font-semibold text-2xl text-gray-700">Create a new flujo</h2>
             <div className='grid gap-3 mt-6'>
                 <div>
