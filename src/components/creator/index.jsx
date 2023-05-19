@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 /** Components */
 import SelectableStepButton from './SelectableStep';
 import { useForm } from 'react-hook-form';
-import { CameraValidationIcon, ContactInfoIcon, DigSignatureIcon } from '../makeStepIndicator';
+import { ContactInfoIcon, DigSignatureIcon, CameraValidationIcon } from '../icons/icon.map';
 
 const InputLabel = ({ text, description }) => (
     <div className='px-1'>

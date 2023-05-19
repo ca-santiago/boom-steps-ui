@@ -1,17 +1,9 @@
 import React from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { FlujoServices } from "../../services/flujo";
-import MakeStepIndicatorIcon from "../makeStepIndicator";
+import FlujoStepIcon from "../icons/FlujoStepIcon";
 
-function FlujoStepIcon(item) {
-    return (
-        <div key={item} className="text-gray-600">
-            {MakeStepIndicatorIcon(item)}
-        </div>
-    );
-}
-
-const FlujoDetailsView = ({ onCloseClick, flujoId, data }) => {
+const FlujoDetailsView = ({ flujoId, data }) => {
     const [flujoData, setFlujoData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -39,16 +31,13 @@ const FlujoDetailsView = ({ onCloseClick, flujoId, data }) => {
 
     return (
         <div className="shadow-sm rounded-md border bg-white p-3">
-            <div onClick={onCloseClick} className="">
-                <IoArrowBackOutline size={20} className="cursor-pointer" />
-            </div>
             <div className="mt-2 grid gap-2">
                 <div>
-                    <p className="text-lg font-semibold text-gray-700">{flujoData.title}</p>
-                    {flujoData.description && (<p className="text-base font-semibold text-gray-600">{flujoData.description}</p>)}
+                    <p className="text-lg font-bold text-montserrat text-gray-700 whitespace-break-spaces leading-normal">{flujoData.title}</p>
+                    {flujoData.description && (<p className="text-sm text-montserrat font-semibold text-gray-600 whitespace-break-spaces line-clamp-2 mt-2">{flujoData.description}</p>)}
                 </div>
-                <div className="flex">
-                    {flujoData.types.map(FlujoStepIcon)}
+                <div className="grid grid-flow-col mt-3 gap-2 justify-start">
+                    {flujoData.types.map(type => <FlujoStepIcon key={type} step={type} />)}
                 </div>
                 <p className="text-md font-semibold text-gray-700">Status: {flujoData.status}</p>
                 <p className="text-md font-semibold text-gray-700">Stimate: {flujoData.completionTime}</p>

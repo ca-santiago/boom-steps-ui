@@ -2,6 +2,7 @@ import React from "react";
 import FlujoCard from "./card";
 import FlujoDetailsView from "../details";
 import EmtyList from "./emptyList";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 export default function FlujosList({ data }) {
 
@@ -21,7 +22,14 @@ export default function FlujosList({ data }) {
 
     return (
         <div className="flex flex-col overflow-hidden">
-            <div className="text-gray-700 font-semibold text-xl ml-1">{headerText}</div>
+            <div className="flex items-center">
+                {selected && (
+                    <div onClick={handleOnCloseDetailView} className="p-1 rounded-full text-gray-700 hover:bg-slate-300 hover:text-gray-800">
+                        <IoArrowBackOutline size={24} className="cursor-pointer" />
+                    </div>
+                )}
+                <div className="text-gray-700 text-wix font-semibold text-xl ml-1">{headerText}</div>
+            </div>
             <div className="overflow-scroll whitespace-nowrap no-scrollbar mt-3">
                 {selected && (
                     <FlujoDetailsView flujoId={selected} onCloseClick={handleOnCloseDetailView} />
