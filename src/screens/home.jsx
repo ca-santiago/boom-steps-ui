@@ -31,12 +31,12 @@ export default function CreateFlujoScreen() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="md:min-h-screen md:max-h-screen relative bg-main flex">
+    <div className="min-h-screen md:max-h-screen relative bg-main flex">
       <div className="lg:px-9 lg:pt-9 sm:px-3 sm:pt-3 flex-1 flex">
         <div><Toaster reverseOrder position='bottom-center' /></div>
 
         <div className='grid md:grid-cols-2 gap-3 grid-flow-row sm:grid-col-1 flex-1 overflow-hidden'>
-          <div classNames2='lg:max-w-lx xl:min-w-xl md:max-w-full'>
+          <div>
             <div className="sm:w-full md:w-full lg:w-11/12 xl:w-10/12 mx-auto">
               <FlujoCreator onCreate={handleOnCreateFlujo} />
               {lastCreated && <LastCreatedLink flujo={lastCreated} />}

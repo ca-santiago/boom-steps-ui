@@ -26,7 +26,7 @@ const LastCreatedLink = ({ flujo }) => {
                     <div onClick={handleCopy} className="flex items-center rounded-full text-white bg-secondary w-9 h-9 justify-center cursor-pointer">
                         <ShareLinkIcon size={17} />
                     </div>
-                    <div onClick={handleOpenNewTab} className="flex justify-center items-center rounded-full bg-secondary w-9 h-9 justify-center text-white cursor-pointer">
+                    <div onClick={handleOpenNewTab} className="flex justify-center items-center rounded-full bg-secondary w-9 h-9 text-white cursor-pointer">
                         <OpenOnNewTabIcon size={16} />
                     </div>
                 </div>

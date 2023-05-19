@@ -70,10 +70,10 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
     }
 
     const disableCreate = React.useMemo(() => {
-        return formState.errors.length > 0 || !selectedSteps.length > 0;
-    }, [formState.errors, selectedSteps.length]);
+        return !formState.isValid || !selectedSteps.length > 0;
+    }, [formState.isValid, selectedSteps.length]);
 
-    const submitStyle = disableCreate ? "btn-disabled" : "bg-accent";
+    const submitStyle = disableCreate ? "bg-gray-400 text-gray-100" : "bg-accent";
 
     return (
         <div className="shadow-sm border rounded-md p-3 lg:mx-auto bg-white w-full">
@@ -147,7 +147,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                 <button
                     disabled={disableCreate}
                     aria-disabled={disableCreate}
-                    className={`px-4 py-2 rounded-lg border ${submitStyle}`}
+                    className={`px-4 w-full py-2 rounded-lg border ${submitStyle}`}
                     onClick={handleSubmit(triggerCreate)}
                 >Create</button>
             </div>
