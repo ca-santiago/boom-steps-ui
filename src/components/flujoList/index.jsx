@@ -35,7 +35,7 @@ const FlujosList = memo(({ data }) => {
     if (data.length < 1) return <EmtyList />;
 
     return (
-        <div className="flex flex-col overflow-hidden">
+        <div className="flex flex-col overflow-hidden bg-red-300">
             <div className="flex items-center">
                 {selected && <BackButton onClick={handleCloseDetailView} />}
                 <div className="text-gray-700 text-wix font-semibold text-xl ml-1">
