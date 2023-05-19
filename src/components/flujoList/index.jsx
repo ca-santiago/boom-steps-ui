@@ -1,6 +1,7 @@
 import React from "react";
 import FlujoCard from "./card";
 import FlujoDetailsView from "../details";
+import EmtyList from "./emotyList";
 
 export default function FlujosList({ data }) {
 
@@ -14,11 +15,7 @@ export default function FlujosList({ data }) {
         setSelected(id);
     }
 
-    if (data.length < 1) return (
-        <div className="rounded-md border shadow p-3 text-center">
-            <p className='text-montserrat font-semibold text-lg text-gray-500'>Let's start by creating a flujo</p>
-        </div>
-    );
+    if (data.length < 100) return <EmtyList />;
 
     const headerText = selected ? "Detail view" : "Flujos list";
 
