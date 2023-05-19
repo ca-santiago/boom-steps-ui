@@ -1,7 +1,7 @@
 import React from "react";
 import FlujoCard from "./card";
 import FlujoDetailsView from "../details";
-import EmtyList from "./emotyList";
+import EmtyList from "./emptyList";
 
 export default function FlujosList({ data }) {
 
@@ -15,7 +15,7 @@ export default function FlujosList({ data }) {
         setSelected(id);
     }
 
-    if (data.length < 100) return <EmtyList />;
+    if (data.length < 1) return <EmtyList />;
 
     const headerText = selected ? "Detail view" : "Flujos list";
 
