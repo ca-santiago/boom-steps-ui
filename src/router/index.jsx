@@ -5,16 +5,16 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
-import CreateFlujoScreen from '../screens/home';
 import CompleteFlujoScreen from '../screens/flujoSteps';
+import ManagerScreen from '../screens/manager';
 
 export default function MainRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/flujo/:id" exact element={<CompleteFlujoScreen />} />
-        <Route path="/" exact element={<CreateFlujoScreen />} />
-        <Route path="*" element={<Navigate replace to="/" />} />
+        <Route path="/complete/:id" exact element={<CompleteFlujoScreen />} />
+        <Route path="/manager" exact element={<ManagerScreen />} />
+        <Route path="*" element={<Navigate replace to="/manager" />} />
       </Routes>
     </Router>
   );

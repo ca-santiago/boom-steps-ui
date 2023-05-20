@@ -5,7 +5,7 @@ import FlujoCreator from '../components/creator';
 import LastCreatedLink from '../components/lastCreatedLink';
 import { Toaster } from 'react-hot-toast';
 
-export default function CreateFlujoScreen() {
+export default function ManagerScreen() {
   const [flujos, setFlujos] = React.useState([]);
   const [lastCreated, setLastCreated] = React.useState(null);
 
