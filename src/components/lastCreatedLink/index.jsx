@@ -6,7 +6,7 @@ import { saveToClipboard } from "../../helpers/clipboard";
 const LastCreatedLink = ({ flujo }) => {
 
     const handleCopy = () => {
-        const l = createShareLink(id);
+        const l = createShareLink(flujo.id);
         saveToClipboard(l)
             .then(() => {
                 toast('📋 Link copied to clipboard', { duration: 900 });
