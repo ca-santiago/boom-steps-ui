@@ -102,10 +102,10 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                         autoComplete='off'
                         {...register('description', {
                             required: false,
-                            maxLength: 120
+                            maxLength: 260
                         })}
                     />
-                    {formState.errors.description && <p>Error on description</p>}
+                    {formState.errors.description && <p className='text-xs text-red-400 p-1'>Description should be smaller than 260 chars</p>}
                 </div>
                 <div>
                     <InputLabel text="Select steps *" />
