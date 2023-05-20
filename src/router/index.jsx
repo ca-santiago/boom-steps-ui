@@ -5,7 +5,7 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
-import CompleteFlujoScreen from '../screens/flujoSteps';
+import CompleteFlujoScreen from '../screens/completion';
 import ManagerScreen from '../screens/manager';
 
 export default function MainRouter() {

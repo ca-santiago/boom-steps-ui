@@ -1,18 +1,18 @@
 import { CameraValidationIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon } from "./icons/icon.map";
 
-export default function MakeStepIndicatorIcon(type) {
+export default function getFlujoStepIcon(type) {
   switch (type) {
     case "FACE": {
-      return <CameraValidationIcon />;
+      return CameraValidationIcon;
     }
     case "PERSONAL_DATA": {
-      return <ContactInfoIcon />;
+      return ContactInfoIcon;
     }
     case "SIGNATURE": {
-      return <DigSignatureIcon />;
+      return DigSignatureIcon;
     }
     default: {
-      return undefined;
+      return () => null;
     }
   }
 }

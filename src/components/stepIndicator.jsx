@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import MakeStepIndicatorIcon from './makeStepIndicator';
+import getFlujoStepIcon from './makeStepIndicator';
 
 import { FaCheck, FaCheckCircle } from 'react-icons/fa';
 
@@ -16,7 +16,7 @@ export default function StepIndicator({ steps, currStep, onClickIndicator, compl
         <div
           onClick={() => onClickIndicator(s) }
           className={`step-indicator ${active}`}>
-          { MakeStepIndicatorIcon(s) }
+          { getFlujoStepIcon(s) }
         </div>
         { index < steps.length -1 && <div className="step-line-union"></div> }
       </div>

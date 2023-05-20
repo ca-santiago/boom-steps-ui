@@ -6,6 +6,8 @@ import { useParams } from 'react-router';
 /** Components */
 import { FlujoServices } from '../services/flujo';
 import StepResolverView from './StepResolver';
+import ReadinessView from '../components/readiness';
+import { isInReadiness } from '../helpers/flujos';
 
 export default function CompleteFlujoScreen() {
   const { id } = useParams();
@@ -35,20 +37,19 @@ export default function CompleteFlujoScreen() {
       });
   }, [id]);
 
-  if (state.loading)
-    return <p>Loading...</p>;
+  const handleOnStart = (token) => {
+    setState(prev => ({
+      ...prev,
+      sessionToken: token
+    }));
+  }
 
-  console.log({
-    state
-  });
+  if (state.loading) return <p>Loading...</p>;
+
   if (state.error || !state.flujoData) return <p>Error loading... please try again later</p>;
 
-  if (state.flujoData) {
-    return (
-      <div>
-        <pre>{state.flujoData.status}</pre>
-      </div>
-    );
+  if (isInReadiness(state.flujoData)) {
+    return <ReadinessView data={state.flujoData} onStart={handleOnStart} />;
   }
 
   return (

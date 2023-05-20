@@ -1,4 +1,4 @@
-import MakeStepIndicatorIcon from "../makeStepIndicator";
+import getFlujoStepIcon from "../makeStepIndicator";
 
 export const IconGrayBg = ({ children }) => (
     <div className="py-1 px-2 border rounded-full bg-zinc-200" >
@@ -9,9 +9,10 @@ export const IconGrayBg = ({ children }) => (
 );
 
 function FlujoStepIcon({ step }) {
+    const Icon = getFlujoStepIcon(step);
     return (
         <IconGrayBg>
-            {MakeStepIndicatorIcon(step)}
+            <Icon />
         </IconGrayBg>
     );
 }

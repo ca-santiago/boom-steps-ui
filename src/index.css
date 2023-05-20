@@ -38,10 +38,6 @@ textarea:focus {
     outline: 1px solid rgba(34, 34, 34, 0.447);
 }
 
-.selectable .selected {
-
-}
-
 /* 10% */
 .color-accent {
     color: #146C94;
