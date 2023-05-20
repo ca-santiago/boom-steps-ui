@@ -1,45 +1,55 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-/***
- * Hooks
- */
+/** Hooks */
 import { useParams } from 'react-router';
 
-/**
- * Components
- */
+/** Components */
 import { FlujoServices } from '../services/flujo';
 import StepResolverView from './StepResolver';
 
 export default function CompleteFlujoScreen() {
   const { id } = useParams();
 
-  const [flujo, setFlujo] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  
+  const [state, setState] = React.useState({
+    flujoData: null,
+    loading: true,
+    sessionToken: null
+  });
+
   React.useEffect(() => {
-    // HERE: Temporary disable redirection
-    //if(!query.get('token')) navigate('/');
-    
     FlujoServices.getFlujoById(id)
-    .then((data) => data.json())
-    .then((payload)=> {
-      setFlujo(payload);
-    })
-    .catch(function() {
-      // history.replace('/');
-    })
-    .finally(()=> {
-      setLoading(false);
-    })
+      .then((payload) => {
+        setState(prev => ({
+          ...prev,
+          flujoData: payload,
+          loading: false,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+        setState({
+          loading: false,
+          error: true,
+          flujoData: null,
+        });
+      });
   }, [id]);
 
-  if(loading)
+  if (state.loading)
     return <p>Loading...</p>;
 
-  if(flujo === null) 
-    return <Link to="/"><p>Go back</p></Link>;
+  console.log({
+    state
+  });
+  if (state.error || !state.flujoData) return <p>Error loading... please try again later</p>;
+
+  if (state.flujoData) {
+    return (
+      <div>
+        <pre>{state.flujoData.status}</pre>
+      </div>
+    );
+  }
 
   return (
     <>

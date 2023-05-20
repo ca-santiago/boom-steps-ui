@@ -1,9 +1,13 @@
 import React from 'react';
 import MenuItem from '../dropdown/menuItem';
-import { OptionsIcon } from '../icons/icon.map';
-import FlujoStepIcon from '../icons/FlujoStepIcon';
+import { OptionsIcon, ShareLinkIcon } from '../icons/icon.map';
+import FlujoStepIcon, { IconGrayBg } from '../icons/FlujoStepIcon';
+import { toast } from 'react-hot-toast';
+import { createShareLink } from '../../helpers/links';
+import { saveToClipboard } from '../../helpers/clipboard';
 
-const FlujoCard = ({ createdAt, status, types, completionTime, title, description, onClickOpenDetails }) => {
+const FlujoCard = (props) => {
+    const { types, title, description, onClickOpenDetails, id } = props.data;
     const [optionsOpen, setOptionsOpen] = React.useState(false);
 
     const handleClickOptionsIcon = () => {
@@ -20,6 +24,18 @@ const FlujoCard = ({ createdAt, status, types, completionTime, title, descriptio
             <MenuItem text="Delete" />
         </div>
     );
+
+    const handleCopy = () => {
+        const l = createShareLink(id);
+        saveToClipboard(l) 
+            .then(() => {
+                toast('📋 Link copied to clipboard', { duration: 900 });
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error('Could not copy, try again later');
+            });
+    }
 
     const CardOptionsEl = () => (
         <div className="">
@@ -48,8 +64,15 @@ const FlujoCard = ({ createdAt, status, types, completionTime, title, descriptio
                 <div className="m-w-2">
                     {description && <p className="mt-1 text-wix text-xs font-semibold text-gray-500 line-clamp-2">{description}</p>}
                 </div>
-                <div className="grid grid-flow-col justify-start mt-3 gap-2">
-                    {types.map(type => <FlujoStepIcon key={type} step={type} />)}
+                <div className="grid grid-flow-col justify-between mt-3">
+                    <div className="grid grid-flow-col justify-start gap-2">
+                        {types.map(type => <FlujoStepIcon key={type} step={type} />)}
+                    </div>
+                    <div className="cursor-pointer" onClick={handleCopy}>
+                        <IconGrayBg>
+                            <ShareLinkIcon />
+                        </IconGrayBg>
+                    </div>
                 </div>
             </div>
 
