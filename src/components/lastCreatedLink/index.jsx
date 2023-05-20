@@ -5,9 +5,15 @@ import { OpenOnNewTabIcon, ShareLinkIcon } from "../icons/icon.map";
 const LastCreatedLink = ({ flujo }) => {
 
     const handleCopy = () => {
-        const l = createShareLink(flujo.id);
-        navigator.clipboard.write(l)
-        toast('📋 Link copied to clipboard', { duration: 900 });
+        const l = createShareLink(id);
+        saveToClipboard(l)
+            .then(() => {
+                toast('📋 Link copied to clipboard', { duration: 900 });
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error('Could not copy, try again later');
+            });
     }
 
     const handleOpenNewTab = () => {

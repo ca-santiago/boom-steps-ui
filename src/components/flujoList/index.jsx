@@ -27,7 +27,7 @@ const FlujosList = memo(({ data }) => {
     const renderFlujoCards = React.useMemo(() => () => (
         <div className="grid grid-flow-row md:grid-cols-1 lg:grid-cols-2 gap-3">
             {data.map((f) => (
-                <FlujoCard key={f.id} onClickOpenDetails={() => handleOpenDetailsFor(f.id)} {...f} />
+                <FlujoCard key={f.id} onClickOpenDetails={() => handleOpenDetailsFor(f.id)} data={f} />
             ))}
         </div>
     ), [data, handleCloseDetailView]);

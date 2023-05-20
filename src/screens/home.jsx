@@ -33,7 +33,7 @@ export default function CreateFlujoScreen() {
   return (
     <div className="min-h-screen md:max-h-screen relative bg-main flex">
       <div className="lg:px-9 lg:pt-9 sm:px-3 sm:pt-3 flex-1 flex">
-        <div><Toaster reverseOrder position='bottom-center' /></div>
+        <div><Toaster reverseOrder position='top-right' /></div>
 
         <div className='grid md:grid-cols-2 gap-3 grid-flow-row sm:grid-col-1 flex-1 overflow-hidden'>
           <div>
