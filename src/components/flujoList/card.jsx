@@ -7,7 +7,8 @@ import { createShareLink } from '../../helpers/links';
 import { saveToClipboard } from '../../helpers/clipboard';
 
 const FlujoCard = (props) => {
-    const { types, title, description, onClickOpenDetails, id } = props.data;
+    const { onClickOpenDetails } = props;
+    const { types, title, description, id } = props.data;
     const [optionsOpen, setOptionsOpen] = React.useState(false);
 
     const handleClickOptionsIcon = () => {
