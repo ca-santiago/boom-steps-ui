@@ -5,6 +5,7 @@ import { BiLoaderCircle, BiLink } from 'react-icons/bi';
 import { IoCheckmarkDoneOutline } from 'react-icons/io5';
 import { FiExternalLink } from 'react-icons/fi';
 import { SlOptionsVertical } from 'react-icons/sl';
+import { HiBadgeCheck } from 'react-icons/hi';
 
 export const CameraValidationIcon = AiFillCamera
 export const ContactInfoIcon = BsPersonFillAdd
@@ -16,3 +17,5 @@ export const OptionsIcon = SlOptionsVertical;
 
 export const FlujoStartedIcon = BiLoaderCircle;
 export const FlujoFinishedIcon = IoCheckmarkDoneOutline;
+
+export const FLujoDoneIcon = HiBadgeCheck;

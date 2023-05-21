@@ -1,15 +1,35 @@
-const baseURL = `${import.meta.env.VITE_API_URI}/flujos`;
+const baseURL = `${import.meta.env.VITE_API_URI}`;
+
+function startFLujo(id) {
+  return new Promise((resolve, reject) => {
+    fetch(`${baseURL}/completion/start/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(result => {
+        if (result.ok) {
+          resolve(result.json());
+        } else {
+          reject();
+        }
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
 
 function verifyFlujoToken(token) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/`, {
+    fetch(`${baseURL}/flujos`, {
       method: 'POST',
       body: JSON.stringify({
         token
       })
     })
       .then(result => {
-        console.log('Status: ', result.status);
         if (result.status === 400) {
           return result.json().then(badRequest => {
             console.log(badRequest)
@@ -31,17 +51,15 @@ function verifyFlujoToken(token) {
 
 function getFlujoById(id) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/${id}`, {
+    fetch(`${baseURL}/flujos/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(result => {
-        console.log('Status: ', result.status);
         if (result.status === 400) {
           return result.json().then(badRequest => {
-            console.log(badRequest)
             reject(badRequest);
           })
         }
@@ -58,9 +76,9 @@ function getFlujoById(id) {
   });
 }
 
-function createNewFlujo({ steps, title, description, completionTime}) {
+function createNewFlujo({ steps, title, description, completionTime }) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}`, {
+    fetch(`${baseURL}/flujos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -73,7 +91,6 @@ function createNewFlujo({ steps, title, description, completionTime}) {
       })
     })
       .then(result => {
-        console.log('Status: ', result.status);
         if (result.status === 400) {
           return result.json().then(badRequest => {
             console.log(badRequest)
@@ -95,7 +112,7 @@ function createNewFlujo({ steps, title, description, completionTime}) {
 
 function GetFlujosPaginated(page = 0) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}`)
+    fetch(`${baseURL}/flujos`)
       .then(data => {
         if (data.status === 200) {
           resolve(data.json());
@@ -111,6 +128,7 @@ function GetFlujosPaginated(page = 0) {
 
 
 export const FlujoServices = {
+  startFLujo,
   getFlujoById,
   verifyFlujoToken,
   createNewFlujo,

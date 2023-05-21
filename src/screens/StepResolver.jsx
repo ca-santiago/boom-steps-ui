@@ -3,7 +3,7 @@ import useStepController from '../hooks/useStepCreator';
 
 import './StepResolver.css';
 
-function StepResolverView({ flujo }) {
+function StepResolverView({ flujo, token }) {
 
   const Resolver = useStepController({ steps: flujo.types });
 

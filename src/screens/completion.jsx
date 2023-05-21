@@ -7,7 +7,6 @@ import { useParams } from 'react-router';
 import { FlujoServices } from '../services/flujo';
 import StepResolverView from './StepResolver';
 import ReadinessView from '../components/readiness';
-import { isInReadiness } from '../helpers/flujos';
 
 export default function CompleteFlujoScreen() {
   const { id } = useParams();
@@ -37,25 +36,28 @@ export default function CompleteFlujoScreen() {
       });
   }, [id]);
 
-  const handleOnStart = (token) => {
+  const handleOnStart = React.useCallback((token, flujo) => {
     setState(prev => ({
       ...prev,
-      sessionToken: token
+      sessionToken: token,
+      flujoData: flujo,
     }));
-  }
+  }, []);
 
-  if (state.loading) return <p>Loading...</p>;
+  if (state.loading) return null;
 
-  if (state.error || !state.flujoData) return <p>Error loading... please try again later</p>;
+  if (!state.flujoData) return <p>Whoops! This flujo does not exists</p>;
 
-  if (isInReadiness(state.flujoData)) {
+  if (state.error) return <p>Error loading... please try again later</p>;
+
+  if (!state.sessionToken) {
     return <ReadinessView data={state.flujoData} onStart={handleOnStart} />;
   }
 
   return (
     <>
       <div className="step-container">
-        <StepResolverView flujo={flujo} />
+        <StepResolverView flujo={state.flujoData} token={state.sessionToken} />
       </div>
     </>
   );
