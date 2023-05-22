@@ -14,7 +14,8 @@ export default function CompleteFlujoScreen() {
   const [state, setState] = React.useState({
     flujoData: null,
     loading: true,
-    sessionToken: null
+    sessionToken: null,
+    secondsLeft: 0
   });
 
   React.useEffect(() => {
@@ -36,11 +37,13 @@ export default function CompleteFlujoScreen() {
       });
   }, [id]);
 
-  const handleOnStart = React.useCallback((token, flujo) => {
+  const handleOnStart = React.useCallback((payload) => {
+    const { token, flujo, secondsLeft } = payload;
     setState(prev => ({
       ...prev,
       sessionToken: token,
       flujoData: flujo,
+      secondsLeft,
     }));
   }, []);
 
@@ -57,7 +60,7 @@ export default function CompleteFlujoScreen() {
   return (
     <>
       <div className="step-container">
-        <StepResolverView flujo={state.flujoData} token={state.sessionToken} />
+        <StepResolverView flujo={state.flujoData} token={state.sessionToken} timeLeft={state.secondsLeft} />
       </div>
     </>
   );

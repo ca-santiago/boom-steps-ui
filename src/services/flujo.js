@@ -10,10 +10,18 @@ function startFLujo(id) {
     })
       .then(result => {
         if (result.ok) {
-          resolve(result.json());
+          return result.json();
         } else {
-          reject();
+          reject({
+            isAllowed: false,
+          });
         }
+      })
+      .then((payload) => {
+        resolve({
+          ...payload,
+          isAllowed: true
+        });
       })
       .catch(err => {
         reject(err);

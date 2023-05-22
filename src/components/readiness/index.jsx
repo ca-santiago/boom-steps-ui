@@ -64,15 +64,26 @@ const ReadinessView = ({ data, onStart }) => {
             error: null,
             loading: true,
         }));
+
         FlujoServices.startFLujo(id)
-            .then(({ token, flujo }) => {
-                if (onStart) onStart(token, flujo);
+            .then(({ isAllowed, ...payload }) => {
+                if (!isAllowed) {
+                    setState(prev => ({
+                        ...prev,
+                        error: false,
+                        loading: false,
+                        canStart: false,
+                    }));
+                    return;
+                }
+                if (onStart) onStart(payload);
             })
             .catch(err => {
                 setState(prev => ({
                     ...prev,
-                    error: true,
+                    error: false,
                     loading: false,
+                    canStart: false,
                 }));
                 console.log(err);
             });
@@ -99,7 +110,7 @@ const ReadinessView = ({ data, onStart }) => {
         </div>
     ), []);
 
-    if(state.loading) return null;
+    if (state.loading) return null;
 
     return (
         <div className="flex md:flex-row flex-col h-screen max-h-screen w-full">
@@ -110,7 +121,7 @@ const ReadinessView = ({ data, onStart }) => {
                     </div>
                     <div>
                         {state.error && errorMessage}
-                        {state.canStart && startSection}
+                        {state.canStart && !state.error && startSection}
                         {!state.canStart && locked}
                     </div>
                 </div>
