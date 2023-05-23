@@ -23,7 +23,7 @@ import { useCompletionContext } from '../../context/completion';
 function FaceStep({ onCompleted }) {
 
   const { id } = useParams();
-  const { token } = useCompletionContext();
+  const { state: { token } } = useCompletionContext();
 
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);

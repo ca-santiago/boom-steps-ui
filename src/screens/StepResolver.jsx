@@ -15,10 +15,9 @@ function formatTime(seconds) {
   return formattedTime;
 }
 
-
 function StepResolverView() {
-  const { timeLeft, flujo } = useCompletionContext();
-  const [secondsLeft, setSecondsLeft] = React.useState(timeLeft);
+  const { secondsLeft: _secLeft, flujo } = useCompletionContext().state;
+  const [secondsLeft, setSecondsLeft] = React.useState(_secLeft);
 
   React.useEffect(() => {
     // Decrease the countdown every second

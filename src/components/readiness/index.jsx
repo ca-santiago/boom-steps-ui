@@ -4,6 +4,7 @@ import getFlujoStepIcon from "../makeStepIndicator";
 import { isFinished } from "../../helpers/flujos";
 import { ErrorIcon } from "react-hot-toast";
 import { FLujoDoneIcon } from "../icons/icon.map";
+import { useCompletionContext } from "../../context/completion";
 
 const TEXTS = {
     "FACE": {
@@ -44,16 +45,17 @@ const StepItem = ({ step }) => {
     );
 }
 
-const ReadinessView = ({ data, onStart }) => {
-    const { types, id } = data;
+const ReadinessView = ({ onStart }) => {
+    const { flujo } = useCompletionContext().state;
+    const { id, completionTime, types } = flujo;
     const [state, setState] = React.useState({
-        loading: data.status === "STARTED",
-        canStart: !isFinished(data),
+        loading: flujo.status === "STARTED",
+        canStart: !isFinished(flujo),
         error: null
     });
 
     React.useEffect(() => {
-        if (state.canStart && data.status === "STARTED") {
+        if (state.canStart && flujo.status === "STARTED") {
             startFLujo();
         }
     }, []);
@@ -91,12 +93,12 @@ const ReadinessView = ({ data, onStart }) => {
 
     const startSection = React.useMemo(() => (
         <>
-            <p className="font-semibold text-gray-600 text-right">You have {data.completionTime} to complete this flujo</p>
+            <p className="font-semibold text-gray-600 text-right">You have {completionTime} to complete this flujo</p>
             <div className="flex justify-center md:justify-end w-full mt-3">
                 <button disabled={state.loading} onClick={startFLujo} className="p-2 w-full md:w-auto px-4 bg-accent shadow rounded-lg text-white text-wix text-lg font-semibold">Start</button>
             </div>
         </>
-    ), [startFLujo, state.loading, state.completionTime]);
+    ), [startFLujo, state.loading, completionTime]);
 
     const locked = React.useMemo(() => (
         <div className="flex justify-end mt-2 font-semibold text-gray-600 items-center">
