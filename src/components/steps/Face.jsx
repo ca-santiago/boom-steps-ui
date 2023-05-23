@@ -18,11 +18,12 @@ import { StepServices } from '../../services/steps';
  */
 import './face.css';
 import { FaPlay, FaArrowCircleDown } from 'react-icons/fa';
+import { useCompletionContext } from '../../context/completion';
 
 function FaceStep({ onCompleted }) {
 
   const { id } = useParams();
-  const query = useQuery();
+  const { token } = useCompletionContext();
 
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
@@ -35,7 +36,6 @@ function FaceStep({ onCompleted }) {
     mediaRecorderRef.current.stop();
     setCapturing(false);
   });
-
 
   /**
    * Action functions
@@ -70,8 +70,6 @@ function FaceStep({ onCompleted }) {
   const submit = useCallback(function () {
     setProcessing(true);
     const file = getFile();
-    const token = query.get('token');
-    console.log({ file })
     StepServices.CreateFaceId({
       file,
       filename: 'video.webm',

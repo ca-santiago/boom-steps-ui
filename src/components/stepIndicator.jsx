@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import getFlujoStepIcon from './makeStepIndicator';
 
-import { FaCheck, FaCheckCircle } from 'react-icons/fa';
-
 import './stepindicator.css';
+import { FLujoDoneIcon } from './icons/icon.map';
 
 export default function StepIndicator({ steps, currStep, onClickIndicator, completedSteps }) {
 
@@ -15,11 +14,11 @@ export default function StepIndicator({ steps, currStep, onClickIndicator, compl
 
     return (
       <div key={s} className="indicator-step-container">
-        {completed && <FaCheckCircle className="completed-icon" />}
         <div
           onClick={() => onClickIndicator(s)}
-          className={`step-indicator ${active}`}
+          className={`step-indicator ${active} relative`}
         >
+          {completed && <div className="absolute bottom-0 right-0 translate-x-1 -translate-y-3 z-10 text-green-600"><FLujoDoneIcon /></div>}
           <Icon />
         </div>
         {index < steps.length - 1 && <div className="step-line-union"></div>}

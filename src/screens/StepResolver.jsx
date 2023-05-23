@@ -17,7 +17,6 @@ function formatTime(seconds) {
 
 
 function StepResolverView() {
-
   const { timeLeft, flujo } = useCompletionContext();
   const [secondsLeft, setSecondsLeft] = React.useState(timeLeft);
 
@@ -33,7 +32,7 @@ function StepResolverView() {
     };
   }, []);
 
-  const Resolver = useStepController({ steps: flujo.types });
+  const Resolver = useStepController({ steps: flujo.types, completed: flujo.completedSteps });
 
   return (
     <div className="step-resolver-container">

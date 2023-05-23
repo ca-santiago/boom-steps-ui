@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import SignaturePad from 'signature_pad';
-import useQuery from '../../hooks/useQuery';
 import { StepServices } from '../../services/steps';
+import { useCompletionContext } from '../../context/completion';
 
 import './signature.css';
 
 function SignatureStep({ onCompleted }) {
 
   const { id } = useParams();
-  const query = useQuery();
+  const { token } = useCompletionContext();
 
   const canvasRef = useRef();
   const [pad, setPad] = useState(null); 
@@ -37,7 +37,7 @@ function SignatureStep({ onCompleted }) {
           file: fileData,
           filename: 'signature.jpg',
           flujoId: id,
-          token: query.get('token')
+          token,
         })
       )
       .then(()=> {

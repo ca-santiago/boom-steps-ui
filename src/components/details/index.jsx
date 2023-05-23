@@ -1,9 +1,8 @@
 import React from "react";
-import { IoArrowBackOutline } from "react-icons/io5";
 import { FlujoServices } from "../../services/flujo";
 import FlujoStepIcon from "../icons/FlujoStepIcon";
 
-const FlujoDetailsView = ({ flujoId, data }) => {
+const FlujoDetailsView = ({ flujoId }) => {
     const [flujoData, setFlujoData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -37,7 +36,7 @@ const FlujoDetailsView = ({ flujoId, data }) => {
                     {flujoData.description && (<p className="text-sm text-montserrat font-semibold text-gray-600 whitespace-break-spaces line-clamp-2 mt-2">{flujoData.description}</p>)}
                 </div>
                 <div className="grid grid-flow-col mt-3 gap-2 justify-start">
-                    {flujoData.types.map(type => <FlujoStepIcon key={type} step={type} />)}
+                    {flujoData.types.map(type => <FlujoStepIcon key={type} step={type} completed={flujoData.completedSteps.includes(type)} />)}
                 </div>
                 <p className="text-md font-semibold text-gray-700">Status: {flujoData.status}</p>
                 <p className="text-md font-semibold text-gray-700">Stimate: {flujoData.completionTime}</p>

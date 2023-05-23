@@ -5,10 +5,10 @@ import FaceStep from '../components/steps/Face';
 import FormStep from '../components/steps/Form';
 import SignatureStep from '../components/steps/Signature';
 
-export default function useStepController({ steps }) {
+export default function useStepController({ steps, completed }) {
 
   const [currStep, setCurrStep] = useState(steps[0]);
-  const [completedSteps, setCompletedSteps] = useState([]);
+  const [completedSteps, setCompletedSteps] = useState(completed);
 
   const clickIndicator = useCallback(function(value) {
     setCurrStep(value);

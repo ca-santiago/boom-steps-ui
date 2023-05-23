@@ -1,14 +1,14 @@
 import React from 'react';
 import MenuItem from '../dropdown/menuItem';
 import { OptionsIcon, ShareLinkIcon } from '../icons/icon.map';
-import FlujoStepIcon, { IconGrayBg } from '../icons/FlujoStepIcon';
+import FlujoStepIcon from '../icons/FlujoStepIcon';
 import { toast } from 'react-hot-toast';
 import { createShareLink } from '../../helpers/links';
 import { saveToClipboard } from '../../helpers/clipboard';
 
 const FlujoCard = (props) => {
     const { onClickOpenDetails } = props;
-    const { types, title, description, id } = props.data;
+    const { types, title, description, id, completedSteps } = props.data;
     const [optionsOpen, setOptionsOpen] = React.useState(false);
 
     const handleClickOptionsIcon = () => {
@@ -28,7 +28,7 @@ const FlujoCard = (props) => {
 
     const handleCopy = () => {
         const l = createShareLink(id);
-        saveToClipboard(l) 
+        saveToClipboard(l)
             .then(() => {
                 toast('📋 Link copied to clipboard', { duration: 900 });
             })
@@ -67,12 +67,14 @@ const FlujoCard = (props) => {
                 </div>
                 <div className="grid grid-flow-col justify-between mt-3">
                     <div className="grid grid-flow-col justify-start gap-2">
-                        {types.map(type => <FlujoStepIcon key={type} step={type} />)}
+                        {types.map(type => <FlujoStepIcon key={type} step={type} completed={completedSteps.includes(type)} />)}
                     </div>
                     <div className="cursor-pointer" onClick={handleCopy}>
-                        <IconGrayBg>
-                            <ShareLinkIcon />
-                        </IconGrayBg>
+                        <div className="py-1 px-2 border rounded-full bg-zinc-200" >
+                            <div className="text-gray-600">
+                                <ShareLinkIcon />
+                            </div>
+                        </div >
                     </div>
                 </div>
             </div>
