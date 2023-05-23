@@ -2,6 +2,7 @@ import React from 'react';
 import useStepController from '../hooks/useStepCreator';
 
 import './StepResolver.css';
+import { useCompletionContext } from '../context/completion';
 
 function formatTime(seconds) {
   // Calculate the number of minutes and remaining seconds
@@ -15,9 +16,10 @@ function formatTime(seconds) {
 }
 
 
-function StepResolverView({ flujo, token, timeLeft }) {
+function StepResolverView() {
 
-  const [secondsLeft, setSecondsLeft] = React.useState(timeLeft || 0);
+  const { timeLeft, flujo } = useCompletionContext();
+  const [secondsLeft, setSecondsLeft] = React.useState(timeLeft);
 
   React.useEffect(() => {
     // Decrease the countdown every second

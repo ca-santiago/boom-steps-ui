@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 /*
  * Hooks
  */
-import useQuery from '../../hooks/useQuery';
+import { useCompletionContext } from '../../context/completion';
 
 /*
  * Services 
@@ -23,7 +23,7 @@ import './form.css';
 function FormStep({ onCompleted }) {
 
   const { id } = useParams();
-  const query = useQuery();
+  const { token } = useCompletionContext();
 
   const {
     register,
@@ -45,7 +45,7 @@ function FormStep({ onCompleted }) {
       fullname: data.fullname,
       phone: data.phone,
       flujoId: id,
-      token: query.get('token'),
+      token, 
     })
     .then(payload => {
       console.log({ payload });

@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import { FlujoServices } from '../services/flujo';
 import StepResolverView from './StepResolver';
 import ReadinessView from '../components/readiness';
+import { CompletionContext } from '../context/completion';
 
 export default function CompleteFlujoScreen() {
   const { id } = useParams();
@@ -57,11 +58,13 @@ export default function CompleteFlujoScreen() {
     return <ReadinessView data={state.flujoData} onStart={handleOnStart} />;
   }
 
+  const value = { token: state.sessionToken, flujo: state.flujoData, timeLeft: state.secondsLeft };
+
   return (
-    <>
-      <div className="step-container">
-        <StepResolverView flujo={state.flujoData} token={state.sessionToken} timeLeft={state.secondsLeft} />
+    <CompletionContext.Provider value={value}>
+      <div className="flex h-screen bg-main">
+        <StepResolverView flujo={state.flujoData} timeLeft={state.secondsLeft} />
       </div>
-    </>
+    </CompletionContext.Provider>
   );
 }
