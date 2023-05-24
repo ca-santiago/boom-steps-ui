@@ -9,7 +9,7 @@ import './signature.css';
 function SignatureStep({ onCompleted }) {
 
   const { id } = useParams();
-  const { token } = useCompletionContext();
+  const { state: { token } } = useCompletionContext();
 
   const canvasRef = useRef();
   const [pad, setPad] = useState(null); 

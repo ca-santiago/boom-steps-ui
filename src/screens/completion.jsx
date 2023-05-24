@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 
 /** Components */
 import { FlujoServices } from '../services/flujo';
-import StepResolverView from './StepResolver';
+import StepResolver from '../components/stepResolver';
 import ReadinessView from '../components/readiness';
 import { useCompletionContext, withCompletionProvider } from '../context/completion';
 
@@ -40,7 +40,9 @@ function CompleteFlujoScreen() {
 
   return (
     <div className="bg-main h-screen flex">
-      <StepResolverView />
+      <div className="max-w-screen-lg h-full flex flex-1 m-auto">
+        <StepResolver />
+      </div>
     </div>
   );
 }

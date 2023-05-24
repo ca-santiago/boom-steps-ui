@@ -118,8 +118,8 @@ function FaceStep({ onCompleted }) {
   }, [processing, capturing, timer.time]);
 
   return (
-    <>
-      <h3 className="step-component-title">Validación con cámara</h3>
+    <div className="w-fll h-full">
+      <h3 className="">Validación con cámara</h3>
       <div className="camera-container">
         <Webcam className="camera" audio={false} ref={webcamRef} />
         <div className="play-pause-btn">
@@ -132,7 +132,7 @@ function FaceStep({ onCompleted }) {
           className={`createflow-button ${canComplete ? "" : "btn-disabled"}`}
           onClick={submit} disabled={!canComplete} >Completar</button>
       </div>
-    </>
+    </div>
   );
 }
 

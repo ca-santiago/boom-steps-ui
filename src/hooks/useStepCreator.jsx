@@ -10,31 +10,38 @@ export default function useStepController({ steps, completed }) {
   const [currStep, setCurrStep] = useState(steps[0]);
   const [completedSteps, setCompletedSteps] = useState(completed);
 
-  const clickIndicator = useCallback(function(value) {
+  const clickIndicator = useCallback(function (value) {
     setCurrStep(value);
-  },[]);
+  }, []);
 
-  const onStepCompleted = useCallback(function(value){
-    if(completedSteps.includes(value)) return;
+  const onStepCompleted = useCallback(function (value) {
+    if (completedSteps.includes(value)) return;
 
     setCompletedSteps([...completedSteps, value]);
   }, [completedSteps, setCompletedSteps]);
+
+  const stepNames = useMemo(() => ({
+    'FACE': 'Camera validation',
+    'SIGNATURE': 'Contact information',
+    'PERSONAL_DATA': 'Digital signature'
+  }), []);
 
   const canFinish = useMemo(() => completedSteps.length >= 3, [completedSteps]);
 
   const Indicator = useMemo(() => () => (
     <StepIndicator
+      stepNames={stepNames}
       completedSteps={completedSteps}
       steps={steps}
       onClickIndicator={clickIndicator}
       currStep={currStep}
     />
-  ),[steps, clickIndicator, currStep, completedSteps]);
+  ), [steps, clickIndicator, currStep, completedSteps, stepNames]);
 
-  const stepsComponents = useMemo(()=> [
-    { key: 'FACE', component: <FaceStep onCompleted={() => onStepCompleted('FACE')} />},
-    { key: 'SIGNATURE', component: <SignatureStep  onCompleted={() => onStepCompleted('SIGNATURE')} />},
-    { key: 'PERSONAL_DATA', component: <FormStep  onCompleted={() => onStepCompleted('PERSONAL_DATA')} />}
+  const stepsComponents = useMemo(() => [
+    { key: 'FACE', component: <FaceStep onCompleted={() => onStepCompleted('FACE')} /> },
+    { key: 'SIGNATURE', component: <SignatureStep onCompleted={() => onStepCompleted('SIGNATURE')} /> },
+    { key: 'PERSONAL_DATA', component: <FormStep onCompleted={() => onStepCompleted('PERSONAL_DATA')} /> }
   ], [onStepCompleted]);
 
   const StepComponent = useMemo(() => () => (
@@ -42,7 +49,7 @@ export default function useStepController({ steps, completed }) {
       steps={stepsComponents}
       currentKey={currStep}
     />
-  ),[stepsComponents, currStep]);
+  ), [stepsComponents, currStep]);
 
   return {
     Indicator,

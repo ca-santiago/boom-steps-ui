@@ -23,7 +23,7 @@ import './form.css';
 function FormStep({ onCompleted }) {
 
   const { id } = useParams();
-  const { token } = useCompletionContext();
+  const { state: { token } } = useCompletionContext();
 
   const {
     register,
