@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
+import React from 'react';
   
 export default function StepSwitcher({ steps, currentKey }) {
 
-  const currComponent = useMemo(() => steps.find(s => {
+  const currComponent = React.useMemo(() => steps.find(s => {
     return s.key === currentKey;
   }), [steps, currentKey]);
 

@@ -1,4 +1,4 @@
-import { CameraValidationIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon } from "./icons/icon.map";
+import { CameraValidationIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon } from "../icons/icon.map";
 
 export default function getFlujoStepIcon(type) {
   switch (type) {

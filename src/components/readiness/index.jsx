@@ -1,6 +1,6 @@
 import React from "react";
 import { FlujoServices } from "../../services/flujo";
-import getFlujoStepIcon from "../makeStepIndicator";
+import getFlujoStepIcon from "../stepResolver/makeStepIndicator";
 import { isFinished } from "../../helpers/flujos";
 import { ErrorIcon } from "react-hot-toast";
 import { FLujoDoneIcon } from "../icons/icon.map";

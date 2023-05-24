@@ -1,4 +1,4 @@
-import getFlujoStepIcon from "../makeStepIndicator";
+import getFlujoStepIcon from "../stepResolver/makeStepIndicator";
 import { FLujoDoneIcon } from "./icon.map";
 
 function FlujoStepIcon({ step, completed }) {

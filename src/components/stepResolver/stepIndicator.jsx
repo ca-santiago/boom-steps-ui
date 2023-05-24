@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import getFlujoStepIcon from './makeStepIndicator';
 
-import './stepindicator.css';
-import { FLujoDoneIcon } from './icons/icon.map';
+import { FLujoDoneIcon } from '../icons/icon.map';
 
 const UnionLine = ({ remark }) => (
   <div className="h-14 w-full items-center justify-start flex ml-3.5">

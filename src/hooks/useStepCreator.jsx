@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import StepIndicator from '../components/stepIndicator';
-import StepSwitcher from '../components/ComponentSwicher';
+import StepSwitcher from '../components/stepResolver/ComponentSwicher';
 import FaceStep from '../components/steps/Face';
 import FormStep from '../components/steps/Form';
 import SignatureStep from '../components/steps/Signature';
+import StepIndicator from '../components/stepResolver/stepIndicator';
 
 export default function useStepController({ steps, completed }) {
 
