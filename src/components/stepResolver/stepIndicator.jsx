@@ -20,7 +20,7 @@ export default function StepIndicator(props) {
     const nextExists = index < steps.length - 1;
 
     const activeClasses = active ? "border-blue-600" : "border-transparent";
-    const completedClasses = completed ? "bg-blue-600 text-white" : "";
+    const completedClasses = completed ? "bg-blue-600 text-white" : "bg-white";
     const textActiveClasses = active ? "font-bold text-gray-700" : "font-semibold";
 
     const handleStepClick = () => onClickIndicator(s);
@@ -30,7 +30,7 @@ export default function StepIndicator(props) {
         <div className="flex flex-col">
           <div
             onClick={handleStepClick}
-            className={`p-2 cursor-pointer border rounded-lg bg-white text-gray-700 relative ${activeClasses} ${completedClasses}`}
+            className={`p-2 cursor-pointer border rounded-lg text-gray-700 relative ${activeClasses} ${completedClasses}`}
           >
             {completed && <div className="absolute top-0 right-0 translate-x-1 -translate-y-1 z-10 text-green-600"><FLujoDoneIcon /></div>}
             <Icon />
