@@ -22,8 +22,8 @@ export default function useStepController({ steps, completed }) {
 
   const stepNames = useMemo(() => ({
     'FACE': 'Camera validation',
-    'SIGNATURE': 'Contact information',
-    'PERSONAL_DATA': 'Digital signature'
+    'SIGNATURE': 'Digital signature',
+    'PERSONAL_DATA': 'Contact information'
   }), []);
 
   const canFinish = useMemo(() => completedSteps.length >= 3, [completedSteps]);
