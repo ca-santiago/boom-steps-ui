@@ -1,20 +1,19 @@
 import { createShareLink } from "../../helpers/links";
 import { toast } from 'react-hot-toast';
 import { OpenOnNewTabIcon, ShareLinkIcon } from "../icons/icon.map";
-import { saveToClipboard } from "../../helpers/clipboard";
+import copy from "copy-to-clipboard";
 
 const LastCreatedLink = ({ flujo }) => {
 
     const handleCopy = () => {
-        const l = createShareLink(flujo.id);
-        saveToClipboard(l)
-            .then(() => {
-                toast('📋 Link copied to clipboard', { duration: 900 });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error('Could not copy, try again later');
-            });
+        try {
+            const l = createShareLink(flujo.id);
+            copy(l);
+            toast('📋 Link copied to clipboard', { duration: 900 });
+        } catch (err) {
+            console.log(err);
+            toast.error('Could not copy, try again later');
+        }
     }
 
     const handleOpenNewTab = () => {

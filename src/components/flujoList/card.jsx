@@ -4,7 +4,7 @@ import { OptionsIcon, ShareLinkIcon } from '../icons/icon.map';
 import FlujoStepIcon from '../icons/FlujoStepIcon';
 import { toast } from 'react-hot-toast';
 import { createShareLink } from '../../helpers/links';
-import { saveToClipboard } from '../../helpers/clipboard';
+import copy from 'copy-to-clipboard';
 
 const FlujoCard = (props) => {
     const { onClickOpenDetails } = props;
@@ -27,15 +27,13 @@ const FlujoCard = (props) => {
     );
 
     const handleCopy = () => {
-        const l = createShareLink(id);
-        saveToClipboard(l)
-            .then(() => {
-                toast('📋 Link copied to clipboard', { duration: 900 });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error('Could not copy, try again later');
-            });
+        try {
+            const l = createShareLink(id);
+            copy(l);
+            toast('📋 Link copied to clipboard', { duration: 900 });
+        } catch (err) {
+            toast.error('Could not copy, try again later');
+        }
     }
 
     const CardOptionsEl = () => (
