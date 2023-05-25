@@ -10,8 +10,6 @@ function CreateFaceId({ flujoId, token, file, filename }) {
 
     axios.put(`${baseURL}/${flujoId}/steps/faceid`, form)
       .then((result) => {
-        console.log('Faceid creation result');
-        console.log({ result });
         if (result.status === 400) {
           result.json().then(payload => {
             console.log(payload);

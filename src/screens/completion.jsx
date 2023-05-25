@@ -8,6 +8,7 @@ import { FlujoServices } from '../services/flujo';
 import StepResolver from '../components/stepResolver';
 import ReadinessView from '../components/readiness';
 import { useCompletionContext, withCompletionProvider } from '../context/completion';
+import { Toaster } from 'react-hot-toast';
 
 function CompleteFlujoScreen() {
   const { id } = useParams();
@@ -40,6 +41,7 @@ function CompleteFlujoScreen() {
 
   return (
     <div className="bg-main h-screen flex">
+      <Toaster position='top-right' toastOptions={{ duration: 1200 }} />
       <div className="max-w-screen-lg h-full flex flex-1 m-auto">
         <StepResolver />
       </div>
