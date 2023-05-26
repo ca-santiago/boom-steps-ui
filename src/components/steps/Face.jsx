@@ -20,18 +20,11 @@ import { toast } from 'react-hot-toast';
 import { FiUpload } from 'react-icons/fi';
 import { BsRecordCircle, BsRecordCircleFill } from 'react-icons/bs';
 
-
-const videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "user"
-}
-
 function FaceStep({ onCompleted }) {
   const { id } = useParams();
   const { state: { token } } = useCompletionContext();
   const [capturing, setCapturing] = React.useState(false);
-  const [recordedChunks, setRecordedChunks] = React.useState([]);
+  const [file, setFile] = React.useState(null);
 
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
@@ -51,10 +44,10 @@ function FaceStep({ onCompleted }) {
     }
 
     timer.reset();
-    setRecordedChunks([]);
+    setFile(null);
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: "video/webm",
+      mimeType: "video/webm;codecs=VP9",
     });
     mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
     mediaRecorderRef.current.start();
@@ -63,27 +56,23 @@ function FaceStep({ onCompleted }) {
 
   const handleDataAvailable = React.useCallback(({ data }) => {
     if (data.size > 0) {
-      setRecordedChunks((prev) => prev.concat(data));
+      setFile(data);
     }
-  }, [setRecordedChunks]);
+  }, []);
 
-  const getFile = React.useCallback((chunks) => {
-    const blob = new Blob(chunks, {
-      type: "video/webm",
-      mimeType: 'video/webm'
-    });
-    return blob;
+  const getFile = React.useCallback((blob) => {
+    return new File([blob], "video.webm", { type: 'video/webm' });
   }, []);
 
   function reset() {
-    setRecordedChunks([]);
+    setFile(null);
   }
 
   const submit = useCallback(function () {
     setProcessing(true);
-    const file = getFile();
+
     StepServices.CreateFaceId({
-      file,
+      file: getFile(file),
       filename: 'video.webm',
       flujoId: id,
       token,
@@ -95,18 +84,17 @@ function FaceStep({ onCompleted }) {
       })
       .catch(err => {
         console.log(err);
-        toast.error('Could not upload the video, please try again');
+        toast.error('Could not upload the video, please try again', { duration: 2000 });
       })
       .finally(() => {
         setProcessing(false);
       })
     return;
-  }, [getFile, setProcessing]);
+  }, [file, setProcessing]);
 
   const canComplete = useMemo(() => {
-    const haveChunks = recordedChunks.length > 0;
-    return haveChunks && !processing;
-  }, [recordedChunks.length, processing]); 9
+    return file && !processing;
+  }, [file, processing]);
 
   const RecordOrProcessingBtn = useMemo(() => () => (
     <div className="paused flex w-10 h-10 items-center justify-center text-red-600 cursor-pointer">
@@ -125,7 +113,7 @@ function FaceStep({ onCompleted }) {
               <p className="">{timer.time}</p>
             </div>
           )}
-          <Webcam mirrored videoConstraints={videoConstraints} audio={false} ref={webcamRef} />
+          <Webcam mirrored videoConstraints={{ facingMode: "user" }} audio={false} ref={webcamRef} />
         </div>
         <div className="w-full flex justify-center mt-2">
           <RecordOrProcessingBtn />
