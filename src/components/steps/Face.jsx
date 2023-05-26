@@ -47,7 +47,7 @@ function FaceStep({ onCompleted }) {
     setFile(null);
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: "video/webm;codecs=VP9",
+      mimeType: "video/webm;codecs=vp8",
     });
     mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
     mediaRecorderRef.current.start();
