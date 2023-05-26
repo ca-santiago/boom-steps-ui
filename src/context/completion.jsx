@@ -25,7 +25,7 @@ export const CompletionProvider = ({ children }) => {
     const actions = React.useMemo(() => ({
         setFlujo: (...args) => dispatch(setCompletionFlujo(...args)),
         setSession: (...args) => dispatch(setCompletionSession(...args)),
-        setLoadginError: (...args) => dispatch(setLoadingError(...args))
+        setLoadingError: (...args) => dispatch(setLoadingError(...args))
     }), [dispatch]);
 
     return (
