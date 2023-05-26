@@ -69,7 +69,8 @@ function FaceStep({ onCompleted }) {
 
   const getFile = React.useCallback((chunks) => {
     const blob = new Blob(chunks, {
-      type: "video/webm"
+      type: "video/webm",
+      mimeType: 'video/webm'
     });
     return blob;
   }, []);
