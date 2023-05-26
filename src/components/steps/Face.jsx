@@ -124,7 +124,7 @@ function FaceStep({ onCompleted }) {
               <p className="">{timer.time}</p>
             </div>
           )}
-          <Webcam videoConstraints={videoConstraints} audio={false} ref={webcamRef} />
+          <Webcam mirrored videoConstraints={videoConstraints} audio={false} ref={webcamRef} />
         </div>
         <div className="w-full flex justify-center mt-2">
           <RecordOrProcessingBtn />
