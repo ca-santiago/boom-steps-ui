@@ -1,14 +1,11 @@
 import axios from 'axios';
 
 const baseURL = `${import.meta.env.VITE_API_URI}/flujos`;
+const baseURLCompletion = `${import.meta.env.VITE_API_URI}/completion`;
 
-function CreateFaceId({ flujoId, token, file, filename }) {
+function putFaceId({ flujoId, token }) {
   return new Promise((resolve, reject) => {
-    const form = new FormData();
-    form.set('accessToken', token);
-    form.append('file', file, filename);
-
-    axios.put(`${baseURL}/${flujoId}/steps/faceid`, form)
+    axios.put(`${baseURLCompletion}/${flujoId}/faceid`, { token, flujoId })
       .then((result) => {
         if (result.status === 400) {
           result.json().then(payload => {
@@ -18,7 +15,7 @@ function CreateFaceId({ flujoId, token, file, filename }) {
         if (result.status !== 200) {
           reject();
         }
-        resolve(result);
+        resolve(result.data);
       })
       .catch(err => {
         console.log({ err });
@@ -78,9 +75,8 @@ function CreateSignature({ flujoId, token, file, filename }) {
   });
 }
 
-
 export const StepServices = {
-  CreateFaceId,
+  putFaceId,
   CreateSignature,
   CreatePersonalData
 }

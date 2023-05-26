@@ -19,6 +19,7 @@ import { useCompletionContext } from '../../context/completion';
 import { toast } from 'react-hot-toast';
 import { FiUpload } from 'react-icons/fi';
 import { BsRecordCircle, BsRecordCircleFill } from 'react-icons/bs';
+import axios from 'axios';
 
 function FaceStep({ onCompleted }) {
   const { id } = useParams();
@@ -68,15 +69,22 @@ function FaceStep({ onCompleted }) {
     setFile(null);
   }
 
+  const sendFile = (signedUrl) => {
+    return axios.put(signedUrl, getFile(file), {
+      headers: {
+        'Content-Type': 'video/webm'
+      }
+    })
+  }
+
   const submit = useCallback(function () {
     setProcessing(true);
 
-    StepServices.CreateFaceId({
-      file: getFile(file),
-      filename: 'video.webm',
-      flujoId: id,
-      token,
-    })
+    StepServices.putFaceIdV2({ token, flujoId: id })
+      .then(({ signedUrl }) => {
+        console.log({ signedUrl })
+        return sendFile(signedUrl);
+      })
       .then(() => {
         toast.success('Step completed');
         reset();
@@ -89,7 +97,6 @@ function FaceStep({ onCompleted }) {
       .finally(() => {
         setProcessing(false);
       })
-    return;
   }, [file, setProcessing]);
 
   const canComplete = useMemo(() => {
@@ -97,9 +104,9 @@ function FaceStep({ onCompleted }) {
   }, [file, processing]);
 
   const RecordOrProcessingBtn = useMemo(() => () => (
-    <div className="paused flex w-10 h-10 items-center justify-center text-red-600 cursor-pointer">
+    <div className="paused flex w-10 h-10 items-center justify-center text-red-600">
       {processing && <FiUpload className="animate-pulse" />}
-      {!processing && (capturing ? <BsRecordCircleFill size={25} className="animate-pulse" /> : <BsRecordCircle onClick={handleStartCaptureClick} size={25} />)}
+      {!processing && (capturing ? <BsRecordCircleFill size={25} className="animate-pulse" /> : <BsRecordCircle className="cursor-pointer" onClick={handleStartCaptureClick} size={25} />)}
     </div>
   ), [processing, capturing, timer.time]);
 
