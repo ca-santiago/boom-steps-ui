@@ -90,6 +90,10 @@ bg-disabled {
     max-width: none;
 }
 
+.step-title {
+    @apply text-center text-montserrat font-semibold text-lg text-gray-700;
+}
+
 .input-error {
     @apply text-red-500 font-normal text-xs;
 }

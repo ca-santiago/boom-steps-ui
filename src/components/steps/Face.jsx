@@ -132,7 +132,7 @@ function FaceStep({ onCompleted }) {
 
   return (
     <div className="w-fll h-full text-wix select-none">
-      <h3 className="text-center text-montserrat font-semibold text-gray-700">Validación con cámara</h3>
+      <h3 className="step-title">Camera validation</h3>
       <div className="m-auto  max-w-xl mt-5 box-border">
         <div className={`relative flex items-center justify-center h-72 bg-slate-200 rounded-xl overflow-hidden border-spacing-1 ${state.recording ? "border border-red-400" : "border-transparent"}`}>
           {state.recording && (

@@ -55,7 +55,7 @@ function SignatureStep({ onCompleted }) {
 
   return (
     <div>
-      <h3 className="text-center text-montserrat font-semibold text-gray-700">Digital signature</h3>
+      <h3 className="step-title">Digital signature</h3>
       <div className="w-full mt-10">
         <canvas onBlur={onEndDrawing} onChange={onEndDrawing} ref={canvasRef} height={300} width={550} className="border rounded-md flex border-gray-400"></canvas>
       </div>

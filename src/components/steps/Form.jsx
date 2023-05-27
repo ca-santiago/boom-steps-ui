@@ -6,10 +6,12 @@ import { useParams } from 'react-router';
 
 import PlaceSelector from '../placeSelector';
 import PhoneInput from 'react-phone-number-input/input';
+import { toast } from 'react-hot-toast';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 const InputLabel = ({ text, description }) => (
   <div className='px-1'>
-    <p className='text-wix font-semibold text-base text-gray-700'>{text}</p>
+    <p className='text-wix font-semibold text-sm text-gray-700'>{text}</p>
     {/* {description && (<p className='text-wix text-xs text-gray-500 py-1'>{description}</p>)} */}
   </div>
 );
@@ -21,6 +23,7 @@ function FormStep({ onCompleted }) {
   const {
     register,
     control,
+    handleSubmit,
     formState: { errors, isValid },
   } = useForm({
     mode: 'all'
@@ -40,6 +43,7 @@ function FormStep({ onCompleted }) {
         onCompleted();
       })
       .catch(err => {
+        toast.error('Something went wrong, please try again');
         console.log(err);
       })
   }
@@ -48,7 +52,7 @@ function FormStep({ onCompleted }) {
 
   return (
     <>
-      <h3 className="text-center text-montserrat font-semibold text-gray-700">Formulario de datos personales</h3>
+      <h3 className="step-title">Formulario de datos personales</h3>
       <div className="w-1/2">
         <div className="mt-5 grid grid-flow-row gap-4">
           <div>
@@ -64,7 +68,7 @@ function FormStep({ onCompleted }) {
               }
               placeholder="Carmen Santiago"
             />
-            {errors.fullname && <p className="input-error">Requerido</p>}
+            {errors.fullname && <p className="input-error">Full name is required</p>}
           </div>
           <div>
             <InputLabel text="Phone number" />
@@ -73,10 +77,11 @@ function FormStep({ onCompleted }) {
               control={control}
               rules={{
                 required: true,
-                pattern: /^[\+][(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+                validate: isValidPhoneNumber
               }}
               render={({ field }) => (
                 <PhoneInput
+                  withCountryCallingCode
                   className={`form-input-field ${errors.phone ? "" : ""}`}
                   placeholder="+12 345 6789 0123"
                   onChange={field.onChange}
@@ -84,7 +89,7 @@ function FormStep({ onCompleted }) {
                 />
               )}
             />
-            {errors.phone && <p className="input-error">Requerido</p>}
+            {errors.phone && <p className="input-error">Use a phone number with country code</p>}
           </div>
           <div>
             <InputLabel text="Email" />
@@ -134,7 +139,7 @@ function FormStep({ onCompleted }) {
       <div className="w-full flex justify-end mt-10">
         <button
           disabled={!canSubmit}
-          onClick={submitForm}
+          onClick={handleSubmit(submitForm)}
           className={`p-2 px-3 rounded-md ${canSubmit ? "bg-accent" : "bg-gray-400 text-gray-100"}`}
         >Complete</button>
       </div>
