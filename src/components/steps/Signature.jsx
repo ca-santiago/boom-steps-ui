@@ -19,7 +19,25 @@ function SignatureStep({ onCompleted }) {
     setImg(imgURL);
   }
 
+  function fitToContainer(canvas) {
+    // Make it visually fill the positioned parent
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    // ...then set the internal size to match
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  window.addEventListener("resize", () => {
+    setImg(null);
+    fitToContainer(canvasRef.current);
+    if (pad) {
+      pad.backgroundColor = 'white';
+    }
+  });
+
   useEffect(() => {
+    fitToContainer(canvasRef.current);
     const _pad = new SignaturePad(canvasRef.current, { backgroundColor: 'white' });
     _pad.addEventListener("endStroke", onEndDrawing);
     setPad(() => _pad);
@@ -39,7 +57,8 @@ function SignatureStep({ onCompleted }) {
         })
       })
       .then(() => {
-        onCompleted();
+        resetCanvas();
+        onCompleted?.();
       })
       .catch(err => {
         console.log({ err });
@@ -56,8 +75,8 @@ function SignatureStep({ onCompleted }) {
   return (
     <div>
       <h3 className="step-title">Digital signature</h3>
-      <div className="w-full mt-10 mx-auto flex justify-center">
-        <canvas onBlur={onEndDrawing} onChange={onEndDrawing} ref={canvasRef} height={300} width={550} className="border rounded-md flex border-gray-400"></canvas>
+      <div className="w-full h-72 mt-10 mx-auto flex justify-center bg-red-200">
+        <canvas onBlur={onEndDrawing} onChange={onEndDrawing} ref={canvasRef} className="w-full border rounded-md flex border-gray-400"></canvas>
       </div>
       <div className="grid grid-flow-col justify-end gap-3 mt-10">
         {showReset && (
