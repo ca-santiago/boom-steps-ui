@@ -4,9 +4,6 @@ import SignaturePad from 'signature_pad';
 import { StepServices } from '../../services/steps';
 import { useCompletionContext } from '../../context/completion';
 
-import './signature.css';
-import { toast } from 'react-hot-toast';
-
 function SignatureStep({ onCompleted }) {
 
   const { id } = useParams();
@@ -24,9 +21,8 @@ function SignatureStep({ onCompleted }) {
 
   useEffect(() => {
     const _pad = new SignaturePad(canvasRef.current, { backgroundColor: 'white' });
+    _pad.addEventListener("endStroke", onEndDrawing);
     setPad(() => _pad);
-    _pad.onEnd = () => onEndDrawing();
-    return () => { }
   }, [canvasRef.current]);
 
   function submit() {
@@ -34,7 +30,8 @@ function SignatureStep({ onCompleted }) {
     fetch(img)
       .then(res => res.blob())
       .then(fileData => {
-        return StepServices.putContactInfo({
+        console.log(fileData)
+        return StepServices.putSignature({
           file: fileData,
           filename: 'signature.jpg',
           flujoId: id,
@@ -54,29 +51,29 @@ function SignatureStep({ onCompleted }) {
     pad.clear();
   }
 
+  const showReset = img;
+
   return (
-    <>
-      <h3 className="step-component-title">Firma autógrafa</h3>
-      <div className="canvas-container">
-        <canvas ref={canvasRef} className="canvas"></canvas>
-        <div className="canvas-actions">
-          <div>
-            <button
-              disabled={pad?.isEmpty()}
-              className={`canvas-action-btn ${pad?.isEmpty() ? "disabled" : ""}`}
-              onClick={() => resetCanvas()}
-            >Restablecer</button>
-          </div>
-        </div>
+    <div>
+      <h3 className="text-montserrat font-semibold text-gray-700">Digital signature</h3>
+      <div className="w-full mt-10">
+        <canvas onBlur={onEndDrawing} onChange={onEndDrawing} ref={canvasRef} height={300} width={550} className="border rounded-md flex border-gray-400"></canvas>
       </div>
-      <div className="create-btn-container">
+      <div className="grid grid-flow-col justify-end gap-3 mt-10">
+        {showReset && (
+          <button
+            disabled={pad?.isEmpty()}
+            className={`p-2 px-3 rounded-md bg-accent ${pad?.isEmpty() ? "disabled" : ""}`}
+            onClick={resetCanvas}
+          >Reset</button>
+        )}
         <button
           disabled={!img}
           onClick={() => submit()}
-          className={`createflow-button ${img ? "" : "btn-disabled"}`}
-        >Enviar</button>
+          className={`p-2 px-3 rounded-md ${img ? "bg-accent" : "bg-gray-400 text-gray-100"}`}
+        >Complete</button>
       </div>
-    </>
+    </div>
   );
 }
 
