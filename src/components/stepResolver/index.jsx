@@ -33,8 +33,8 @@ function StepResolver() {
     const Resolver = useStepController({ steps: flujo.types, completed: flujo.completedSteps });
 
     return (
-        <div className="flex-1 flex flex-row w-full mt-10">
-            <div className="w-1/3 pt-5 justify-center">
+        <div className="flex-1 flex flex-row w-full mt-10 mx-1 sm:mx-10">
+            <div className="w-1/3 pt-5 pr-5 justify-center hidden sm:flex">
                 <Resolver.Indicator />
             </div>
             <div className="max-h-fit w-full">

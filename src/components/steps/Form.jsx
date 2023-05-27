@@ -52,7 +52,7 @@ function FormStep({ onCompleted }) {
   return (
     <>
       <h3 className="step-title">Formulario de datos personales</h3>
-      <div className="w-1/2">
+      <div className="w-full md:w-1/2">
         <div className="mt-5 grid grid-flow-row gap-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -153,7 +153,7 @@ function FormStep({ onCompleted }) {
         <button
           disabled={!canSubmit}
           onClick={handleSubmit(submitForm)}
-          className={`p-2 px-3 rounded-md ${canSubmit ? "bg-accent" : "bg-gray-400 text-gray-100"}`}
+          className={`p-2 px-3 w-full md:w-auto rounded-md ${canSubmit ? "bg-accent" : "bg-gray-400 text-gray-100"}`}
         >Complete</button>
       </div>
     </>

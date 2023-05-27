@@ -56,7 +56,7 @@ function SignatureStep({ onCompleted }) {
   return (
     <div>
       <h3 className="step-title">Digital signature</h3>
-      <div className="w-full mt-10">
+      <div className="w-full mt-10 mx-auto flex justify-center">
         <canvas onBlur={onEndDrawing} onChange={onEndDrawing} ref={canvasRef} height={300} width={550} className="border rounded-md flex border-gray-400"></canvas>
       </div>
       <div className="grid grid-flow-col justify-end gap-3 mt-10">

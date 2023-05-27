@@ -146,15 +146,15 @@ function FaceStep({ onCompleted }) {
           <RecordOrProcessingBtn />
         </div>
       </div>
-      <div className="w-full grid gap-2 justify-end grid-flow-col mt-10">
+      <div className="w-full grid gap-2 justify-normal sm:justify-end grid-flow-row sm:grid-flow-col mt-10">
         {canComplete && (
           <button
-            className="p-2 px-4 text-wix bg-accent rounded-lg"
+            className="p-2 px-4 w-full text-wix bg-accent rounded-lg"
             onClick={reset}
           >Reset</button>
         )}
         <button
-          className={`p-2 px-4 text-wix rounded-lg ${canComplete ? "bg-accent" : "bg-gray-400 text-white"}`}
+          className={`p-2 px-4 w-full md:w-auto text-wix rounded-lg ${canComplete ? "bg-accent" : "bg-gray-400 text-white"}`}
           onClick={submit} disabled={!canComplete}
         >Completar</button>
       </div>

@@ -40,7 +40,7 @@ function CompleteFlujoScreen() {
   }
 
   return (
-    <div className="bg-main h-screen flex">
+    <div className="bg-main w-full h-screen flex">
       <Toaster position='top-right' toastOptions={{ duration: 1200 }} />
       <div className="max-w-screen-lg h-full flex flex-1 m-auto">
         <StepResolver />
