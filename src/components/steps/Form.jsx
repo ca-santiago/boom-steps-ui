@@ -9,10 +9,9 @@ import PhoneInput from 'react-phone-number-input/input';
 import { toast } from 'react-hot-toast';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
-const InputLabel = ({ text, description }) => (
+const InputLabel = ({ text }) => (
   <div className='px-1'>
     <p className='text-wix font-semibold text-sm text-gray-700'>{text}</p>
-    {/* {description && (<p className='text-wix text-xs text-gray-500 py-1'>{description}</p>)} */}
   </div>
 );
 
@@ -34,7 +33,7 @@ function FormStep({ onCompleted }) {
       birthDate: data.birthdate,
       bornPlace: data.place,
       email: data.email,
-      fullname: data.fullname,
+      fullname: data.firstName + " " + data.lastName,
       phone: data.phone,
       flujoId: id,
       token,
@@ -55,20 +54,36 @@ function FormStep({ onCompleted }) {
       <h3 className="step-title">Formulario de datos personales</h3>
       <div className="w-1/2">
         <div className="mt-5 grid grid-flow-row gap-4">
-          <div>
-            <InputLabel text='Full name' />
-            <input
-              className={`form-input-field ${errors.fullname ? "form-input-error" : ""}`}
-              {
-              ...register("fullname", {
-                required: true,
-                maxLength: 64,
-                minLength: 4,
-              })
-              }
-              placeholder="Carmen Santiago"
-            />
-            {errors.fullname && <p className="input-error">Full name is required</p>}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <InputLabel text='First name' />
+              <input
+                className={`form-input-field ${errors.firstName ? "form-input-error" : ""}`}
+                {
+                ...register("firstName", {
+                  required: true,
+                  maxLength: 64,
+                  minLength: 4,
+                })
+                }
+                placeholder="Carmen"
+              />
+            </div>
+            <div>
+              <InputLabel text='Last name' />
+              <input
+                className={`form-input-field ${errors.lastName ? "form-input-error" : ""}`}
+                {
+                ...register("lastName", {
+                  required: true,
+                  maxLength: 64,
+                  minLength: 4,
+                })
+                }
+                placeholder="Santiago"
+              />
+            </div>
+            {errors.lastname || errors.lastName && <p className="input-error">Full name is required</p>}
           </div>
           <div>
             <InputLabel text="Phone number" />
@@ -82,14 +97,13 @@ function FormStep({ onCompleted }) {
               render={({ field }) => (
                 <PhoneInput
                   withCountryCallingCode
-                  className={`form-input-field ${errors.phone ? "" : ""}`}
+                  className={`form-input-field ${errors.phone ? "form-input-error" : ""}`}
                   placeholder="+12 345 6789 0123"
-                  onChange={field.onChange}
-                  value={field.value}
+                  {...field}
                 />
               )}
             />
-            {errors.phone && <p className="input-error">Use a phone number with country code</p>}
+            {errors.phone && <p className="input-error">Phone number is required</p>}
           </div>
           <div>
             <InputLabel text="Email" />
@@ -106,7 +120,7 @@ function FormStep({ onCompleted }) {
             {errors.email && <p className="input-error">Add a valid email</p>}
           </div>
           <div>
-            <label className="input-label" htmlFor="birthdate">Fecha de nacimiento</label>
+            <InputLabel text="Birth date" />
             <input
               className={`form-input-field ${errors.birthdate ? "form-input-error" : ""}`}
               {
@@ -127,7 +141,6 @@ function FormStep({ onCompleted }) {
               render={({ field }) => (
                 <PlaceSelector
                   inputStyle={`form-input-field ${errors.place ? "form-input-error" : ""}`}
-                  containerStyle="w-full"
                   {...field}
                 />
               )}

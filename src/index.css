@@ -101,3 +101,7 @@ bg-disabled {
 .form-input-field {
     @apply p-2 mt-1 border border-gray-300 rounded-md w-full text-gray-500 text-xs text-montserrat select-none bg-gray-200 max-h-48;
 }
+
+.form-input-error {
+    @apply border-red-400;
+}
