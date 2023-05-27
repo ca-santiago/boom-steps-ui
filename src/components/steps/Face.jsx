@@ -24,20 +24,25 @@ import axios from 'axios';
 function FaceStep({ onCompleted }) {
   const { id } = useParams();
   const { state: { token } } = useCompletionContext();
-  const [capturing, setCapturing] = React.useState(false);
-  const [file, setFile] = React.useState(null);
+
+  const [state, setState] = React.useState({
+    file: null,
+    recording: false,
+    processing: false,
+  });
 
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
 
-  const [processing, setProcessing] = useState(false);
-
   const timer = useTimer(() => {
     mediaRecorderRef.current.stop();
-    setCapturing(false);
+    setState(prev => ({
+      ...prev,
+      recording: false
+    }));
   });
 
-  /** START CAPTURING */
+  /** START RECORDING */
   const handleStartCaptureClick = React.useCallback(() => {
     if (!webcamRef.current.stream) {
       toast.error('Cannot start recording, please try again later', { duration: 1200 });
@@ -45,19 +50,26 @@ function FaceStep({ onCompleted }) {
     }
 
     timer.reset();
-    setFile(null);
-    setCapturing(true);
+    setState(prev => ({
+      ...prev,
+      file: null,
+      recording: true,
+    }));
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: "video/webm;codecs=vp8",
     });
     mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
     mediaRecorderRef.current.start();
     timer.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
+  }, [webcamRef, mediaRecorderRef]);
 
   const handleDataAvailable = React.useCallback(({ data }) => {
     if (data.size > 0) {
-      setFile(data);
+      setState(prev => ({
+        ...prev,
+        file: data,
+        recording: false,
+      }));
     }
   }, []);
 
@@ -66,23 +78,29 @@ function FaceStep({ onCompleted }) {
   }, []);
 
   function reset() {
-    setFile(null);
+    setState({
+      recording: false,
+      file: null,
+      processing: false,
+    });
   }
 
   const sendFile = (signedUrl) => {
-    return axios.put(signedUrl, getFile(file), {
+    return axios.put(signedUrl, getFile(state.file), {
       headers: {
         'Content-Type': 'video/webm'
       }
     })
   }
 
-  const submit = useCallback(function () {
-    setProcessing(true);
+  const submit = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      processing: true,
+    }));
 
-    StepServices.putFaceIdV2({ token, flujoId: id })
+    StepServices.putFaceId({ token, flujoId: id })
       .then(({ signedUrl }) => {
-        console.log({ signedUrl })
         return sendFile(signedUrl);
       })
       .then(() => {
@@ -95,32 +113,35 @@ function FaceStep({ onCompleted }) {
         toast.error('Could not upload the video, please try again', { duration: 2000 });
       })
       .finally(() => {
-        setProcessing(false);
+        setState(prev => ({
+          ...prev,
+          processing: false,
+        }));
       })
-  }, [file, setProcessing]);
+  }, [state.file]);
 
   const canComplete = useMemo(() => {
-    return file && !processing;
-  }, [file, processing]);
+    return state.file && !state.processing;
+  }, [state.file, state.processing]);
 
   const RecordOrProcessingBtn = useMemo(() => () => (
     <div className="paused flex w-10 h-10 items-center justify-center text-red-600">
-      {processing && <FiUpload className="animate-pulse" />}
-      {!processing && (capturing ? <BsRecordCircleFill size={25} className="animate-pulse" /> : <BsRecordCircle className="cursor-pointer" onClick={handleStartCaptureClick} size={25} />)}
+      {state.processing && <FiUpload className="animate-pulse" />}
+      {!state.processing && !canComplete && (state.recording ? <BsRecordCircleFill size={25} className="animate-pulse" /> : <BsRecordCircle className="cursor-pointer" onClick={handleStartCaptureClick} size={25} />)}
     </div>
-  ), [processing, capturing, timer.time]);
+  ), [state.processing, state.recording, timer.time, canComplete]);
 
   return (
     <div className="w-fll h-full text-wix select-none">
       <h3 className="font-semibold text-lg text-center">Validación con cámara</h3>
       <div className="m-auto  max-w-xl mt-5 box-border">
-        <div className={`relative h-72 bg-slate-200 rounded-xl overflow-hidden border-spacing-1 ${capturing ? "border border-red-400" : "border-transparent"}`}>
-          {capturing && (
+        <div className={`relative flex items-center justify-center h-72 bg-slate-200 rounded-xl overflow-hidden border-spacing-1 ${state.recording ? "border border-red-400" : "border-transparent"}`}>
+          {state.recording && (
             <div className="flex absolute top-0 right-0 z-50 text-white font-bold py-2 px-3 bg-neutral-950 opacity-80">
               <p className="">{timer.time}</p>
             </div>
           )}
-          <Webcam mirrored videoConstraints={{ facingMode: "user" }} audio={false} ref={webcamRef} />
+          <Webcam mirrored videoConstraints={{ facingMode: "user", width: 640, height: 480 }} className="flex" audio={false} ref={webcamRef} />
         </div>
         <div className="w-full flex justify-center mt-2">
           <RecordOrProcessingBtn />
