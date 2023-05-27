@@ -38,7 +38,7 @@ function FormStep({ onCompleted }) {
   });
 
   function submitForm(data) {
-    StepServices.CreatePersonalData({
+    StepServices.putContactInfo({
       birthDate: data.birthdate,
       bornPlace: data.place,
       email: data.email,
@@ -47,8 +47,7 @@ function FormStep({ onCompleted }) {
       flujoId: id,
       token, 
     })
-    .then(payload => {
-      console.log({ payload });
+    .then(() => {
       onCompleted();
     })
     .catch(err => {

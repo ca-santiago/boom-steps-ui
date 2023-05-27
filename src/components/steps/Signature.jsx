@@ -5,6 +5,7 @@ import { StepServices } from '../../services/steps';
 import { useCompletionContext } from '../../context/completion';
 
 import './signature.css';
+import { toast } from 'react-hot-toast';
 
 function SignatureStep({ onCompleted }) {
 
@@ -12,39 +13,39 @@ function SignatureStep({ onCompleted }) {
   const { state: { token } } = useCompletionContext();
 
   const canvasRef = useRef();
-  const [pad, setPad] = useState(null); 
+  const [pad, setPad] = useState(null);
   const [img, setImg] = useState(null);
 
   function onEndDrawing() {
-    if(!pad) return;
+    if (!pad) return;
     const imgURL = pad.toDataURL("image/jpeg");
     setImg(imgURL);
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     const _pad = new SignaturePad(canvasRef.current, { backgroundColor: 'white' });
     setPad(() => _pad);
     _pad.onEnd = () => onEndDrawing();
-    return () => {}
+    return () => { }
   }, [canvasRef.current]);
-  
+
   function submit() {
-    if(!img) return;
-    
+    if (!img) return;
     fetch(img)
       .then(res => res.blob())
-      .then(fileData =>  StepServices.CreateSignature({
+      .then(fileData => {
+        return StepServices.putContactInfo({
           file: fileData,
           filename: 'signature.jpg',
           flujoId: id,
           token,
         })
-      )
-      .then(()=> {
+      })
+      .then(() => {
         onCompleted();
       })
       .catch(err => {
-        console.log({err});
+        console.log({ err });
       })
   }
 
@@ -60,18 +61,18 @@ function SignatureStep({ onCompleted }) {
         <canvas ref={canvasRef} className="canvas"></canvas>
         <div className="canvas-actions">
           <div>
-            <button 
+            <button
               disabled={pad?.isEmpty()}
-              className={`canvas-action-btn ${pad?.isEmpty() ? "disabled": ""}`}
-              onClick={()=> resetCanvas()}
+              className={`canvas-action-btn ${pad?.isEmpty() ? "disabled" : ""}`}
+              onClick={() => resetCanvas()}
             >Restablecer</button>
           </div>
         </div>
       </div>
       <div className="create-btn-container">
-        <button 
+        <button
           disabled={!img}
-          onClick={()=> submit()}
+          onClick={() => submit()}
           className={`createflow-button ${img ? "" : "btn-disabled"}`}
         >Enviar</button>
       </div>

@@ -4,6 +4,7 @@ import FaceStep from '../components/steps/Face';
 import FormStep from '../components/steps/Form';
 import SignatureStep from '../components/steps/Signature';
 import StepIndicator from '../components/stepResolver/stepIndicator';
+import { toast } from 'react-hot-toast';
 
 export default function useStepController({ steps, completed }) {
 
@@ -15,6 +16,7 @@ export default function useStepController({ steps, completed }) {
   }, []);
 
   const onStepCompleted = useCallback(function (value) {
+    toast.success('Step completed');
     if (completedSteps.includes(value)) return;
 
     setCompletedSteps([...completedSteps, value]);

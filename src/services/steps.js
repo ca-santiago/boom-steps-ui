@@ -24,9 +24,9 @@ function putFaceId({ flujoId, token }) {
   });
 }
 
-function CreatePersonalData({ token, flujoId, email, fullname, birthDate, bornPlace, phone }) {
+function putContactInfo({ token, flujoId, email, fullname, birthDate, bornPlace, phone }) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/${flujoId}/steps/info`, {
+    fetch(`${baseURLCompletion}/${flujoId}/contactInfo`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -51,13 +51,12 @@ function CreatePersonalData({ token, flujoId, email, fullname, birthDate, bornPl
   });
 }
 
-function CreateSignature({ flujoId, token, file, filename }) {
+function putSignature({ flujoId, token, file, filename }) {
   return new Promise((resolve, reject) => {
     const form = new FormData();
     form.set('accessToken', token);
     form.append('file', file, filename);
-
-    axios.put(`${baseURL}/${flujoId}/steps/signature`, form)
+    axios.put(`${baseURLCompletion}/${flujoId}/signature`, form)
       .then((result) => {
         console.log('Signature creation result');
         console.log({ result });
@@ -77,6 +76,6 @@ function CreateSignature({ flujoId, token, file, filename }) {
 
 export const StepServices = {
   putFaceId,
-  CreateSignature,
-  CreatePersonalData
+  putContactInfo,
+  putSignature,
 }

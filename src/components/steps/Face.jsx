@@ -104,7 +104,6 @@ function FaceStep({ onCompleted }) {
         return sendFile(signedUrl);
       })
       .then(() => {
-        toast.success('Step completed');
         reset();
         onCompleted?.();
       })
