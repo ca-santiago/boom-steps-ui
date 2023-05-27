@@ -14,8 +14,6 @@ const InputLabel = ({ text, description }) => (
     </div>
 );
 
-const inputClassNames = 'p-2 mt-1 border border-gray-300 rounded-md w-full text-gray-500 text-xs text-montserrat select-none bg-gray-200 max-h-48';
-
 const FlujoCreator = ({ onCreate, onCreateError }) => {
     const { register, formState, handleSubmit, reset } = useForm({ mode: 'all' });
     const [disable, setDisable] = React.useState(false);
@@ -82,7 +80,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                 <div>
                     <InputLabel text="Give it a title *" />
                     <input
-                        className={inputClassNames}
+                        className="form-input-field"
                         placeholder='Title'
                         type='text'
                         {...register("title", {
@@ -97,7 +95,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                 <div>
                     <InputLabel text="Give it a description" description="Max 200 chars" />
                     <textarea
-                        className={inputClassNames}
+                        className="form-input-field"
                         placeholder='Description'
                         autoComplete='off'
                         {...register('description', {
@@ -134,7 +132,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                     <InputLabel text="Time to complete" />
                     <input
                         placeholder='10m'
-                        className={inputClassNames}
+                        className="form-input-field"
                         {...register('time2complete', {
                             required: true,
                             pattern: /^\d+[hm]$/

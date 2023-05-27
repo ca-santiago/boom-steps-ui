@@ -1,40 +1,29 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useCompletionContext } from '../../context/completion';
+import { StepServices } from '../../services/steps';
 import { useParams } from 'react-router';
 
-/*
- * Hooks
- */
-import { useCompletionContext } from '../../context/completion';
-
-/*
- * Services 
- */
-import { StepServices } from '../../services/steps';
-
-/*
- * Components
- */
 import PlaceSelector from '../placeSelector';
-import PhoneInput  from 'react-phone-number-input/input';
+import PhoneInput from 'react-phone-number-input/input';
 
-import './form.css';
+const InputLabel = ({ text, description }) => (
+  <div className='px-1'>
+    <p className='text-wix font-semibold text-base text-gray-700'>{text}</p>
+    {/* {description && (<p className='text-wix text-xs text-gray-500 py-1'>{description}</p>)} */}
+  </div>
+);
 
 function FormStep({ onCompleted }) {
-
   const { id } = useParams();
   const { state: { token } } = useCompletionContext();
 
   const {
     register,
-    handleSubmit,
     control,
-    formState: { errors },
-  } = useForm();
-
-  const canSubmit = useMemo(() => {
-    const res = !!errors && Object.keys(errors).length < 1;
-    return res;
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'all'
   });
 
   function submitForm(data) {
@@ -45,98 +34,109 @@ function FormStep({ onCompleted }) {
       fullname: data.fullname,
       phone: data.phone,
       flujoId: id,
-      token, 
+      token,
     })
-    .then(() => {
-      onCompleted();
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      .then(() => {
+        onCompleted();
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
-  
+
+  const canSubmit = isValid;
+
   return (
     <>
-      <h3 className="step-component-title">Formulario de datos personales</h3>
-      <div className="form-container">
-        <div className="input-group">
-          <input
-            className={`form-input ${errors.fullname ? "form-input-error": ""}`}
-            {
+      <h3 className="text-center text-montserrat font-semibold text-gray-700">Formulario de datos personales</h3>
+      <div className="w-1/2">
+        <div className="mt-5 grid grid-flow-row gap-4">
+          <div>
+            <InputLabel text='Full name' />
+            <input
+              className={`form-input-field ${errors.fullname ? "form-input-error" : ""}`}
+              {
               ...register("fullname", {
                 required: true,
-                maxLength: 64, 
+                maxLength: 64,
                 minLength: 4,
               })
-            }
-            placeholder="Eje: Carmen Santiago"
+              }
+              placeholder="Carmen Santiago"
             />
-          {errors.fullname && <p className="input-error">Requerido</p>}
-        </div>
-        <div className="input-group">
-          <Controller 
-            name="phone"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <PhoneInput
-                className={`form-input ${errors.phone ? "form-input-error": ""}`}
-                placeholder="Eje: +52 123 456 7890"
-                onChange={field.onChange}
-                value={field.value}
-              />
+            {errors.fullname && <p className="input-error">Requerido</p>}
+          </div>
+          <div>
+            <InputLabel text="Phone number" />
+            <Controller
+              name="phone"
+              control={control}
+              rules={{
+                required: true,
+                pattern: /^[\+][(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+              }}
+              render={({ field }) => (
+                <PhoneInput
+                  className={`form-input-field ${errors.phone ? "" : ""}`}
+                  placeholder="+12 345 6789 0123"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
               )}
-          />
-          {errors.phone && <p className="input-error">Requerido</p>}
-        </div>
-        <div className="input-group">
-          <label className="input-label" htmlFor="birthdate">Correo</label>
-          <input 
-            className={`form-input ${errors.email ? "form-input-error": ""}`}
-            {...register("email", {
-              required: true,
-              pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            }) }
-            autoComplete="email" placeholder="example@mail.com" 
-            type="email"
             />
-          {errors.email && <p className="input-error">Introduzca un email valido</p>}
-        </div>
-        <div className="input-group">
-          <label className="input-label" htmlFor="birthdate">Fecha de nacimiento</label>
-          <input 
-            className={`form-input ${errors.birthdate ? "form-input-error": ""}`}
-            {
+            {errors.phone && <p className="input-error">Requerido</p>}
+          </div>
+          <div>
+            <InputLabel text="Email" />
+            <input
+              className={`form-input-field ${errors.email ? "form-input-error" : ""}`}
+              {...register("email", {
+                required: true,
+                pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              })}
+              autoComplete="email"
+              placeholder="example@mail.com"
+              type="email"
+            />
+            {errors.email && <p className="input-error">Add a valid email</p>}
+          </div>
+          <div>
+            <label className="input-label" htmlFor="birthdate">Fecha de nacimiento</label>
+            <input
+              className={`form-input-field ${errors.birthdate ? "form-input-error" : ""}`}
+              {
               ...register("birthdate", {
-                 required: true
-                })
-            }
-            type="date" placeholder="birth date" 
+                required: true
+              })
+              }
+              type="date" placeholder="birth date"
             />
-          {errors.birthdate && <p className="input-error">Requerido</p>}
-        </div>
-        <div className="input-group">
-          <label className="input-label" htmlFor="place">Lugar de nacimiento</label>
-          <Controller
-            name="place"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-                <PlaceSelector 
-                  inputStyle={`form-input ${errors.place ? "form-input-error": ""}`}
-                  containerStyle="place-selector-container"
-                  {...field} />
+            {errors.birthdate && <p className="input-error">Requerido</p>}
+          </div>
+          <div>
+            <InputLabel text="Location" />
+            <Controller
+              name="place"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <PlaceSelector
+                  inputStyle={`form-input-field ${errors.place ? "form-input-error" : ""}`}
+                  containerStyle="w-full"
+                  {...field}
+                />
               )}
-          />
-          {errors.place && <p className="input-error">Seleccione una lugar</p>}
+            />
+            {errors.place && <p className="input-error">Select a location</p>}
+          </div>
         </div>
-        <div className="create-btn-container">
-          <button
-            disabled={!canSubmit}
-            className={`createflow-button ${canSubmit ? "": "btn-disabled"}`}
-            onClick={handleSubmit(submitForm)}
-          >Enviar</button>
-        </div>
+      </div>
+      <div className="w-full flex justify-end mt-10">
+        <button
+          disabled={!canSubmit}
+          onClick={submitForm}
+          className={`p-2 px-3 rounded-md ${canSubmit ? "bg-accent" : "bg-gray-400 text-gray-100"}`}
+        >Complete</button>
       </div>
     </>
   );
