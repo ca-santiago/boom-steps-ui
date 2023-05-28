@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 import SignaturePad from 'signature_pad';
 import { StepServices } from '../../services/steps';
 import { useCompletionContext } from '../../context/completion';
 
 function SignatureStep({ onCompleted }) {
-
   const { id } = useParams();
   const { state: { token } } = useCompletionContext();
 
-  const canvasRef = useRef();
-  const [pad, setPad] = useState(null);
-  const [img, setImg] = useState(null);
+  const canvasRef = React.useRef();
+  const [pad, setPad] = React.useState(null);
+  const [img, setImg] = React.useState(null);
 
   function resetCanvas() {
     setImg(null);
@@ -41,7 +40,7 @@ function SignatureStep({ onCompleted }) {
     }
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     fitToContainer(canvasRef.current);
     const _pad = new SignaturePad(canvasRef.current, { backgroundColor: 'rgb(255, 255, 255)' });
     _pad.addEventListener("endStroke", onEndDrawing);
