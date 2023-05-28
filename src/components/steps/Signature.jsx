@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import SignaturePad from 'signature_pad';
-import { StepServices } from '../../services/steps';
 import { useCompletionContext } from '../../context/completion';
+import CompletionService from '../../services/completion';
 
 function SignatureStep({ onCompleted }) {
   const { id } = useParams();
@@ -52,8 +52,7 @@ function SignatureStep({ onCompleted }) {
     fetch(img)
       .then(res => res.blob())
       .then(fileData => {
-        console.log(fileData)
-        return StepServices.putSignature({
+        return CompletionService.putSignature({
           file: fileData,
           filename: 'signature.jpg',
           flujoId: id,

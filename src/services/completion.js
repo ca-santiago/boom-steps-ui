@@ -1,11 +1,72 @@
 import axios from 'axios';
 
-const baseURL = `${import.meta.env.VITE_API_URI}/flujos`;
-const baseURLCompletion = `${import.meta.env.VITE_API_URI}/completion`;
+const baseURL = `${import.meta.env.VITE_API_URI}/completion`;
+
+function startFlujo(id) {
+  return new Promise((resolve, reject) => {
+    fetch(`${baseURL}/start/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(result => {
+        if (result.ok) {
+          return result.json();
+        } else {
+          reject({
+            isAllowed: false,
+          });
+        }
+      })
+      .then((payload) => {
+        resolve({
+          ...payload,
+          isAllowed: true
+        });
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+function finishFlujo({ id, token }) {
+  return new Promise((resolve, reject) => {
+    fetch(`${baseURL}/${id}/finish`, {
+      method: 'POST',
+      body: {
+        token,
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(result => {
+        if (result.ok) {
+          return result.json();
+        } else {
+          reject({
+            isAllowed: false,
+          });
+        }
+      })
+      .then((payload) => {
+        resolve({
+          ...payload,
+          isAllowed: true
+        });
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
 
 function putFaceId({ flujoId, token }) {
   return new Promise((resolve, reject) => {
-    axios.put(`${baseURLCompletion}/${flujoId}/faceid`, { token, flujoId })
+    axios.put(`${baseURL}/${flujoId}/faceid`, { token, flujoId })
       .then((result) => {
         if (result.status === 400) {
           result.json().then(payload => {
@@ -26,7 +87,7 @@ function putFaceId({ flujoId, token }) {
 
 function putContactInfo({ token, flujoId, email, fullname, birthDate, bornPlace, phone }) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURLCompletion}/${flujoId}/contactInfo`, {
+    fetch(`${baseURL}/${flujoId}/contactInfo`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +117,7 @@ function putSignature({ flujoId, token, file, filename }) {
     const form = new FormData();
     form.set('accessToken', token);
     form.append('file', file, filename);
-    axios.put(`${baseURLCompletion}/${flujoId}/signature`, form)
+    axios.put(`${baseURL}/${flujoId}/signature`, form)
       .then((result) => {
         console.log('Signature creation result');
         console.log({ result });
@@ -74,8 +135,12 @@ function putSignature({ flujoId, token, file, filename }) {
   });
 }
 
-export const StepServices = {
+const CompletionService = {
+  startFlujo,
+  finishFlujo,
   putFaceId,
   putContactInfo,
   putSignature,
 }
+
+export default CompletionService;

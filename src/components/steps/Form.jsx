@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useCompletionContext } from '../../context/completion';
-import { StepServices } from '../../services/steps';
+import CompletionService from '../../services/completion';
 import { useParams } from 'react-router';
 
 import PlaceSelector from '../placeSelector';
@@ -32,7 +32,7 @@ function FormStep({ onCompleted }) {
   });
 
   function submitForm(data) {
-    StepServices.putContactInfo({
+    CompletionService.putContactInfo({
       birthDate: data.birthdate,
       bornPlace: data.place,
       email: data.email,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlujoServices } from '../../services/flujo';
+import FlujoService from '../../services/flujo';
 import { toast } from 'react-hot-toast';
 
 /** Components */
@@ -51,7 +51,7 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
         setDisable(true);
         const args = { steps: selectedSteps, title, description, completionTime: time2complete };
         // Perform creation
-        FlujoServices.createNewFlujo(args)
+        FlujoService.createNewFlujo(args)
             .then((data) => data.json())
             .then((payload) => {
                 if (onCreate) onCreate(payload.data);

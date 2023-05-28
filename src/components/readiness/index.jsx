@@ -1,10 +1,10 @@
 import React from "react";
-import { FlujoServices } from "../../services/flujo";
 import getFlujoStepIcon from "../stepResolver/makeStepIndicator";
 import { isFinished } from "../../helpers/flujos";
 import { ErrorIcon } from "react-hot-toast";
 import { FLujoDoneIcon } from "../icons/icon.map";
 import { useCompletionContext } from "../../context/completion";
+import CompletionService from "../../services/completion";
 
 const TEXTS = {
     "FACE": {
@@ -67,7 +67,7 @@ const ReadinessView = ({ onStart }) => {
             loading: true,
         }));
 
-        FlujoServices.startFLujo(id)
+        CompletionService.startFlujo(id)
             .then(({ isAllowed, ...payload }) => {
                 if (!isAllowed) {
                     setState(prev => ({

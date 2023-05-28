@@ -4,7 +4,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 
 /** Components */
-import { FlujoServices } from '../services/flujo';
+import FlujoService from '../services/flujo';
 import StepResolver from '../components/stepResolver';
 import ReadinessView from '../components/readiness';
 import { useCompletionContext, withCompletionProvider } from '../context/completion';
@@ -15,7 +15,7 @@ function CompleteFlujoScreen() {
   const { actions, state } = useCompletionContext();
 
   React.useEffect(() => {
-    FlujoServices.getFlujoById(id)
+    FlujoService.getFlujoById(id)
       .then((payload) => {
         actions.setFlujo(payload);
       })

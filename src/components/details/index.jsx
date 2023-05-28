@@ -1,5 +1,5 @@
 import React from "react";
-import { FlujoServices } from "../../services/flujo";
+import FlujoService from "../../services/flujo";
 import FlujoStepIcon from "../icons/FlujoStepIcon";
 
 const FlujoDetailsView = ({ flujoId }) => {
@@ -8,7 +8,7 @@ const FlujoDetailsView = ({ flujoId }) => {
     const [error, setError] = React.useState(null);
 
     const loadFlujoData = () => {
-        FlujoServices.getFlujoById(flujoId)
+        FlujoService.getFlujoById(flujoId)
             .then((flujo) => {
                 setFlujoData(flujo);
             })

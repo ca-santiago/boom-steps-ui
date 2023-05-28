@@ -1,34 +1,5 @@
 const baseURL = `${import.meta.env.VITE_API_URI}`;
 
-function startFLujo(id) {
-  return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/completion/start/${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(result => {
-        if (result.ok) {
-          return result.json();
-        } else {
-          reject({
-            isAllowed: false,
-          });
-        }
-      })
-      .then((payload) => {
-        resolve({
-          ...payload,
-          isAllowed: true
-        });
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-}
-
 function verifyFlujoToken(token) {
   return new Promise((resolve, reject) => {
     fetch(`${baseURL}/flujos`, {
@@ -135,10 +106,11 @@ function GetFlujosPaginated(page = 0) {
 }
 
 
-export const FlujoServices = {
-  startFLujo,
+const FlujoService = {
   getFlujoById,
   verifyFlujoToken,
   createNewFlujo,
   GetFlujosPaginated,
 }
+
+export default FlujoService;

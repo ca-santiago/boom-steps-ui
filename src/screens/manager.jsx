@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlujoServices } from '../services/flujo';
+import FlujoService from '../services/flujo';
 import FlujosList from '../components/flujoList';
 import FlujoCreator from '../components/creator';
 import LastCreatedLink from '../components/lastCreatedLink';
@@ -13,7 +13,7 @@ export default function ManagerScreen() {
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    FlujoServices.GetFlujosPaginated()
+    FlujoService.GetFlujosPaginated()
       .then(({ results }) => setFlujos(results))
       .catch(() => {
         setError('Something went wrong, try refreshing the page');

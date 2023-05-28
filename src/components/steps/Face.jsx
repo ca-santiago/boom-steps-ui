@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Webcam from 'react-webcam';
 
 /**
@@ -10,7 +10,7 @@ import { useParams } from 'react-router';
 /**
  * Services
  */
-import { StepServices } from '../../services/steps';
+import CompletionService from '../../services/completion';
 
 /**
  * Styles
@@ -99,7 +99,7 @@ function FaceStep({ onCompleted }) {
       processing: true,
     }));
 
-    StepServices.putFaceId({ token, flujoId: id })
+    CompletionService.putFaceId({ token, flujoId: id })
       .then(({ signedUrl }) => {
         return sendFile(signedUrl);
       })
