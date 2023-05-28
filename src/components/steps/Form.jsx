@@ -25,7 +25,10 @@ function FormStep({ onCompleted }) {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'all'
+    mode: 'all',
+    resetOptions: {
+      keepValues: true,
+    }
   });
 
   function submitForm(data) {
