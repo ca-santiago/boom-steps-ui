@@ -6,7 +6,7 @@ import SignatureStep from '../components/steps/Signature';
 import StepIndicator from '../components/stepResolver/stepIndicator';
 import { toast } from 'react-hot-toast';
 
-export default function useStepController({ steps, completed }) {
+export default function useStepController({ steps = [], completed }) {
 
   const [currStep, setCurrStep] = useState(steps[0]);
   const [completedSteps, setCompletedSteps] = useState(completed);

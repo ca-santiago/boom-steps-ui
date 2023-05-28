@@ -31,38 +31,28 @@ function startFlujo(id) {
   });
 }
 
+/**
+ * @returns resultType: 'ERROR' | 'CANT_FINISH' | 'OK'
+ * @returns flujo: Flujo
+ * @description ERROR means the flujo cannot be compleated becase of invalid token (probably no longer valid), already closed or not started yet
+ * @description CANT_FINISH means the flujo has incompleted steps
+ */
 function finishFlujo({ id, token }) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/${id}/finish`, {
-      method: 'POST',
-      body: {
-        token,
-      },
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    axios.post(`${baseURL}/${id}/finish`, { token })
       .then(result => {
-        if (result.ok) {
-          return result.json();
+        const { status, data } = result;
+        if (status === 201 || status === 200) {
+          resolve(data)
         } else {
-          reject({
-            isAllowed: false,
-          });
+          reject(result);
         }
-      })
-      .then((payload) => {
-        resolve({
-          ...payload,
-          isAllowed: true
-        });
       })
       .catch(err => {
         reject(err);
       });
   });
 }
-
 
 function putFaceId({ flujoId, token }) {
   return new Promise((resolve, reject) => {
