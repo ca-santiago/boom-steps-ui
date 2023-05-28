@@ -13,6 +13,11 @@ function SignatureStep({ onCompleted }) {
   const [pad, setPad] = useState(null);
   const [img, setImg] = useState(null);
 
+  function resetCanvas() {
+    setImg(null);
+    pad.clear();
+  }
+
   function onEndDrawing() {
     if (!pad) return;
     const imgURL = pad.toDataURL("image/jpeg");
@@ -20,6 +25,7 @@ function SignatureStep({ onCompleted }) {
   }
 
   function fitToContainer(canvas) {
+    if (!canvas) return;
     // Make it visually fill the positioned parent
     canvas.style.width = '100%';
     canvas.style.height = '100%';
@@ -28,19 +34,18 @@ function SignatureStep({ onCompleted }) {
     canvas.height = canvas.offsetHeight;
   }
 
-  window.addEventListener("resize", () => {
-    setImg(null);
+  window.onresize = () => {
     fitToContainer(canvasRef.current);
     if (pad) {
-      pad.backgroundColor = 'white';
+      resetCanvas();
     }
-  });
+  }
 
   useEffect(() => {
     fitToContainer(canvasRef.current);
-    const _pad = new SignaturePad(canvasRef.current, { backgroundColor: 'white' });
+    const _pad = new SignaturePad(canvasRef.current, { backgroundColor: 'rgb(255, 255, 255)' });
     _pad.addEventListener("endStroke", onEndDrawing);
-    setPad(() => _pad);
+    setPad(_pad);
   }, [canvasRef.current]);
 
   function submit() {
@@ -63,11 +68,6 @@ function SignatureStep({ onCompleted }) {
       .catch(err => {
         console.log({ err });
       })
-  }
-
-  function resetCanvas() {
-    setImg(null);
-    pad.clear();
   }
 
   const showReset = img;
