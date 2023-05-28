@@ -1,14 +1,15 @@
-import { CameraValidationIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon } from "../icons/icon.map";
+import { ContactInfoStepName, FaceStepName, SignatureStepName } from "../../domain/steps/types";
+import { FaceIdIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon } from "../icons/icon.map";
 
 export default function getFlujoStepIcon(type) {
   switch (type) {
-    case "FACE": {
-      return CameraValidationIcon;
+    case FaceStepName: {
+      return FaceIdIcon;
     }
-    case "PERSONAL_DATA": {
+    case ContactInfoStepName: {
       return ContactInfoIcon;
     }
-    case "SIGNATURE": {
+    case SignatureStepName: {
       return DigSignatureIcon;
     }
     default: {

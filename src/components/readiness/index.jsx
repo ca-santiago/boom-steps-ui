@@ -5,17 +5,18 @@ import { ErrorIcon } from "react-hot-toast";
 import { FLujoDoneIcon } from "../icons/icon.map";
 import { useCompletionContext } from "../../context/completion";
 import CompletionService from "../../services/completion";
+import { ContactInfoStepName, FaceStepName, SignatureStepName } from "../../domain/steps/types";
 
 const TEXTS = {
-    "FACE": {
+    [FaceStepName]: {
         title: "Camera Validation - Record a short video of your face.",
         subtext: "Capture a quick video of your face to proceed.It'll only take a moment, we promise!"
     },
-    "PERSONAL_DATA": {
+    [ContactInfoStepName]: {
         title: "Contact Information - Stay connected with us.",
         subtext: "Share your basic contact details with us, so we can keep in touch."
     },
-    "SIGNATURE": {
+    [SignatureStepName]: {
         title: "Digital Signature - Sign with ease.",
         subtext: "We need your digital signature.It's just a simple step to finalize the process."
     }

@@ -6,10 +6,12 @@ import { IoCheckmarkDoneOutline } from 'react-icons/io5';
 import { FiExternalLink } from 'react-icons/fi';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { HiBadgeCheck } from 'react-icons/hi';
+import { MdFileDownloadDone } from 'react-icons/md';
 
-export const CameraValidationIcon = AiFillCamera
-export const ContactInfoIcon = BsPersonFillAdd
-export const DigSignatureIcon = FaSignature
+export const FaceIdIcon = AiFillCamera;
+export const ContactInfoIcon = BsPersonFillAdd;
+export const DigSignatureIcon = FaSignature;
+export const FinishStepIcon = MdFileDownloadDone
 
 export const ShareLinkIcon = BiLink;
 export const OpenOnNewTabIcon = FiExternalLink;

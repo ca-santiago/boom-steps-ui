@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 
 import PlaceSelector from '../placeSelector';
 import PhoneInput from 'react-phone-number-input/input';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 const InputLabel = ({ text }) => (

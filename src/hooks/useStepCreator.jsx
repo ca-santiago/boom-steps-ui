@@ -1,61 +1,43 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import StepSwitcher from '../components/stepResolver/ComponentSwicher';
-import FaceStep from '../components/steps/Face';
-import FormStep from '../components/steps/Form';
-import SignatureStep from '../components/steps/Signature';
+import React from 'react';
 import StepIndicator from '../components/stepResolver/stepIndicator';
 import { toast } from 'react-hot-toast';
+import { getFlujoStatus } from '../domain/steps';
 
 export default function useStepController({ steps = [], completed }) {
+  const [customCurrentStep, setCurrStep] = React.useState(steps[0]);
+  
+  const [completedSteps, setCompletedSteps] = React.useState(completed);
+  const { currStep, applicableSteps } = getFlujoStatus(completed, steps);
 
-  const [currStep, setCurrStep] = useState(steps[0]);
-  const [completedSteps, setCompletedSteps] = useState(completed);
-
-  const clickIndicator = useCallback(function (value) {
+  const clickIndicator = React.useCallback(function (value) {
     setCurrStep(value);
   }, []);
 
-  const onStepCompleted = useCallback(function (value) {
+  const onStepCompleted = React.useCallback(function (value) {
     toast.success('Step completed');
     if (completedSteps.includes(value)) return;
 
     setCompletedSteps([...completedSteps, value]);
-  }, [completedSteps, setCompletedSteps]);
+  }, [completedSteps]);
 
-  const stepNames = useMemo(() => ({
-    'FACE': 'Camera validation',
-    'SIGNATURE': 'Digital signature',
-    'PERSONAL_DATA': 'Contact information'
-  }), []);
-
-  const canFinish = useMemo(() => completedSteps.length >= 3, [completedSteps]);
-
-  const Indicator = useMemo(() => () => (
+  const Indicator = React.useMemo(() => () => (
     <StepIndicator
-      stepNames={stepNames}
+      steps={applicableSteps}
       completedSteps={completedSteps}
-      steps={steps}
       onClickIndicator={clickIndicator}
       currStep={currStep}
     />
-  ), [steps, clickIndicator, currStep, completedSteps, stepNames]);
+  ), [clickIndicator, currStep, completedSteps]);
 
-  const stepsComponents = useMemo(() => [
-    { key: 'FACE', component: <FaceStep onCompleted={() => onStepCompleted('FACE')} /> },
-    { key: 'SIGNATURE', component: <SignatureStep onCompleted={() => onStepCompleted('SIGNATURE')} /> },
-    { key: 'PERSONAL_DATA', component: <FormStep onCompleted={() => onStepCompleted('PERSONAL_DATA')} /> }
-  ], [onStepCompleted]);
-
-  const StepComponent = useMemo(() => () => (
-    <StepSwitcher
-      steps={stepsComponents}
-      currentKey={currStep}
-    />
-  ), [stepsComponents, currStep]);
+  const StepComponent = React.useCallback(() => {
+    const C = currStep.component;
+    return (
+      <C title={currStep.title} onCompleted={() => onStepCompleted(currStep.key)} />
+    );
+  }, [currStep]);
 
   return {
     Indicator,
-    StepComponent,
-    canFinish
+    StepComponent
   }
 }

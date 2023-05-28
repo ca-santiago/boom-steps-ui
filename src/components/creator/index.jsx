@@ -5,7 +5,8 @@ import { toast } from 'react-hot-toast';
 /** Components */
 import SelectableStepButton from './SelectableStep';
 import { useForm } from 'react-hook-form';
-import { ContactInfoIcon, DigSignatureIcon, CameraValidationIcon } from '../icons/icon.map';
+import { ContactInfoIcon, DigSignatureIcon, FaceIdIcon } from '../icons/icon.map';
+import { ContactInfoStepName, FaceStepName, SignatureStepName } from '../../domain/steps/types';
 
 const InputLabel = ({ text, description }) => (
     <div className='px-1'>
@@ -109,21 +110,21 @@ const FlujoCreator = ({ onCreate, onCreateError }) => {
                     <InputLabel text="Select steps *" />
                     <div className='grid gap-2 mt-2 text-gray-600'>
                         <SelectableStepButton
-                            selected={selectedSteps.includes("FACE")}
+                            selected={selectedSteps.includes(FaceStepName)}
                             title="Camera validaiton"
-                            onSelectChange={toggleSelectStep('FACE')}
-                            icon={<CameraValidationIcon />}
+                            onSelectChange={toggleSelectStep(FaceStepName)}
+                            icon={<FaceIdIcon />}
                         />
                         <SelectableStepButton
-                            selected={selectedSteps.includes("PERSONAL_DATA")}
+                            selected={selectedSteps.includes(ContactInfoStepName)}
                             title="Contact information"
-                            onSelectChange={toggleSelectStep('PERSONAL_DATA')}
+                            onSelectChange={toggleSelectStep(ContactInfoStepName)}
                             icon={<ContactInfoIcon />}
                         />
                         <SelectableStepButton
-                            selected={selectedSteps.includes("SIGNATURE")}
+                            selected={selectedSteps.includes(SignatureStepName)}
                             title="Digital signature"
-                            onSelectChange={toggleSelectStep('SIGNATURE')}
+                            onSelectChange={toggleSelectStep(SignatureStepName)}
                             icon={<DigSignatureIcon />}
                         />
                     </div>
