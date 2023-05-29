@@ -1,6 +1,8 @@
 import React from "react";
 import { completionReducer } from "../reducers/completionReducer";
-import { setCompletionFlujo, setCompletionSession, setLoadingError } from "../reducers/completionActions";
+import { resetStatus, setCompletionFlujo, setCompletionSession, setLoadingError } from "../reducers/completionActions";
+import { useParams } from "react-router";
+import FlujoService from "../services/flujo";
 
 export const initialAppState = {
     token: null,
@@ -20,13 +22,31 @@ export const useCompletionContext = () => {
 }
 
 export const CompletionProvider = ({ children }) => {
+    const { id } = useParams();
     const [state, dispatch] = React.useReducer(completionReducer, initialAppState);
+
+    const getFlujoData = React.useCallback(() => {
+        dispatch(resetStatus());
+        FlujoService.getFlujoById(id)
+            .then((payload) => {
+                dispatch(setCompletionFlujo(payload));
+            })
+            .catch((err) => {
+                console.log(err);
+                dispatch(setLoadingError(true));
+            });
+    }, [id]);
 
     const actions = React.useMemo(() => ({
         setFlujo: (...args) => dispatch(setCompletionFlujo(...args)),
         setSession: (...args) => dispatch(setCompletionSession(...args)),
-        setLoadingError: (...args) => dispatch(setLoadingError(...args))
+        setLoadingError: (...args) => dispatch(setLoadingError(...args)),
+        refetch: () => getFlujoData(),
     }), [dispatch]);
+
+    React.useEffect(() => {
+        getFlujoData();
+    }, [id]);
 
     return (
         <CompletionContext.Provider value={{ actions, state }} >

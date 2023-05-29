@@ -1,35 +1,19 @@
 import React from 'react';
 
-/** Hooks */
-import { useParams } from 'react-router';
-
 /** Components */
-import FlujoService from '../services/flujo';
 import StepResolver from '../components/stepResolver';
 import ReadinessView from '../components/readiness';
 import { useCompletionContext, withCompletionProvider } from '../context/completion';
 import { Toaster } from 'react-hot-toast';
 
 function CompleteFlujoScreen() {
-  const { id } = useParams();
   const { actions, state } = useCompletionContext();
-
-  React.useEffect(() => {
-    FlujoService.getFlujoById(id)
-      .then((payload) => {
-        actions.setFlujo(payload);
-      })
-      .catch((err) => {
-        console.log(err);
-        actions.setLoadingError(true);
-      });
-  }, [id]);
 
   const handleOnStart = React.useCallback((payload) => {
     actions.setSession(payload);
-  }, []);
+  }, [actions.setSession]);
 
-  if (state.loading) return null;
+  if (state.loading) return <p>Loading...</p>;
 
   if (!state.flujo) return <p>Whoops! This flujo does not exists</p>;
 

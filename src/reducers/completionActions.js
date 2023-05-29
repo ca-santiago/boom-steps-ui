@@ -28,3 +28,9 @@ export const setLoadingError = (error) => {
         payload: error,
     }
 }
+
+export const resetStatus = () => {
+    return {
+        type: 'RESET'
+    }
+}

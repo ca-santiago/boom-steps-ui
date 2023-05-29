@@ -25,6 +25,9 @@ export const completionReducer = (prev = initialAppState, action) => {
                 loadginError: action.payload
             }
         }
+        case 'RESET': {
+            return { ...initialAppState };
+        }
         default:
             return { ...prev };
     }

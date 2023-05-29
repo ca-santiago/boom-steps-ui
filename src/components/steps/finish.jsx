@@ -1,10 +1,22 @@
+import { toast } from "react-hot-toast";
 import { useCompletionContext } from "../../context/completion";
 import CompletionService from "../../services/completion";
 
-const FinishFlujoStep = ({ title }) => {
-    const { state: { flujo, token } } = useCompletionContext();
+const FinishFlujoStep = () => {
+    const { state: { flujo, token }, actions } = useCompletionContext();
+
     const handleOnClick = () => {
-        CompletionService.finishFlujo({ id: flujo.id, token});
+        CompletionService.finishFlujo({ id: flujo.id, token })
+            .then((res) => {
+                console.log({ res });
+                if(res.resultType === 'ERROR') {
+                    throw new Error('Cannot finish');;
+                }
+                actions.refetch();
+            })
+            .catch(() => {
+                toast.error('Whoops, something went wrong. Please try again');
+            });
     }
 
     return (
