@@ -8,9 +8,8 @@ const FinishFlujoStep = () => {
     const handleOnClick = () => {
         CompletionService.finishFlujo({ id: flujo.id, token })
             .then((res) => {
-                console.log({ res });
                 if(res.resultType === 'ERROR') {
-                    throw new Error('Cannot finish');;
+                    throw new Error('Cannot finish');
                 }
                 actions.refetch();
             })

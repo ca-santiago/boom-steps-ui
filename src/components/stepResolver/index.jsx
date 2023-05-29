@@ -1,5 +1,4 @@
 import React from 'react';
-import useStepController from '../../hooks/useStepCreator';
 import { useCompletionContext } from '../../context/completion';
 import { BsClockFill } from 'react-icons/bs';
 import StepListIndicator from './stepIndicator';
@@ -21,7 +20,7 @@ function formatTime(seconds) {
 function StepResolver() {
     const [customCurrentStep, setCurrStep] = React.useState(null);
 
-    const { secondsLeft: _secLeft, flujo } = useCompletionContext().state;
+    const { state: { flujo, secondsLeft: _secLeft }, actions } = useCompletionContext();
     const [secondsLeft, setSecondsLeft] = React.useState(_secLeft);
 
     const [completedSteps, setCompletedSteps] = React.useState(flujo.completedSteps);
@@ -33,7 +32,14 @@ function StepResolver() {
     React.useEffect(() => {
         // Decrease the countdown every second
         const timer = setInterval(() => {
-            setSecondsLeft(prevSeconds => (prevSeconds > 0 ? prevSeconds - 1 : 0));
+            setSecondsLeft(prevSeconds => {
+                const nextVal = prevSeconds - 1;
+                if (nextVal <= 0) {
+                    actions.refetch();
+                }
+                return prevSeconds > 0 ? nextVal : 0;
+            }
+            );
         }, 1000);
 
         // Clean up the timer when the component unmounts
