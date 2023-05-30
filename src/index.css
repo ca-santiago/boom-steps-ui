@@ -33,9 +33,12 @@ html, body { margin: 0; padding: 0 }
 
 input:hover,
 input:focus,
+input:focus-visible,
 textarea:hover,
-textarea:focus {
-    outline: 1px solid rgba(34, 34, 34, 0.447);
+textarea:focus,
+textarea:focus-visible {
+    outline: 0.5px solid rgba(80, 80, 80, 0.5);
+    border: 0.2px solid rgba(80, 80, 80, 0);
 }
 
 /* 10% */
@@ -99,7 +102,7 @@ bg-disabled {
 }
 
 .form-input-field {
-    @apply p-2 mt-1 border border-gray-300 rounded-md w-full text-gray-500 text-xs text-montserrat select-none bg-gray-200 max-h-48;
+    @apply p-2 mt-1 border border-gray-200 rounded-md w-full text-gray-900 text-xs text-montserrat select-none bg-gray-100 max-h-48;
 }
 
 .form-input-error {
