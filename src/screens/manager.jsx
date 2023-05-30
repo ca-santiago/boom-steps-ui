@@ -1,34 +1,11 @@
 import React from 'react';
-import FlujoService from '../services/flujo';
 import FlujosList from '../components/flujoList';
 import FlujoCreator from '../components/creator';
 import LastCreatedLink from '../components/lastCreatedLink';
 import { Toaster } from 'react-hot-toast';
+import { withManagerProvider } from '../context/manager';
 
-export default function ManagerScreen() {
-  const [flujos, setFlujos] = React.useState([]);
-  const [lastCreated, setLastCreated] = React.useState(null);
-
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
-
-  React.useEffect(() => {
-    FlujoService.GetFlujosPaginated()
-      .then(({ results }) => setFlujos(results))
-      .catch(() => {
-        setError('Something went wrong, try refreshing the page');
-      })
-      .finally(() => {
-        setLoading(false);
-      })
-  }, []);
-
-  const handleOnCreateFlujo = (data) => {
-    setLastCreated(data);
-  }
-
-  if (loading) return <p>Cargando flujos...</p>;
-  if (error) return <p>{error}</p>;
+function ManagerScreen() {
 
   return (
     <div className="min-h-screen md:max-h-screen relative bg-main flex">
@@ -46,12 +23,13 @@ export default function ManagerScreen() {
       <div className="lg:px-9 lg:pt-9 sm:px-3 sm:pt-3 flex-1 flex">
         <div className='grid md:grid-cols-2 gap-3 grid-flow-row sm:grid-col-1 flex-1 overflow-hidden'>
           <div className="w-full md:max-w-md mx-auto">
-            <FlujoCreator onCreate={handleOnCreateFlujo} />
-            {lastCreated && <LastCreatedLink flujo={lastCreated} />}
+            <FlujoCreator />
           </div>
-          <FlujosList data={flujos} />
+          <FlujosList />
         </div>
       </div>
     </div>
   );
 }
+
+export default withManagerProvider(ManagerScreen);

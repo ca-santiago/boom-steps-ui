@@ -3,6 +3,7 @@ import FlujoCard from "./card";
 import FlujoDetailsView from "../details";
 import EmtyList from "./emptyList";
 import { IoArrowBackOutline } from "react-icons/io5";
+import { useManagerContext } from "../../context/manager";
 
 const BackButton = ({ onClick }) => (
     <button
@@ -13,7 +14,8 @@ const BackButton = ({ onClick }) => (
     </button>
 );
 
-const FlujosList = memo(({ data }) => {
+const FlujosList = memo(() => {
+    const { state: { flujos }} = useManagerContext();
     const [selected, setSelected] = useState(null);
 
     const handleOpenDetailsFor = (id) => {
@@ -26,13 +28,13 @@ const FlujosList = memo(({ data }) => {
 
     const renderFlujoCards = React.useMemo(() => () => (
         <div className="grid grid-flow-row md:grid-cols-1 lg:grid-cols-2 gap-3">
-            {data.map((f) => (
+            {flujos.map((f) => (
                 <FlujoCard key={f.id} onClickOpenDetails={() => handleOpenDetailsFor(f.id)} data={f} />
             ))}
         </div>
-    ), [data, handleCloseDetailView]);
+    ), [flujos, handleCloseDetailView]);
 
-    if (data.length < 1) return <EmtyList />;
+    if (flujos.length < 1) return <EmtyList />;
 
     return (
         <div className="flex flex-col overflow-hidden">
