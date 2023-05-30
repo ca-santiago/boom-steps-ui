@@ -13,12 +13,6 @@ function CompleteFlujoScreen() {
     actions.setSession(payload);
   }, [actions.setSession]);
 
-  if (state.loading) return <p>Loading...</p>;
-
-  if (!state.flujo) return <p>Whoops! This flujo does not exists</p>;
-
-  if (state.loadingError) return <p>Error loading... please try again later</p>;
-
   if (!state.token) {
     return <ReadinessView onStart={handleOnStart} />;
   }

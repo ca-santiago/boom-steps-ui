@@ -43,7 +43,7 @@ export const ManagerProvider = ({ children }) => {
         addFlujo: (flujo) => dispatch(addFlujo(flujo)),
     }), [dispatch]);
 
-    if (state.loading) return <p>Cargando flujos...</p>;
+    if (state.loading) return null;
     if (state.loadingError) return <p>Something went wrong, please refresh the page</p>;
 
     return (

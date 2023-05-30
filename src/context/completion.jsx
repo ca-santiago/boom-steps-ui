@@ -48,6 +48,12 @@ export const CompletionProvider = ({ children }) => {
         getFlujoData();
     }, [id]);
 
+    if (state.loading) return null;
+
+    if (!state.flujo) return <p>Whoops! This flujo does not exists</p>;
+
+    if (state.loadingError) return <p>Error loading... please try again later</p>;
+
     return (
         <CompletionContext.Provider value={{ actions, state }} >
             {children}

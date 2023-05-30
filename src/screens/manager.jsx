@@ -1,7 +1,6 @@
 import React from 'react';
 import FlujosList from '../components/flujoList';
 import FlujoCreator from '../components/creator';
-import LastCreatedLink from '../components/lastCreatedLink';
 import { Toaster } from 'react-hot-toast';
 import { withManagerProvider } from '../context/manager';
 
