@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseURL = `${import.meta.env.VITE_API_URI}`;
 
 function verifyFlujoToken(token) {
@@ -105,12 +107,67 @@ function GetFlujosPaginated(page = 0) {
   });
 }
 
+function getContactInfoDetails(flujoId) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${baseURL}/flujos/${flujoId}/steps/contactInfo`)
+      .then(res => {
+        resolve(res.data.data);
+      })
+      .catch(err => {
+        if (err.response.status === 404) {
+          resolve(null)
+          return;
+        }
+        throw err;
+      })
+      .catch(reject);
+  });
+}
+
+function getSignatureDetails(flujoId) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${baseURL}/flujos/${flujoId}/steps/signature`)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        if (err.response.status === 404) {
+          resolve(null)
+          return;
+        }
+        throw err;
+      })
+      .catch(reject);
+  });
+}
+
+function getFaceIdDetails(flujoId) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${baseURL}/flujos/${flujoId}/steps/faceId`)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        if (err.response.status === 404) {
+          resolve(null)
+          return;
+        }
+        throw err;
+      })
+      .catch(reject);
+  });
+}
 
 const FlujoService = {
   getFlujoById,
   verifyFlujoToken,
   createNewFlujo,
   GetFlujosPaginated,
+  steps: {
+    getContactInfoDetails,
+    getSignatureDetails,
+    getFaceIdDetails
+  }
 }
 
 export default FlujoService;

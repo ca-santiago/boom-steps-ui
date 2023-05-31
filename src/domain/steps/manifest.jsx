@@ -22,13 +22,14 @@ const StepsManifest = {
         },
         {
             key: FaceStepName,
-            title: 'Contact information',
+            title: 'Face id',
             component: FaceStep,
             icon: FaceIdIcon,
         },
         {
             key: SignatureStepName,
-            title: 'Contact information',
+
+            title: 'Signature',
             component: SignatureStep,
             icon: DigSignatureIcon
         },
@@ -36,6 +37,35 @@ const StepsManifest = {
     ],
     finishStep,
     canUseNavigation: true,
+    texts: {
+        [FaceStepName]: {
+            readiness: {
+                title: "Camera Validation - Record a short video of your face.",
+                subtext: "It'll only take a moment, we promise!"
+            },
+            stepDetails: {
+                title: "Face validation"
+            }
+        },
+        [ContactInfoStepName]: {
+            readiness: {
+                title: "Contact Information - Stay connected with us.",
+                subtext: "Share your basic contact details with us, so we can keep in touch."
+            },
+            stepDetails: {
+                title: "Contact information"
+            }
+        },
+        [SignatureStepName]: {
+            readiness: {
+                title: "Digital Signature - Sign with ease.",
+                subtext: "We need your digital signature.It's just a simple step to finalize the process."
+            },
+            stepDetails: {
+                title: "Signature"
+            }
+        }
+    }
 }
 
 export default StepsManifest;

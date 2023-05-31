@@ -26,7 +26,6 @@ export const ManagerProvider = ({ children }) => {
     const getFlujos = () => {
         FlujoService.GetFlujosPaginated()
             .then(({ results }) => {
-                console.log(results);
                 dispatch(setInitialLoadData(results))
             })
             .catch((erro) => {

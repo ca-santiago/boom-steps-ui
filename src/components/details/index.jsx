@@ -3,6 +3,8 @@ import FlujoService from "../../services/flujo";
 import FlujoStepIcon from "../icons/FlujoStepIcon";
 import CopyLink from "../utils/copy";
 import { createShareLink } from "../../helpers/links";
+import Card from "../shared/card";
+import StepDetails from "./step";
 
 const FlujoDetailsView = ({ flujoId }) => {
     const [flujoData, setFlujoData] = React.useState(null);
@@ -33,19 +35,24 @@ const FlujoDetailsView = ({ flujoId }) => {
     }
 
     return (
-        <div className="w-full grid grid-flow-row gap-3 shadow-sm rounded-md border bg-white p-3">
-            <div>
-                <p className="text-lg font-bold text-montserrat text-gray-700 whitespace-break-spaces leading-normal">{flujoData.title}</p>
-                {flujoData.description && (<p className="text-sm text-montserrat font-semibold text-gray-600 whitespace-break-spaces line-clamp-2 mt-2">{flujoData.description}</p>)}
-            </div>
-            <div className="grid grid-flow-col mt-3 gap-2 justify-start">
-                {flujoData.types.map(type => <FlujoStepIcon key={type} step={type} completed={flujoData.completedSteps.includes(type)} />)}
-            </div>
-            <p className="text-md font-semibold text-gray-700">Status: {flujoData.status}</p>
-            <p className="text-md font-semibold text-gray-700">Stimate: {flujoData.completionTime}</p>
-            <div className="">
-                <h3 className="text-gray-700 font-semibold">Share this flujo with someone else</h3>
-                <CopyLink showOpenNow value={link} />
+        <div className="flex flex-col gap-3">
+            <Card>
+                <div>
+                    <p className="text-lg font-bold text-montserrat text-gray-700 whitespace-break-spaces leading-normal">{flujoData.title}</p>
+                    {flujoData.description && (<p className="text-sm text-montserrat font-semibold text-gray-600 whitespace-break-spaces line-clamp-2 mt-2">{flujoData.description}</p>)}
+                </div>
+                <div className="grid grid-flow-col mt-3 gap-2 justify-start">
+                    {flujoData.types.map(type => <FlujoStepIcon key={type} step={type} completed={flujoData.completedSteps.includes(type)} />)}
+                </div>
+                <p className="text-md font-semibold text-gray-700">Status: {flujoData.status}</p>
+                <p className="text-md font-semibold text-gray-700">Stimate: {flujoData.completionTime}</p>
+                <div className="">
+                    <h3 className="text-gray-700 font-semibold">Share this flujo with someone else</h3>
+                    <CopyLink showOpenNow value={link} />
+                </div>
+            </Card>
+            <div className="flex flex-col gap-2">
+                {flujoData.completedSteps.map(s => <StepDetails key={s} stepName={s} flujoId={flujoData.id} />)}
             </div>
         </div>
     );

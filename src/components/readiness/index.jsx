@@ -5,25 +5,11 @@ import { ErrorIcon } from "react-hot-toast";
 import { FLujoDoneIcon } from "../icons/icon.map";
 import { useCompletionContext } from "../../context/completion";
 import CompletionService from "../../services/completion";
-import { ContactInfoStepName, FaceStepName, SignatureStepName } from "../../domain/steps/types";
+import StepsManifest from "../../domain/steps/manifest";
 
-const TEXTS = {
-    [FaceStepName]: {
-        title: "Camera Validation - Record a short video of your face.",
-        subtext: "Capture a quick video of your face to proceed.It'll only take a moment, we promise!"
-    },
-    [ContactInfoStepName]: {
-        title: "Contact Information - Stay connected with us.",
-        subtext: "Share your basic contact details with us, so we can keep in touch."
-    },
-    [SignatureStepName]: {
-        title: "Digital Signature - Sign with ease.",
-        subtext: "We need your digital signature.It's just a simple step to finalize the process."
-    }
-}
 
 const StepItem = ({ step }) => {
-    const texts = TEXTS[step];
+    const texts = StepsManifest.texts[step].readiness;
     if (!texts) return null;
 
     const StepIcon = getFlujoStepIcon(step);
