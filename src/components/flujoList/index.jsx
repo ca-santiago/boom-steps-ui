@@ -27,7 +27,7 @@ const FlujosList = memo(() => {
     }, []);
 
     const renderFlujoCards = React.useMemo(() => () => (
-        <div className="grid grid-flow-row md:grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="grid grid-flow-row grid-cols-1 x:grid-cols-2 gap-3">
             {flujos.map((f) => (
                 <FlujoCard key={f.id} onClickOpenDetails={() => handleOpenDetailsFor(f.id)} data={f} />
             ))}
@@ -37,7 +37,7 @@ const FlujosList = memo(() => {
     if (flujos.length < 1) return <EmtyList />;
 
     return (
-        <div className="flex flex-col overflow-hidden">
+        <div className="flex flex-col overflow-hidden min-w-full w-full">
             <div className="flex items-center">
                 {selected && <BackButton onClick={handleCloseDetailView} />}
                 <div className="text-gray-700 text-wix font-semibold text-xl ml-1">

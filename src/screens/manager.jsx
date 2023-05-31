@@ -4,27 +4,30 @@ import FlujoCreator from '../components/creator';
 import { Toaster } from 'react-hot-toast';
 import { withManagerProvider } from '../context/manager';
 
-function ManagerScreen() {
+const ToasterComponent = () => (
+  <div>
+    <Toaster
+      toastOptions={{
+        style: {
+          background: '#333',
+          color: '#fff',
+        }
+      }}
+      position='bottom-center'
+    />
+  </div>
+);
 
+function ManagerScreen() {
   return (
     <div className="min-h-screen md:max-h-screen relative bg-main flex">
-      <div>
-        <Toaster
-          toastOptions={{
-            style: {
-              background: '#333',
-              color: '#fff',
-            }
-          }}
-          position='bottom-center'
-        />
-      </div>
-      <div className="lg:px-9 lg:pt-9 sm:px-3 sm:pt-3 flex-1 flex">
-        <div className='grid md:grid-cols-2 gap-3 grid-flow-row sm:grid-col-1 flex-1 overflow-hidden'>
-          <div className="w-full md:max-w-md mx-auto">
+      <ToasterComponent />
+      <div className="flex w-full lg:px-9 lg:pt-9 sm:px-3 sm:pt-3">
+        <div className="flex w-full lg:w-11/12 xl:w-7/12 max-w-4xl mx-auto">
+          <div className='grid md:grid-cols-2 gap-3 w-full grid-col-1 flex-1 overflow-hidden'>
             <FlujoCreator />
+            <FlujosList />
           </div>
-          <FlujosList />
         </div>
       </div>
     </div>
