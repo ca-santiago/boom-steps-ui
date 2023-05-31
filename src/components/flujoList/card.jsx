@@ -5,10 +5,11 @@ import FlujoStepIcon from '../icons/FlujoStepIcon';
 import { toast } from 'react-hot-toast';
 import { createShareLink } from '../../helpers/links';
 import copy from 'copy-to-clipboard';
+import FlujoStatusIndicator from '../details/status';
 
 const FlujoCard = (props) => {
     const { onClickOpenDetails } = props;
-    const { types, title, description, id, completedSteps } = props.data;
+    const { types, title, description, id, completedSteps, status } = props.data;
     const [optionsOpen, setOptionsOpen] = React.useState(false);
 
     const handleClickOptionsIcon = () => {
@@ -66,9 +67,10 @@ const FlujoCard = (props) => {
                 <div className="grid grid-flow-col justify-between mt-3">
                     <div className="grid grid-flow-col justify-start gap-2">
                         {types.map(type => <FlujoStepIcon key={type} step={type} completed={completedSteps.includes(type)} />)}
+                        <FlujoStatusIndicator status={status} />
                     </div>
                     <div className="cursor-pointer" onClick={handleCopy}>
-                        <div className="py-1 px-2 border rounded-full bg-zinc-200" >
+                        <div className="py-1 px-2 border rounded-full bg-slate-200" >
                             <div className="text-gray-600">
                                 <ShareLinkIcon />
                             </div>

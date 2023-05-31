@@ -102,7 +102,7 @@ bg-disabled {
 }
 
 .form-input-field {
-    @apply p-2 mt-1 border border-gray-200 rounded-md w-full text-gray-400 text-xs text-montserrat select-none bg-gray-100 max-h-48;
+    @apply p-2 mt-1 border border-gray-200 rounded-md w-full text-gray-400 text-xs text-montserrat select-none bg-slate-100 max-h-48;
 }
 
 .form-input-error {

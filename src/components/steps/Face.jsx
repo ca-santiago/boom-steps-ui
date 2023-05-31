@@ -154,7 +154,7 @@ function FaceStep({ onCompleted }) {
           >Reset</button>
         )}
         <button
-          className={`p-2 px-4 w-full md:w-auto text-wix rounded-lg ${canComplete ? "bg-accent" : "bg-gray-400 text-white"}`}
+          className={`p-2 px-4 w-full md:w-auto text-wix rounded-lg ${canComplete ? "bg-accent" : "bg-slate-400 text-white"}`}
           onClick={submit} disabled={!canComplete}
         >Completar</button>
       </div>

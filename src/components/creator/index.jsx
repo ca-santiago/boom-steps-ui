@@ -74,7 +74,7 @@ const FlujoCreator = () => {
         return !formState.isValid || !selectedSteps.length > 0;
     }, [formState.isValid, selectedSteps.length]);
 
-    const submitStyle = disableCreate ? "bg-gray-400 text-gray-100" : "bg-accent";
+    const submitStyle = disableCreate ? "bg-slate-300 text-gray-100" : "bg-accent";
 
     return (
         <div>

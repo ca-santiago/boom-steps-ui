@@ -1,6 +1,6 @@
 import { FaSignature } from 'react-icons/fa';
 import { AiFillCamera, AiOutlineFileExclamation } from 'react-icons/ai';
-import { BsPersonFillAdd } from 'react-icons/bs';
+import { BsPersonFillAdd, BsFillLockFill } from 'react-icons/bs';
 import { BiLoaderCircle, BiLink } from 'react-icons/bi';
 import { IoCheckmarkDoneOutline, IoClipboardOutline } from 'react-icons/io5';
 import { FiExternalLink } from 'react-icons/fi';
@@ -21,5 +21,6 @@ export const NoStepDataIcon = AiOutlineFileExclamation;
 
 export const FlujoStartedIcon = BiLoaderCircle;
 export const FlujoFinishedIcon = IoCheckmarkDoneOutline;
+export const FlujoLockedIcon = BsFillLockFill;
 
 export const FLujoDoneIcon = HiBadgeCheck;

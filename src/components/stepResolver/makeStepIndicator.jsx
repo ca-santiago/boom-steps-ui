@@ -1,5 +1,5 @@
 import { ContactInfoStepName, FaceStepName, SignatureStepName } from "../../domain/steps/types";
-import { FaceIdIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon } from "../icons/icon.map";
+import { FaceIdIcon, ContactInfoIcon, DigSignatureIcon, FlujoFinishedIcon, FlujoStartedIcon, ShareLinkIcon, FlujoLockedIcon } from "../icons/icon.map";
 
 export default function getFlujoStepIcon(type) {
   switch (type) {
@@ -18,18 +18,21 @@ export default function getFlujoStepIcon(type) {
   }
 }
 
-export const StatusIcon = ({ status }) => {
+export const StatusIcon = ({ status, className }) => {
   const size = 17;
   switch (status) {
     case "CREATED": {
       // TODO: Return an inline option to get a link when clicking the icon
-      return <ShareLinkIcon size={18} />
+      return <ShareLinkIcon className={className} size={18} />
     }
     case "STARTED": {
-      return <FlujoStartedIcon size={size} />;
+      return <FlujoStartedIcon className={className} size={size} />;
     }
     case "FINISHED": {
-      return <FlujoFinishedIcon size={size} />
+      return <FlujoFinishedIcon className="text-green-700" size={size} />
+    }
+    case "LOCKED": {
+      return <FlujoLockedIcon className="text-indigo-700" size={size} />
     }
     default: {
       return undefined;

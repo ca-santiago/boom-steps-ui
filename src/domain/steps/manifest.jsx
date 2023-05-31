@@ -3,7 +3,7 @@ import FaceStep from "../../components/steps/Face";
 import FormStep from "../../components/steps/Form";
 import SignatureStep from "../../components/steps/Signature";
 import FinishFlujoStep from "../../components/steps/finish";
-import { ContactInfoStepName, FaceStepName, FinishStepName, SignatureStepName } from "./types";
+import { ContactInfoStepName, FaceStepName, FinishStepName, SignatureStepName, StatusCreatedName, StatusFinishedName, StatusLockedName, StatusStartedName } from "./types";
 
 const finishStep = {
     key: FinishStepName,
@@ -54,7 +54,7 @@ const StepsManifest = {
             },
             stepDetails: {
                 title: "Contact information"
-            }
+            },
         },
         [SignatureStepName]: {
             readiness: {
@@ -64,6 +64,14 @@ const StepsManifest = {
             stepDetails: {
                 title: "Signature"
             }
+        }
+    },
+    flujoStatus: {
+        text: {
+            [StatusStartedName]: 'Started',
+            [StatusCreatedName]: 'Created',
+            [StatusFinishedName]: 'Finished',
+            [StatusLockedName]: 'Locked',
         }
     }
 }

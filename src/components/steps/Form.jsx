@@ -156,7 +156,7 @@ function FormStep({ onCompleted }) {
         <button
           disabled={!canSubmit}
           onClick={handleSubmit(submitForm)}
-          className={`p-2 px-3 w-full md:w-auto rounded-md ${canSubmit ? "bg-accent" : "bg-gray-400 text-gray-100"}`}
+          className={`p-2 px-3 w-full md:w-auto rounded-md ${canSubmit ? "bg-accent" : "bg-slate-400 text-gray-100"}`}
         >Complete</button>
       </div>
     </>
