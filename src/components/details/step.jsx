@@ -28,7 +28,7 @@ const StepDetails = ({ flujoId, stepName }) => {
 
     return (
         <div>
-            <p className="py-1 pl-1 font-semibold text-gray-500 text-base" >{StepsManifest.texts[stepName].stepDetails.title}</p>
+            <p className="py-1 pl-1 font-semibold text-zinc-600 text-lg select-none" >{StepsManifest.texts[stepName].stepDetails.title}</p>
             <Card>
                 <StepComponent flujoId={flujoId} />
             </Card>

@@ -52,7 +52,7 @@ const FlujoDetailsView = ({ flujoId }) => {
                 </div>
             </Card>
             <div className="flex flex-col gap-2">
-                {flujoData.completedSteps.map(s => <StepDetails key={s} stepName={s} flujoId={flujoData.id} />)}
+                {flujoData.types.map(s => <StepDetails key={s} stepName={s} flujoId={flujoData.id} />)}
             </div>
         </div>
     );

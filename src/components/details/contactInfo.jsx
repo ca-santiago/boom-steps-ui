@@ -2,6 +2,7 @@ import React from "react";
 import FlujoService from "../../services/flujo";
 import { useQuery } from '@tanstack/react-query';
 import { InlineLabelText } from "../utils/labelText";
+import NoStepDataYet from "./noDataYet";
 
 const getContactInfoDetails = (flujoId) => {
     return FlujoService.steps.getContactInfoDetails(flujoId);
@@ -18,9 +19,7 @@ const ContactInfoDetails = ({ flujoId }) => {
     if (isLoading) return <p>Loading...</p>
     if (error) return <p>Error...</p>
 
-    if (!data) return <p>Woops, no data</p>;
-
-    console.log(data);
+    if (!data) return <NoStepDataYet />;
 
     return (
         <div className="flex flex-col gap-1">

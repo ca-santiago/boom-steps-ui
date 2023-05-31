@@ -1,5 +1,6 @@
 import FlujoService from "../../services/flujo";
 import { useQuery } from '@tanstack/react-query';
+import NoStepDataYet from "./noDataYet";
 
 const fetchData = (flujoId) => {
     return FlujoService.steps.getFaceIdDetails(flujoId);
@@ -16,7 +17,7 @@ const FaceIdDetails = ({ flujoId }) => {
     if (isLoading) return <p>Loading...</p>
     if (error) return <p>Error...</p>
 
-    if (!data) return <p>Woops, no data</p>;
+    if (!data) return <NoStepDataYet />;
 
     console.log(data);
 
