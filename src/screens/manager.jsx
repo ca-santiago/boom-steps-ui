@@ -24,7 +24,7 @@ function ManagerScreen() {
       <ToasterComponent />
       <div className="flex w-full lg:px-9 lg:pt-9 sm:px-3 sm:pt-3">
         <div className="flex w-full lg:w-11/12 xl:w-7/12 max-w-4xl mx-auto">
-          <div className='grid md:grid-cols-2 gap-3 w-full grid-col-1 flex-1 overflow-hidden'>
+          <div className='grid md:grid-cols-2 gap-6 w-full grid-col-1 flex-1 overflow-hidden'>
             <FlujoCreator />
             <FlujosList />
           </div>

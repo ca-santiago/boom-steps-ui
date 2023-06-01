@@ -149,7 +149,7 @@ const FlujoCreator = () => {
                     <button
                         disabled={disableCreate}
                         aria-disabled={disableCreate}
-                        className={`px-4 w-full py-2 rounded-lg border ${submitStyle}`}
+                        className={`px-4 w-full py-2 rounded-lg font-semibold border ${submitStyle}`}
                         onClick={handleSubmit(triggerCreate)}
                     >Create</button>
                 </div>

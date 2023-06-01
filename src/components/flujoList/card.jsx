@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuItem from '../dropdown/menuItem';
-import { OptionsIcon, ShareLinkIcon } from '../icons/icon.map';
+import { CopyTextIcon, OptionsIcon, ShareLinkIcon } from '../icons/icon.map';
 import FlujoStepIcon from '../icons/FlujoStepIcon';
 import { toast } from 'react-hot-toast';
 import { createShareLink } from '../../helpers/links';
@@ -71,8 +71,8 @@ const FlujoCard = (props) => {
                     </div>
                     <div className="cursor-pointer" onClick={handleCopy}>
                         <div className="py-1 px-2 border rounded-full bg-slate-200" >
-                            <div className="text-gray-600">
-                                <ShareLinkIcon />
+                            <div className="text-slate-700">
+                                <CopyTextIcon />
                             </div>
                         </div >
                     </div>
