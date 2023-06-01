@@ -18,7 +18,7 @@ const BackButton = ({ onClick }) => (
 );
 
 const FlujosList = memo(() => {
-    const { state: { flujos }} = useManagerContext();
+    const { state: { flujos }, actions} = useManagerContext();
     const [selected, setSelected] = useState(null);
 
     const handleOpenDetailsFor = (id) => {
@@ -28,6 +28,7 @@ const FlujosList = memo(() => {
     const handleOnDeleteFlujo = (id) => {
         FlujoService.deleteFlujo(id)
             .then(() => {
+                actions.removeFlujo(id);
                 toast.success('Deleted successfully', { duration: 1100 });
             })
             .catch(err => {

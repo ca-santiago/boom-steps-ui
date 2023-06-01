@@ -2,6 +2,7 @@ import React from "react";
 import managerReducer from "../reducers/manager";
 import { addFlujo, setInitialLoadData, setInitialLoadError } from "../reducers/managerActions";
 import FlujoService from "../services/flujo";
+import { removeFlujo } from "../reducers/managerActions";
 
 export const initialManagerState = {
     flujos: [],
@@ -40,6 +41,7 @@ export const ManagerProvider = ({ children }) => {
 
     const actions = React.useMemo(() => ({
         addFlujo: (flujo) => dispatch(addFlujo(flujo)),
+        removeFlujo: (id) => dispatch(removeFlujo(id))
     }), [dispatch]);
 
     if (state.loading) return null;
