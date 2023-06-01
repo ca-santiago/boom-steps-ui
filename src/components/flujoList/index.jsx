@@ -4,6 +4,9 @@ import FlujoDetailsView from "../details";
 import EmtyList from "./emptyList";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useManagerContext } from "../../context/manager";
+import FlujoService from "../../services/flujo";
+import { toast } from "react-hot-toast";
+import ConfirmationModal from "../utils/confirmationModal";
 
 const BackButton = ({ onClick }) => (
     <button
@@ -22,6 +25,17 @@ const FlujosList = memo(() => {
         setSelected(id);
     };
 
+    const handleOnDeleteFlujo = (id) => {
+        FlujoService.deleteFlujo(id)
+            .then(() => {
+                toast.success('Deleted successfully', { duration: 1100 });
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Could not delete the flujo, please try again', { duration: 1200 });
+            })
+    }
+
     const handleCloseDetailView = React.useCallback(() => {
         setSelected(null);
     }, []);
@@ -29,7 +43,12 @@ const FlujosList = memo(() => {
     const renderFlujoCards = React.useMemo(() => () => (
         <div className="grid grid-flow-row grid-cols-1 x:grid-cols-2 gap-3">
             {flujos.map((f) => (
-                <FlujoCard key={f.id} onClickOpenDetails={() => handleOpenDetailsFor(f.id)} data={f} />
+                <FlujoCard
+                    key={f.id}
+                    onClickOpenDetails={() => handleOpenDetailsFor(f.id)}
+                    onDelete={() => handleOnDeleteFlujo(f.id)}
+                    data={f}
+                />
             ))}
         </div>
     ), [flujos, handleCloseDetailView]);

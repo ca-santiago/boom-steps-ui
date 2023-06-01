@@ -30,6 +30,14 @@ function verifyFlujoToken(token) {
   })
 }
 
+function deleteFlujo(id) {
+  return new Promise((resolve, reject) => {
+    axios.delete(`${baseURL}/flujos/${id}`)
+      .then(resolve)
+      .catch(reject);
+  });
+}
+
 function getFlujoById(id) {
   return new Promise((resolve, reject) => {
     fetch(`${baseURL}/flujos/${id}`, {
@@ -160,6 +168,7 @@ function getFaceIdDetails(flujoId) {
 
 const FlujoService = {
   getFlujoById,
+  deleteFlujo,
   verifyFlujoToken,
   createNewFlujo,
   GetFlujosPaginated,

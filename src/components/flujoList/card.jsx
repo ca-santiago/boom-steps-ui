@@ -1,16 +1,18 @@
 import React from 'react';
 import MenuItem from '../dropdown/menuItem';
-import { CopyTextIcon, OptionsIcon, ShareLinkIcon } from '../icons/icon.map';
+import { CopyTextIcon, OptionsIcon } from '../icons/icon.map';
 import FlujoStepIcon from '../icons/FlujoStepIcon';
 import { toast } from 'react-hot-toast';
 import { createShareLink } from '../../helpers/links';
 import copy from 'copy-to-clipboard';
 import FlujoStatusIndicator from '../details/status';
+import ConfirmationModal from '../utils/confirmationModal';
 
 const FlujoCard = (props) => {
-    const { onClickOpenDetails } = props;
+    const { onClickOpenDetails, onDelete } = props;
     const { types, title, description, id, completedSteps, status } = props.data;
     const [optionsOpen, setOptionsOpen] = React.useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
     const handleClickOptionsIcon = () => {
         setOptionsOpen(prev => !prev);
@@ -20,10 +22,15 @@ const FlujoCard = (props) => {
         setOptionsOpen(false);
     }
 
+    const handleOnDelete = () => {
+        setDeleteModalOpen(false);
+        onDelete();
+    }
+
     const dropdownMenu = (
         <div className="z-50 absolute display-none1 right-0 bg-white shadow-gray-300 shadow-lg py-2 rounded-md">
             <MenuItem text="Details" onClick={onClickOpenDetails} />
-            <MenuItem text="Delete" />
+            <MenuItem text="Delete" onClick={() => setDeleteModalOpen(true)} />
         </div>
     );
 
@@ -38,22 +45,31 @@ const FlujoCard = (props) => {
     }
 
     const CardOptionsEl = () => (
-        <div className="">
-            <div
-                className="text-gray-600 relative inline-block select-none pl-2"
-                onMouseLeave={closeOptions}
-            >
-                <div className='inline-block'>
-                    <OptionsIcon onClick={handleClickOptionsIcon} />
-                    {optionsOpen && dropdownMenu}
-                </div>
+        <div
+            className="text-gray-600 relative inline-block select-none pl-2"
+            onMouseLeave={closeOptions}
+        >
+            <div className='inline-block'>
+                <OptionsIcon onClick={handleClickOptionsIcon} />
+                {optionsOpen && dropdownMenu}
             </div>
+        </div>
+    );
+
+    const DeleteMessage = (
+        <div>
+            <p className="text-slate-600 text-base font-semibold text-center">Are you sure you want to delete <b>{title}</b>?</p>
         </div>
     );
 
     return (
         <div className='flex flex-col shadow-sm h-full bg-white rounded-lg p-2.5 justify-between max-w-full text-wix'>
-
+            <ConfirmationModal
+                messageComponent={DeleteMessage}
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                onConfirm={handleOnDelete}
+            />
             <div className="flex-1 flex flex-row justify-between max-w-full" >
                 <div className="flex-1 max-w-full">
                     <p onClick={onClickOpenDetails} className="whitespace-break-spaces line-clamp-2 text-base font-bold text-gray-600 hover:underline hover:cursor-pointer leading-none">{title}</p>
