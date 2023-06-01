@@ -14,6 +14,13 @@ export const removeFlujo = (id) => {
     }
 }
 
+export const updateFlujoData = (newFlujoData) => {
+    return {
+        type: "UPDATE_FLUJO_DATA",
+        payload: newFlujoData,
+    }
+}
+
 export const setInitialLoadData = (flujos = []) => {
     return {
         type: 'INITIAL_LOAD',

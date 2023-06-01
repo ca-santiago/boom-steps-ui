@@ -7,15 +7,23 @@ import Card from "../shared/card";
 import StepDetails from "./step";
 import { useQuery } from "@tanstack/react-query";
 import FlujoStatusIndicator from "./status";
+import { useManagerContext } from "../../context/manager";
 
 const FlujoDetailsView = ({ flujoId }) => {
     const link = React.useMemo(() => createShareLink(flujoId), [flujoId]);
+    const { actions } = useManagerContext();
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['flujoDetails', flujoId],
         queryFn: () => FlujoService.getFlujoById(flujoId),
         networkMode: 'offlineFirst'
     });
+
+    React.useEffect(() => {
+        if (data) {
+            actions.updateFlujoData(data);
+        }
+    }, [data]);
 
     if (isLoading) return null;
 

@@ -18,7 +18,7 @@ const BackButton = ({ onClick }) => (
 );
 
 const FlujosList = memo(() => {
-    const { state: { flujos }, actions} = useManagerContext();
+    const { state: { flujos }, actions } = useManagerContext();
     const [selected, setSelected] = useState(null);
 
     const handleOpenDetailsFor = (id) => {

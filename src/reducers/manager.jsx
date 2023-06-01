@@ -23,6 +23,12 @@ const managerReducer = (prev = initialManagerState, action) => {
                 lastCreated: null
             }
         }
+        case "UPDATE_FLUJO_DATA": {
+            return {
+                ...prev,
+                flujos: prev.flujos.map(f => f.id === action.payload.id ? action.payload : f),
+            }
+        }
         case "INITIAL_LOAD_FAIL": {
             return {
                 ...prev,
