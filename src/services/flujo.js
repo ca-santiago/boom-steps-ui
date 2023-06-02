@@ -99,6 +99,17 @@ function createNewFlujo({ steps, title, description, completionTime }) {
   });
 }
 
+function editFlujo({ title, description, id }) {
+  return new Promise((resolve, reject) => {
+    axios.put(`${baseURL}/flujos/${id}`, { title, description })
+      .then(data => resolve(data.data))
+      .catch(err => {
+        reject(err);
+      });
+  })
+}
+
+
 function GetFlujosPaginated(page = 0) {
   return new Promise((resolve, reject) => {
     fetch(`${baseURL}/flujos`)
@@ -168,6 +179,7 @@ function getFaceIdDetails(flujoId) {
 
 const FlujoService = {
   getFlujoById,
+  editFlujo,
   deleteFlujo,
   verifyFlujoToken,
   createNewFlujo,

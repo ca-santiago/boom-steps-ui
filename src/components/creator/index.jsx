@@ -9,13 +9,7 @@ import { ContactInfoIcon, DigSignatureIcon, FaceIdIcon } from '../icons/icon.map
 import { ContactInfoStepName, FaceStepName, SignatureStepName } from '../../domain/steps/types';
 import { useManagerContext } from '../../context/manager';
 import LastCreatedLink from '../lastCreatedLink';
-
-const InputLabel = ({ text, description }) => (
-    <div className='px-1'>
-        <p className='text-wix font-semibold text-base text-gray-700'>{text}</p>
-        {/* {description && (<p className='text-wix text-xs text-gray-500 py-1'>{description}</p>)} */}
-    </div>
-);
+import { InputLabel } from '../utils/input';
 
 const FlujoCreator = () => {
     const { actions, state } = useManagerContext();

@@ -7,10 +7,12 @@ import { createShareLink } from '../../helpers/links';
 import copy from 'copy-to-clipboard';
 import FlujoStatusIndicator from '../details/status';
 import ConfirmationModal from '../utils/confirmationModal';
+import { data } from 'autoprefixer';
+import moment from 'moment/moment';
 
 const FlujoCard = (props) => {
     const { onClickOpenDetails, onDelete } = props;
-    const { types, title, description, id, completedSteps, status } = props.data;
+    const { types, title, description, id, completedSteps, status, createdAt } = props.data;
     const [optionsOpen, setOptionsOpen] = React.useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
@@ -76,21 +78,24 @@ const FlujoCard = (props) => {
                 </div>
                 <CardOptionsEl />
             </div>
-            <div className="flex flex-col justify-between break-words whitespace-break-spaces">
+            <div className="flex flex-col gap-2 justify-between break-words whitespace-break-spaces">
                 <div className="m-w-2">
                     {description && <p className="mt-1 text-wix text-xs font-semibold text-gray-500 line-clamp-2">{description}</p>}
                 </div>
-                <div className="grid grid-flow-col justify-between mt-3">
-                    <div className="grid grid-flow-col justify-start gap-2">
-                        {types.map(type => <FlujoStepIcon key={type} step={type} completed={completedSteps.includes(type)} />)}
+                <p className="text-wix text-xs font-normal text-slate-400">{moment(createdAt).format("MMMM Do, YYYY")} - {moment(createdAt).fromNow()}</p>
+                <div className="">
+                    <div className="grid grid-flow-col justify-between">
+                        <div className="grid grid-flow-col justify-start gap-2">
+                            {types.map(type => <FlujoStepIcon key={type} step={type} completed={completedSteps.includes(type)} />)}
+                        </div>
                         <FlujoStatusIndicator status={status} />
-                    </div>
-                    <div className="cursor-pointer" onClick={handleCopy}>
+                        {/* <div className="cursor-pointer" onClick={handleCopy}>
                         <div className="py-1 px-2 border rounded-full bg-slate-200" >
                             <div className="text-slate-700">
                                 <CopyTextIcon />
                             </div>
                         </div >
+                    </div> */}
                     </div>
                 </div>
             </div>
