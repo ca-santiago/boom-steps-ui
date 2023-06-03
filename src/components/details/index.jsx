@@ -11,8 +11,9 @@ import { useManagerContext } from "../../context/manager";
 import FlujoEditor from "./edit";
 import { BsClock } from "react-icons/bs";
 import moment from "moment";
+import FlujoDetailsLoadingView from "../loading/flujoDetails";
 
-const FlujoDetailsView = ({ flujoId, onEditClick }) => {
+const FlujoDetailsView = ({ flujoId }) => {
     const [showEditor, setShowEditor] = React.useState(false);
     const link = React.useMemo(() => createShareLink(flujoId), [flujoId]);
     const { actions } = useManagerContext();
@@ -20,7 +21,8 @@ const FlujoDetailsView = ({ flujoId, onEditClick }) => {
     const { data, isLoading, error, refetch } = useQuery({
         queryKey: ['flujoDetails', flujoId],
         queryFn: () => FlujoService.getFlujoById(flujoId),
-        networkMode: 'offlineFirst'
+        networkMode: 'offlineFirst',
+        retry: false
     });
 
     const handleOpenEditClick = () => {
@@ -37,10 +39,12 @@ const FlujoDetailsView = ({ flujoId, onEditClick }) => {
         }
     }, [data]);
 
-    if (isLoading) return null;
+    if (isLoading) return <FlujoDetailsLoadingView />;
 
     if (error || !data) {
-        return <div>Clould not load this, please try again later</div>;
+        return <Card>
+            <p className="font-semibold text-slate-500 text-center select-none">Clould not load this, please try again later</p>
+        </Card>;
     }
 
     if (showEditor) return (

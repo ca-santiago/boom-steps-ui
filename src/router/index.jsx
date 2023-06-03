@@ -31,6 +31,15 @@ export default function MainRouter() {
             </React.Suspense>
           }
         />
+        <Route
+          path="/manager/:id"
+          exact
+          element={
+            <React.Suspense>
+              <ManagerScreen />
+            </React.Suspense>
+          }
+        />
         <Route path="*" element={<Navigate replace to="/manager" />} />
       </Routes>
     </Router>

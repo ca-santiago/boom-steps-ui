@@ -6,7 +6,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { useManagerContext } from "../../context/manager";
 import FlujoService from "../../services/flujo";
 import { toast } from "react-hot-toast";
-import ConfirmationModal from "../utils/confirmationModal";
+import { useNavigate, useParams } from "react-router";
 
 const BackButton = ({ onClick }) => (
     <button
@@ -18,11 +18,14 @@ const BackButton = ({ onClick }) => (
 );
 
 const FlujosList = memo(() => {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const { state: { flujos }, actions } = useManagerContext();
-    const [selected, setSelected] = useState(null);
+
+    const selected = React.useMemo(() => id, [id]);
 
     const handleOpenDetailsFor = (id) => {
-        setSelected(id);
+        navigate('/manager/' + id);
     };
 
     const handleOnDeleteFlujo = (id) => {
@@ -38,7 +41,7 @@ const FlujosList = memo(() => {
     }
 
     const handleCloseDetailView = React.useCallback(() => {
-        setSelected(null);
+        navigate('/manager');
     }, []);
 
     const renderFlujoCards = React.useMemo(() => () => (

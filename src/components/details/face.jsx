@@ -19,8 +19,6 @@ const FaceIdDetails = ({ flujoId }) => {
 
     if (!data) return <NoStepDataYet />;
 
-    console.log(data);
-
     return (
         <div className="flex h-80 rounded-md">
             <div className="mx-auto flex">
