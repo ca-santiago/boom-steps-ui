@@ -33,7 +33,6 @@ export default function MainRouter() {
         />
         <Route
           path="/manager/:id"
-          exact
           element={
             <React.Suspense>
               <ManagerScreen />
