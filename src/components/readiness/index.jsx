@@ -66,7 +66,7 @@ const ReadinessView = ({ onStart }) => {
             loading: true,
         }));
 
-        CompletionService.startFlujo(id, formData.passcode)
+        CompletionService.startFlujo(id, formData?.passcode)
             .then(({ locked, forbidden, data }) => {
                 const errorType = forbidden ? "FORBIDDEN" : "FINISHED";
                 if (locked || forbidden) {
