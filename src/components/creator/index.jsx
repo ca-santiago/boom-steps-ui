@@ -39,7 +39,7 @@ const FlujoCreator = () => {
         if (disable) return;
 
         // Get State
-        const { title, description, time2complete } = formData;
+        const { title, description, time2complete, passcode } = formData;
 
         // Validate
         if (selectedSteps.length < 1 || !formState.isValid) {
@@ -47,7 +47,7 @@ const FlujoCreator = () => {
         }
 
         setDisable(true);
-        const args = { steps: selectedSteps, title, description, completionTime: time2complete };
+        const args = { steps: selectedSteps, title, description, completionTime: time2complete, passcode };
         // Perform creation
         FlujoService.createNewFlujo(args)
             .then((data) => data.json())
@@ -127,6 +127,21 @@ const FlujoCreator = () => {
                         </div>
                     </div>
                     <div>
+                        <InputLabel text="Use passcode" />
+                        <input
+                            placeholder='6587fddb'
+                            className="form-input-field"
+                            {...register('passcode', {
+                                required: false,
+                                pattern: {
+                                    value: /^[A-Za-z0-9]{8}$/,
+                                    message: 'Use 8 alphanumeric chars'
+                                }
+                            })}
+                        />
+                        {formState.errors.passcode?.type === "pattern" && (<p className='text-xs text-red-400 p-1'>{formState.errors.passcode.message}</p>)}
+                    </div>
+                    <div>
                         <InputLabel text="Time to complete" />
                         <input
                             placeholder='10m'
@@ -143,7 +158,7 @@ const FlujoCreator = () => {
                     <button
                         disabled={disableCreate}
                         aria-disabled={disableCreate}
-                        className={`px-4 w-full py-2 rounded-lg font-semibold border ${submitStyle}`}
+                        className={`px-4 w-full py-2 rounded-lg font-semibold border select-none ${submitStyle}`}
                         onClick={handleSubmit(triggerCreate)}
                     >Create</button>
                 </div>

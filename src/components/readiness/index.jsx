@@ -6,6 +6,8 @@ import { FLujoDoneIcon } from "../icons/icon.map";
 import { useCompletionContext } from "../../context/completion";
 import CompletionService from "../../services/completion";
 import StepsManifest from "../../domain/steps/manifest";
+import { useForm } from "react-hook-form";
+import { InputLabel } from "../utils/input";
 
 
 const StepItem = ({ step }) => {
@@ -32,74 +34,66 @@ const StepItem = ({ step }) => {
     );
 }
 
+const ErrorMessage = ({ text }) => (
+    <div className="w-full p-3 rounded-lg bg-red-400 grid grid-flow-col justify-start gap-3 items-center text-white font-semibold">
+        <ErrorIcon /><p>{text}</p>
+    </div>
+)
+
 const ReadinessView = ({ onStart }) => {
     const { flujo } = useCompletionContext().state;
     const { id, completionTime, types } = flujo;
     const [state, setState] = React.useState({
-        loading: flujo.status === "STARTED",
-        canStart: !isFinished(flujo),
+        loading: false,
+        isFinished: isFinished(flujo),
         error: null
     });
 
+    const { register, formState, handleSubmit } = useForm({ mode: 'all' });
+
     React.useEffect(() => {
-        if (state.canStart && flujo.status === "STARTED") {
+        if (flujo.needPasscode) return;
+
+        if (!state.isFinished || flujo.status === "STARTED") {
             startFLujo();
         }
     }, []);
 
-    const startFLujo = React.useCallback(() => {
+    const startFLujo = React.useCallback((formData) => {
         setState(prev => ({
             ...prev,
             error: null,
             loading: true,
         }));
 
-        CompletionService.startFlujo(id)
-            .then(({ isAllowed, ...payload }) => {
-                if (!isAllowed) {
+        CompletionService.startFlujo(id, formData.passcode)
+            .then(({ locked, forbidden, data }) => {
+                const errorType = forbidden ? "FORBIDDEN" : "FINISHED";
+                if (locked || forbidden) {
                     setState(prev => ({
                         ...prev,
-                        error: false,
+                        error: errorType,
                         loading: false,
-                        canStart: false,
+                        canStart: locked,
                     }));
                     return;
                 }
-                if (onStart) onStart(payload);
+                if (onStart) onStart(data);
             })
-            .catch(err => {
+            .catch((err) => {
                 setState(prev => ({
                     ...prev,
-                    error: false,
+                    error: "SERVER",
                     loading: false,
-                    canStart: false,
+                    canStart: true,
                 }));
-                console.log(err);
             });
     }, [id]);
 
-    const startSection = React.useMemo(() => (
-        <>
-            <p className="font-semibold text-gray-600 text-right">You have {completionTime} to complete this flujo</p>
-            <div className="flex justify-center md:justify-end w-full mt-3">
-                <button disabled={state.loading} onClick={startFLujo} className="p-2 w-full md:w-auto px-4 bg-accent shadow rounded-lg text-white text-wix text-lg font-semibold">Start</button>
-            </div>
-        </>
-    ), [startFLujo, state.loading, completionTime]);
-
-    const locked = React.useMemo(() => (
-        <div className="flex justify-end mt-2 font-semibold text-gray-600 items-center">
-            <FLujoDoneIcon size={23} className="text-green-600" /> <p className="ml-2">This flujo has already been finished, thanks for participating</p>
-        </div>
-    ), []);
-
-    const errorMessage = React.useMemo(() => (
-        <div className="w-full p-3 rounded-lg bg-red-400 grid grid-flow-col justify-start gap-3 items-center text-white font-semibold">
-            <ErrorIcon /><p>Something went wrong, please try again</p>
-        </div>
-    ), []);
-
     if (state.loading) return null;
+
+    const btnDisabled = state.loading || !!formState.errors.passcode;
+    const buttonStyles = "p-2 w-full md:w-auto px-4 shadow rounded-lg text-white text-wix text-lg font-semibold " + (btnDisabled ? "bg-slate-300 text-gray-100" : "bg-accent");
 
     return (
         <div className="flex md:flex-row flex-col h-screen max-h-screen w-full">
@@ -108,10 +102,44 @@ const ReadinessView = ({ onStart }) => {
                     <div className="grid gap-8 grid-flow-row">
                         {types.map((t) => <StepItem key={t} step={t} />)}
                     </div>
+                    {state.error === "SERVER" && <ErrorMessage text="Something went wrong, please try again" />}
+                    {state.error === "FORBIDDEN" && <ErrorMessage text="Incorrect passcode, please try again" />}
                     <div>
-                        {state.error && errorMessage}
-                        {state.canStart && !state.error && startSection}
-                        {!state.canStart && locked}
+                        {!state.isFinished && <p className="font-medium text-slate-500 text-right">You have {completionTime} to complete this flujo</p>}
+                        {!state.isFinished && (
+                            <div className="flex flex-col gap-2 mt-2">
+                                <div className="flex flex-col items-end">
+                                    {flujo.needPasscode && (
+                                        <div className="w-full md:max-w-[230px] justify-end items-end">
+                                            <InputLabel text="Use your passcode" />
+                                            <input
+                                                placeholder='Passcode'
+                                                className="form-input-field w-10"
+                                                {...register('passcode', {
+                                                    required: true,
+                                                    pattern: {
+                                                        value: /^[A-Za-z0-9]{8}$/,
+                                                        message: 'Use 8 alphanumeric chars'
+                                                    }
+                                                })}
+                                            />
+                                            {formState.errors.passcode?.type === "pattern" && (<p className='text-xs text-red-400 p-1'>{formState.errors.passcode.message}</p>)}
+                                        </div>
+                                    )}
+                                    <div className="flex justify-center md:justify-end w-full mt-3">
+                                        <button
+                                            disabled={btnDisabled}
+                                            onClick={handleSubmit(startFLujo)}
+                                            className={buttonStyles}>Start</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        {state.isFinished && (
+                            <div className="flex justify-end mt-2 font-semibold text-gray-600 items-center">
+                                <FLujoDoneIcon size={23} className="text-green-600" /> <p className="ml-2">This flujo has already been finished, thanks for participating</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

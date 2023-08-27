@@ -65,7 +65,7 @@ function getFlujoById(id) {
   });
 }
 
-function createNewFlujo({ steps, title, description, completionTime }) {
+function createNewFlujo({ steps, title, description, completionTime, passcode }) {
   return new Promise((resolve, reject) => {
     fetch(`${baseURL}/flujos`, {
       method: 'POST',
@@ -76,7 +76,8 @@ function createNewFlujo({ steps, title, description, completionTime }) {
         types: steps,
         title,
         completionTime,
-        description: description || undefined
+        description: description || undefined,
+        passcode
       })
     })
       .then(result => {

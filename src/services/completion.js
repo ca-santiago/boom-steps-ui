@@ -2,30 +2,25 @@ import axios from 'axios';
 
 const baseURL = `${import.meta.env.VITE_API_URI}/completion`;
 
-function startFlujo(id) {
+function startFlujo(id, passcode) {
   return new Promise((resolve, reject) => {
-    fetch(`${baseURL}/start/${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(result => {
-        if (result.ok) {
-          return result.json();
-        } else {
-          reject({
-            isAllowed: false,
-          });
-        }
-      })
+    axios.post(`${baseURL}/start/${id}`, { passcode })
       .then((payload) => {
         resolve({
-          ...payload,
-          isAllowed: true
+          data: payload.data,
+          locked: false,
+          forbidden: false,
         });
       })
-      .catch(err => {
+      .catch(({ response }) => {
+        if (response.status < 500) {
+          resolve({
+            data: null,
+            locked: response.status === 409,
+            forbidden: response.status === 403,
+          });
+          return;
+        }
         reject(err);
       });
   });

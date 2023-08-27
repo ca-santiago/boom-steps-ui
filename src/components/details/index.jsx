@@ -13,6 +13,8 @@ import { BsClock } from "react-icons/bs";
 import moment from "moment";
 import FlujoDetailsLoadingView from "../loading/flujoDetails";
 
+import { RiLockPasswordLine } from 'react-icons/ri';
+
 const FlujoDetailsView = ({ flujoId }) => {
     const [showEditor, setShowEditor] = React.useState(false);
     const link = React.useMemo(() => createShareLink(flujoId), [flujoId]);
@@ -60,6 +62,8 @@ const FlujoDetailsView = ({ flujoId }) => {
         </Card>
     );
 
+    console.log(data);
+
     return (
         <div className="flex flex-col gap-3">
             <Card>
@@ -78,7 +82,16 @@ const FlujoDetailsView = ({ flujoId }) => {
 
                     <p className="text-wix text-xs font-normal text-slate-500">{moment(data.createdAt).format("MMMM Do, YYYY")} - {moment(data.createdAt).fromNow()}</p>
 
-                    <p className="text-sm font-semibold text-slate-500 flex gap-1 items-center"><BsClock /> {data.completionTime} to complete</p>
+                    <div className="flex gap-3 flex-row">
+                        <p className="text-sm font-semibold text-slate-500 flex gap-1 items-center"><BsClock /> {data.completionTime} to complete</p>
+                        {data.needPasscode && (
+                            <div className="flex gap-1 text-slate-500 items-center">
+                                <RiLockPasswordLine />
+                                <p className="text-sm font-semibold">Need passcode</p>
+                            </div>
+                        )}
+                    </div>
+
 
                     <div className="flex justify-between items-center">
                         <p></p>
