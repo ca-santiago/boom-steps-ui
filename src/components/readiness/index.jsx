@@ -9,7 +9,6 @@ import StepsManifest from "../../domain/steps/manifest";
 import { useForm } from "react-hook-form";
 import { InputLabel } from "../utils/input";
 
-
 const StepItem = ({ step }) => {
     const texts = StepsManifest.texts[step].readiness;
     if (!texts) return null;
@@ -113,8 +112,9 @@ const ReadinessView = ({ onStart }) => {
                                         <div className="w-full md:max-w-[230px] justify-end items-end">
                                             <InputLabel text="Use your passcode" />
                                             <input
+                                                type="password"
                                                 placeholder='Passcode'
-                                                className="form-input-field w-10"
+                                                className="form-input-field w-10 tracking-widest"
                                                 {...register('passcode', {
                                                     required: true,
                                                     pattern: {

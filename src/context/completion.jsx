@@ -2,7 +2,7 @@ import React from "react";
 import { completionReducer } from "../reducers/completionReducer";
 import { resetStatus, setCompletionFlujo, setCompletionSession, setLoadingError } from "../reducers/completionActions";
 import { useParams } from "react-router";
-import FlujoService from "../services/flujo";
+import CompletionService from "../services/completion";
 
 export const initialAppState = {
     token: null,
@@ -27,7 +27,7 @@ export const CompletionProvider = ({ children }) => {
 
     const getFlujoData = React.useCallback(() => {
         dispatch(resetStatus());
-        FlujoService.getFlujoById(id)
+        CompletionService.getFlujoData(id)
             .then((payload) => {
                 dispatch(setCompletionFlujo(payload));
             })

@@ -4,7 +4,7 @@ const baseURL = `${import.meta.env.VITE_API_URI}/completion`;
 
 function startFlujo(id, passcode) {
   return new Promise((resolve, reject) => {
-    axios.post(`${baseURL}/start/${id}`, { passcode })
+    axios.post(`${baseURL}/${id}/start`, { passcode })
       .then((payload) => {
         resolve({
           data: payload.data,
@@ -23,6 +23,17 @@ function startFlujo(id, passcode) {
         }
         reject(err);
       });
+  });
+}
+
+function getFlujoData(id) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${baseURL}/${id}`)
+      .then(res => resolve(res.data))
+      .catch(err => {
+        console.log(err);
+        reject(err);
+      })
   });
 }
 
@@ -121,6 +132,7 @@ function putSignature({ flujoId, token, file, filename }) {
 }
 
 const CompletionService = {
+  getFlujoData,
   startFlujo,
   finishFlujo,
   putFaceId,
