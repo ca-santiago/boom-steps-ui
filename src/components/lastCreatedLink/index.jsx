@@ -16,7 +16,6 @@ const LastCreatedLink = ({ flujo }) => {
                     <span>{flujo.description}</span>
                 </div>}
                 <div>
-                    <h3>Some</h3>
                     <CopyLink showOpenNow value={link} />
                 </div>
             </div>
