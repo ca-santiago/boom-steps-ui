@@ -53,9 +53,12 @@ const ReadinessView = ({ onStart }) => {
     React.useEffect(() => {
         if (flujo.needPasscode) return;
 
-        if (!state.isFinished || flujo.status === "STARTED") {
+        if(state.isFinished) return;
+
+        if (flujo.status === "STARTED") {
             startFLujo();
         }
+
     }, []);
 
     const startFLujo = React.useCallback((formData) => {
