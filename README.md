@@ -11,6 +11,7 @@ $ git clone https://github.com/ca-santiago/boom-steps-ui
 ```
 
 ### Install dependencies
+Make sure to nvm use to set the correct node version
 ```sh
 $ npm ci
 ```
